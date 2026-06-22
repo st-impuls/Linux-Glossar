@@ -2,10 +2,27 @@
 
 # Befehle
 
+**Aufbau eines Befehls**
+
+Ein Linux-Befehl ist in der Regel nach folgendem Schema aufgebaut:
+
+`kommando [optionen] <argumente>`
+
+- **kommando** – der Befehl selbst, also das Programm oder die eingebaute Funktion, die ausgeführt wird (z. B. `ls`, `cp`).
+- **optionen** – Schalter, die festlegen, *wie* der Befehl arbeitet (z. B. `-l`, `-r`). Meist optional.
+- **argumente** – das Objekt, *womit* der Befehl arbeitet, z. B. eine Datei oder ein Verzeichnis.
+
+Schreibweise der Platzhalter in diesem Glossar:
+
+- `<…>` – Platzhalter: hier etwas Eigenes einsetzen (z. B. einen Dateinamen).
+- `[…]` – optional: kann angegeben werden, muss aber nicht.
+- `…` – wiederholbar: die Angabe kann mehrfach vorkommen.
+
 ## Navigation & Suchen
 
 ### cd
 >**Funktion:** Verzeichnis wechseln | Intern (Builtins)<br />
+>**Syntax:** `cd [<verzeichnis>]`<br />
 >**Erklärung:** Wechselt in ein anderes Verzeichnis (change directory).<br />
 >**Verwendung:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`cd ..` wechselt in das übergeordnete Verzeichnis<br />
@@ -16,6 +33,7 @@
 
 ### ls
 >**Funktion:** Dateien und Ordner anzeigen | Extern<br />
+>**Syntax:** `ls [optionen] [<datei|verzeichnis>...]`<br />
 >**Erklärung:** Listet den Inhalt eines Verzeichnisses auf.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-l` Langformat mit Details (Rechte, Besitzer, Größe, Datum)<br />
@@ -24,6 +42,7 @@
 
 ### pwd
 >**Funktion:** Aktuelles Verzeichnis anzeigen | Intern (Builtins)<br />
+>**Syntax:** `pwd [optionen]`<br />
 >**Erklärung:** Zeigt den vollständigen Pfad des aktuellen Arbeitsverzeichnisses an (print working directory).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-P` zeigt den physischen Pfad und löst symbolische Links auf<br />
@@ -32,6 +51,7 @@
 
 ### tree
 >**Funktion:** Verzeichnisstruktur als Baum anzeigen | Extern<br />
+>**Syntax:** `tree [optionen] [<verzeichnis>]`<br />
 >**Erklärung:** Zeigt Verzeichnisse und Dateien in einer übersichtlichen Baumstruktur an.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-L <n>` begrenzt die Anzeige auf n Ebenen Tiefe (z. B. `-L 2` = zwei Ebenen)<br />
@@ -42,6 +62,7 @@
 
 ### whereis
 >**Funktion:** Pfad zu Programm, Manpage oder Quellcode finden | Extern<br />
+>**Syntax:** `whereis [optionen] <name>...`<br />
 >**Erklärung:** Zeigt an, wo sich die Programmdatei, das Handbuch und ggf. die Quelldateien eines Befehls befinden.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-b` sucht nur nach der ausführbaren Datei (binary)<br />
@@ -51,6 +72,7 @@
 
 ### locate
 >**Funktion:** Dateien schnell über den Namen finden | Extern<br />
+>**Syntax:** `locate [optionen] <muster>...`<br />
 >**Erklärung:** Sucht Dateien anhand des Namens in einer zuvor angelegten Datenbank und ist dadurch deutlich schneller als `find`.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-i` ignoriert Groß- und Kleinschreibung<br />
@@ -60,6 +82,7 @@
 
 ### find
 >**Funktion:** Dateien und Ordner suchen | Extern<br />
+>**Syntax:** `find [<startverzeichnis>] [optionen]`<br />
 >**Erklärung:** Durchsucht ein Verzeichnis (und dessen Unterordner) live nach Dateien anhand von Name, Typ, Größe und weiteren Kriterien.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-name <muster>` sucht nach dem Dateinamen (z. B. `-name "*.txt"`)<br />
@@ -73,6 +96,7 @@
 
 ### mkdir
 >**Funktion:** Neues Verzeichnis erstellen | Extern<br />
+>**Syntax:** `mkdir [optionen] <verzeichnis>...`<br />
 >**Erklärung:** Erstellt einen oder mehrere neue Ordner.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-p` erstellt bei Bedarf auch übergeordnete Verzeichnisse (verschachtelte Pfade)<br />
@@ -81,6 +105,7 @@
 
 ### rmdir
 >**Funktion:** Leeres Verzeichnis löschen | Extern<br />
+>**Syntax:** `rmdir [optionen] <verzeichnis>...`<br />
 >**Erklärung:** Löscht ein Verzeichnis, aber nur wenn es leer ist.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-p` entfernt auch übergeordnete Verzeichnisse, sofern diese leer sind<br />
@@ -89,6 +114,7 @@
 
 ### cp
 >**Funktion:** Dateien oder Ordner kopieren | Extern<br />
+>**Syntax:** `cp [optionen] <quelle>... <ziel>`<br />
 >**Erklärung:** Kopiert Dateien oder Verzeichnisse an einen anderen Ort.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-r` kopiert rekursiv (für Ordner mit Inhalt)<br />
@@ -98,6 +124,7 @@
 
 ### mv
 >**Funktion:** Dateien oder Ordner verschieben oder umbenennen | Extern<br />
+>**Syntax:** `mv [optionen] <quelle>... <ziel>`<br />
 >**Erklärung:** Verschiebt eine Datei bzw. einen Ordner oder benennt sie um.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-i` fragt vor dem Überschreiben nach<br />
@@ -106,6 +133,7 @@
 
 ### rm
 >**Funktion:** Dateien löschen | Extern<br />
+>**Syntax:** `rm [optionen] <datei>...`<br />
 >**Erklärung:** Löscht Dateien oder mit Optionen auch ganze Verzeichnisse.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-r` löscht rekursiv (Ordner samt Inhalt)<br />
@@ -116,6 +144,7 @@
 
 ### touch
 >**Funktion:** Neue Datei erstellen oder Zeitstempel ändern | Extern<br />
+>**Syntax:** `touch [optionen] <datei>...`<br />
 >**Erklärung:** Erstellt eine leere Datei oder aktualisiert den Zeitstempel einer vorhandenen Datei.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-c` erstellt keine Datei, wenn sie noch nicht existiert<br />
@@ -125,6 +154,7 @@
 
 ### cat
 >**Funktion:** Dateiinhalt anzeigen | Extern<br />
+>**Syntax:** `cat [optionen] [<datei>...]`<br />
 >**Erklärung:** Gibt den gesamten Inhalt einer Datei direkt im Terminal aus (concatenate).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-n` nummeriert alle Zeilen<br />
@@ -134,6 +164,7 @@
 
 ### less
 >**Funktion:** Datei seitenweise anzeigen | Extern<br />
+>**Syntax:** `less [optionen] <datei>...`<br />
 >**Erklärung:** Öffnet eine Datei im Lesemodus; man kann vor- und zurückblättern. Beenden mit `q`.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-N` zeigt Zeilennummern an<br />
@@ -143,6 +174,7 @@
 
 ### more
 >**Funktion:** Datei seitenweise anzeigen (nur vorwärts) | Extern<br />
+>**Syntax:** `more [optionen] <datei>...`<br />
 >**Erklärung:** Zeigt eine Datei schrittweise an. Im Gegensatz zu `less` kann nur vorwärts geblättert werden.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-d` zeigt eine Bedienhilfe am unteren Rand an<br />
@@ -151,6 +183,7 @@
 
 ### head
 >**Funktion:** Anfang einer Datei anzeigen | Extern<br />
+>**Syntax:** `head [optionen] [<datei>...]`<br />
 >**Erklärung:** Gibt standardmäßig die ersten 10 Zeilen einer Datei aus.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-n <z>` zeigt die ersten z Zeilen an (z. B. `-n 20`)<br />
@@ -159,6 +192,7 @@
 
 ### tail
 >**Funktion:** Ende einer Datei anzeigen | Extern<br />
+>**Syntax:** `tail [optionen] [<datei>...]`<br />
 >**Erklärung:** Gibt standardmäßig die letzten 10 Zeilen einer Datei aus.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-n <z>` zeigt die letzten z Zeilen an (z. B. `-n 20`)<br />
@@ -170,6 +204,7 @@
 
 ### grep
 >**Funktion:** Nach Text suchen | Extern<br />
+>**Syntax:** `grep [optionen] <muster> [<datei>...]`<br />
 >**Erklärung:** Durchsucht Dateien oder Ausgaben nach Zeilen, die zu einem Muster passen.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-i` ignoriert Groß- und Kleinschreibung<br />
@@ -181,6 +216,7 @@
 
 ### cut
 >**Funktion:** Spalten oder Felder ausschneiden | Extern<br />
+>**Syntax:** `cut [optionen] [<datei>...]`<br />
 >**Erklärung:** Schneidet aus jeder Zeile bestimmte Teile heraus, z. B. einzelne Spalten.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-d <z>` legt das Trennzeichen fest (z. B. `-d ":"`)<br />
@@ -190,6 +226,7 @@
 
 ### sort
 >**Funktion:** Zeilen sortieren | Extern<br />
+>**Syntax:** `sort [optionen] [<datei>...]`<br />
 >**Erklärung:** Sortiert die Zeilen einer Datei oder Eingabe, standardmäßig alphabetisch.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-n` sortiert numerisch statt alphabetisch<br />
@@ -199,6 +236,7 @@
 
 ### tr
 >**Funktion:** Zeichen ersetzen oder löschen | Extern<br />
+>**Syntax:** `tr [optionen] <satz1> [<satz2>]`<br />
 >**Erklärung:** Wandelt oder entfernt einzelne Zeichen aus einem Eingabestrom (translate).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-d` löscht die angegebenen Zeichen<br />
@@ -208,6 +246,7 @@
 
 ### wc
 >**Funktion:** Zeilen, Wörter und Zeichen zählen | Extern<br />
+>**Syntax:** `wc [optionen] [<datei>...]`<br />
 >**Erklärung:** Zählt standardmäßig Zeilen, Wörter und Bytes einer Datei oder Eingabe (word count).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-l` zählt nur die Zeilen<br />
@@ -220,6 +259,7 @@
 
 ### chgrp
 >**Funktion:** Gruppe einer Datei ändern | Extern<br />
+>**Syntax:** `chgrp [optionen] <gruppe> <datei>...`<br />
 >**Erklärung:** Ändert die Gruppenzugehörigkeit einer Datei oder eines Verzeichnisses (change group).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-R` ändert die Gruppe rekursiv für alle Unterordner und Dateien<br />
@@ -229,6 +269,7 @@
 
 ### chmod
 >**Funktion:** Zugriffsrechte ändern | Extern<br />
+>**Syntax:** `chmod [optionen] <modus> <datei>...`<br />
 >**Erklärung:** Ändert die Berechtigungen (Lesen, Schreiben, Ausführen) einer Datei oder eines Ordners.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-R` ändert die Rechte rekursiv für alle Unterordner und Dateien<br />
@@ -238,6 +279,7 @@
 
 ### chown
 >**Funktion:** Besitzer ändern | Extern<br />
+>**Syntax:** `chown [optionen] <besitzer>[:<gruppe>] <datei>...`<br />
 >**Erklärung:** Ändert den Eigentümer und optional die Gruppe einer Datei oder eines Ordners.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-R` ändert den Besitzer rekursiv für alle Unterordner und Dateien<br />
@@ -247,6 +289,7 @@
 
 ### groupadd
 >**Funktion:** Gruppe anlegen | Extern<br />
+>**Syntax:** `groupadd [optionen] <gruppe>`<br />
 >**Erklärung:** Legt eine neue Benutzergruppe im System an (Low-Level-Werkzeug).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-g` legt die Gruppen-ID (GID) fest<br />
@@ -256,6 +299,7 @@
 
 ### groupdel
 >**Funktion:** Gruppe löschen | Extern<br />
+>**Syntax:** `groupdel [optionen] <gruppe>`<br />
 >**Erklärung:** Entfernt eine bestehende Benutzergruppe aus dem System.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-f` erzwingt das Löschen, auch wenn es die primäre Gruppe eines Benutzers ist (force)<br />
@@ -264,6 +308,7 @@
 
 ### groups
 >**Funktion:** Gruppenzugehörigkeit anzeigen | Extern<br />
+>**Syntax:** `groups [<benutzer>...]`<br />
 >**Erklärung:** Zeigt alle Gruppen an, denen der aktuelle oder ein angegebener Benutzer angehört.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;(keine gebräuchlichen Optionen; erwartet optional einen Benutzernamen)<br />
@@ -272,6 +317,7 @@
 
 ### id
 >**Funktion:** Benutzer- und Gruppen-IDs anzeigen | Extern<br />
+>**Syntax:** `id [optionen] [<benutzer>]`<br />
 >**Erklärung:** Zeigt die UID, GID und die Gruppenzugehörigkeit des aktuellen oder eines angegebenen Benutzers an.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-u` zeigt nur die Benutzer-ID (UID) an<br />
@@ -282,6 +328,7 @@
 
 ### passwd
 >**Funktion:** Passwort ändern | Extern<br />
+>**Syntax:** `passwd [optionen] [<benutzer>]`<br />
 >**Erklärung:** Ändert das Passwort des eigenen Benutzers oder (als Administrator) eines anderen Benutzers.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-l` sperrt ein Benutzerkonto (lock)<br />
@@ -291,6 +338,7 @@
 
 ### su
 >**Funktion:** Benutzer wechseln | Extern<br />
+>**Syntax:** `su [optionen] [<benutzer>]`<br />
 >**Erklärung:** Startet eine Shell als anderer Benutzer, standardmäßig als `root` (substitute user).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-` (bzw. `-l`) startet eine Login-Shell mit der Umgebung des Zielbenutzers<br />
@@ -300,6 +348,7 @@
 
 ### sudo
 >**Funktion:** Befehl mit Administratorrechten ausführen | Extern<br />
+>**Syntax:** `sudo [optionen] <befehl>`<br />
 >**Erklärung:** Führt einen einzelnen Befehl mit den Rechten eines anderen Benutzers aus, standardmäßig als `root` (superuser do).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-u` führt den Befehl als angegebener Benutzer statt als root aus<br />
@@ -310,6 +359,7 @@
 
 ### useradd
 >**Funktion:** Benutzer anlegen | Extern<br />
+>**Syntax:** `useradd [optionen] <benutzername>`<br />
 >**Erklärung:** Legt ein neues Benutzerkonto an (Low-Level-Werkzeug).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-m` erstellt das Home-Verzeichnis des Benutzers<br />
@@ -320,6 +370,7 @@
 
 ### adduser
 >**Funktion:** Benutzer anlegen (Debian/Ubuntu) | Extern<br />
+>**Syntax:** `adduser [optionen] <benutzer> [<gruppe>]`<br />
 >**Erklärung:** Komfortables, interaktives Werkzeug zum Anlegen eines Benutzers oder zum Hinzufügen zu einer Gruppe; ein Perl-Skript auf Basis von `useradd`.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`--ingroup` legt die primäre Gruppe des neuen Benutzers fest<br />
@@ -330,6 +381,7 @@
 
 ### userdel
 >**Funktion:** Benutzer löschen | Extern<br />
+>**Syntax:** `userdel [optionen] <benutzername>`<br />
 >**Erklärung:** Entfernt ein Benutzerkonto aus dem System (Low-Level-Werkzeug).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-r` löscht zusätzlich das Home-Verzeichnis und den Mail-Spool (remove)<br />
@@ -339,6 +391,7 @@
 
 ### deluser
 >**Funktion:** Benutzer löschen (Debian/Ubuntu) | Extern<br />
+>**Syntax:** `deluser [optionen] <benutzer> [<gruppe>]`<br />
 >**Erklärung:** Komfortables Werkzeug zum Entfernen eines Benutzers oder zum Entfernen aus einer Gruppe; ein Perl-Skript auf Basis von `userdel`.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`--remove-home` löscht das Home-Verzeichnis des Benutzers<br />
@@ -349,6 +402,7 @@
 
 ### w
 >**Funktion:** Angemeldete Benutzer und ihre Aktivität anzeigen | Extern<br />
+>**Syntax:** `w [optionen] [<benutzer>]`<br />
 >**Erklärung:** Zeigt, welche Benutzer angemeldet sind und welchen Prozess sie gerade ausführen, samt System-Auslastung.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-s` Kurzformat ohne Anmeldezeit und CPU-Angaben (short)<br />
@@ -358,6 +412,7 @@
 
 ### who
 >**Funktion:** Angemeldete Benutzer anzeigen | Extern<br />
+>**Syntax:** `who [optionen]`<br />
 >**Erklärung:** Zeigt an, welche Benutzer aktuell am System angemeldet sind, samt Terminal und Anmeldezeit.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-a` zeigt alle verfügbaren Informationen an (all)<br />
@@ -367,6 +422,7 @@
 
 ### whoami
 >**Funktion:** Eigenen Benutzernamen anzeigen | Extern<br />
+>**Syntax:** `whoami [optionen]`<br />
 >**Erklärung:** Gibt den Anmeldenamen des aktuell angemeldeten Benutzers aus (who am i).<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;(keine gebräuchlichen Optionen)<br />
