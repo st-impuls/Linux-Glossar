@@ -1,0 +1,13 @@
+# MkDocs-Build-Ausgabe (wird auf dem Server erzeugt)
+site/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/

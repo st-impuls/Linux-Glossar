@@ -1,0 +1,8 @@
+# Standard: Git normalisiert Zeilenenden automatisch
+* text=auto
+
+# Shell-Skripte immer mit LF
+*.sh text eol=lf
+
+# Bilder nicht anfassen
+*.png binary

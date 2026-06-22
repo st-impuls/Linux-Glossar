@@ -1,0 +1,58 @@
+site_name: Linux-Glossar
+site_description: Glossar zu Linux-Begriffen, Befehlen und Tastenkürzeln
+site_author: nomas
+site_url: https://st-impuls.github.io/Linux-Glossar/
+repo_url: https://github.com/st-impuls/Linux-Glossar
+repo_name: st-impuls/Linux-Glossar
+
+# Quelle der Markdown-Dateien
+docs_dir: docs
+
+theme:
+  name: material
+  language: de
+  palette:
+    # Heller Modus
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Zum dunklen Modus wechseln
+    # Dunkler Modus
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Zum hellen Modus wechseln
+  features:
+    - navigation.instant
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+
+# Navigation / Menü
+nav:
+  - Übersicht: index.md
+  - Abkürzungen / Begriffe: pages/abkuerzungen.md
+  - Tastenkürzel: pages/tastenkuerzel.md
+  - Befehle: pages/befehle.md
+
+plugins:
+  - search:
+      lang: de
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences

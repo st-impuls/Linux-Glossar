@@ -1,0 +1,20 @@
+# Linux-Glossar
+
+## Inhalt
+
+- [Abkürzungen / Begriffe](pages/abkuerzungen.md)
+- [Tastenkürzel](pages/tastenkuerzel.md)
+- [Befehle](pages/befehle.md)
+- [Notizen](#notizen)
+
+---
+
+![Periodic Table of Linux Distros](images/periodic-table-of-distro.png)
+
+## Notizen
+
+**Hinweis:** Bei lokaler Nutzung (heruntergeladene bzw. geklonte `.md`-Dateien) empfiehlt sich zur besseren Darstellung die kostenlose Chrome-Erweiterung [MarkView – Markdown Viewer](https://chromewebstore.google.com/detail/markview-markdown-viewer/cfopbpknalachedpcddhgbgjoigklien)
+
+Damit lokale `.md`-Dateien angezeigt werden, muss in den Einstellungen der Erweiterung die Option **Zugriff auf Datei-URLs zulassen** aktiviert werden (siehe Abbildung).
+
+![MarkView Markdown Viewer Einstellungen](images/MarkViewMarkdownViewer.png)
