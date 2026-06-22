@@ -2,47 +2,47 @@
 
 ## Begriffe
 
-### GNU - GNU’s Not Unix.<br />
-`GNU` ist ein freies Softwareprojekt, das viele wichtige Werkzeuge für Linux bereitstellt, zum Beispiel Shell-Programme, Compiler und Systemwerkzeuge.
+### GNU - GNU’s Not Unix.
+>`GNU` ist ein freies Softwareprojekt, das viele wichtige Werkzeuge für Linux bereitstellt, zum Beispiel Shell-Programme, Compiler und Systemwerkzeuge.
 
-### CLI - Command Line Interface.<br />
-`CLI` ist eine textbasierte Benutzeroberfläche, über die der Benutzer Befehle direkt in einer Konsole oder in einem Terminal eingibt.
+### CLI - Command Line Interface.
+>`CLI` ist eine textbasierte Benutzeroberfläche, über die der Benutzer Befehle direkt in einer Konsole oder in einem Terminal eingibt.
 
-### init - initialization.<br />
-`init` ist der erste Prozess, der nach dem Start des Linux-Systems ausgeführt wird und weitere Dienste startet.
+### init - initialization.
+>`init` ist der erste Prozess, der nach dem Start des Linux-Systems ausgeführt wird und weitere Dienste startet.
 
-### systemd - „system" + Daemon-Suffix `-d`.<br />
-`systemd` ist ein Init-System und Dienstemanager in vielen Linux-Distributionen, der Prozesse und Systemdienste verwaltet. Der Name folgt der Unix-Konvention, Daemons mit `-d` zu benennen; die verbreitete Auflösung „System Daemon" ist inoffiziell. Geschrieben wird er stets klein.
+### systemd - „system" + Daemon-Suffix `-d`.
+>`systemd` ist ein Init-System und Dienstemanager in vielen Linux-Distributionen, der Prozesse und Systemdienste verwaltet. Der Name folgt der Unix-Konvention, Daemons mit `-d` zu benennen; die verbreitete Auflösung „System Daemon" ist inoffiziell. Geschrieben wird er stets klein.
 
-### cron - von griechisch „chronos" (Zeit).<br />
-`cron` ist ein Dienst in Linux, mit dem Befehle oder Skripte zu festgelegten Zeiten automatisch ausgeführt werden. Der Name ist keine Abkürzung, sondern leitet sich vom griechischen Wort *chronos* (Zeit) ab.
+### cron - von griechisch „chronos" (Zeit).
+>`cron` ist ein Dienst in Linux, mit dem Befehle oder Skripte zu festgelegten Zeiten automatisch ausgeführt werden. Der Name ist keine Abkürzung, sondern leitet sich vom griechischen Wort *chronos* (Zeit) ab.
 
-### ELF - Executable and Linkable Format.<br />
-`ELF` ist ein Dateiformat für ausführbare Programme, Bibliotheken und Objektdateien unter Linux.
+### ELF - Executable and Linkable Format.
+>`ELF` ist ein Dateiformat für ausführbare Programme, Bibliotheken und Objektdateien unter Linux.
 
-### POSIX - Portable Operating System Interface.<br />
-`POSIX` ist ein Standard, der festlegt, wie sich Unix-ähnliche Betriebssysteme und Programme verhalten sollen.
+### POSIX - Portable Operating System Interface.
+>`POSIX` ist ein Standard, der festlegt, wie sich Unix-ähnliche Betriebssysteme und Programme verhalten sollen.
 
-### FHS - Filesystem Hierarchy Standard.<br />
-`FHS` ist ein Standard, der die Struktur von Verzeichnissen in Linux-Systemen beschreibt, zum Beispiel `/etc`, `/home` oder `/var`.
+### FHS - Filesystem Hierarchy Standard.
+>`FHS` ist ein Standard, der die Struktur von Verzeichnissen in Linux-Systemen beschreibt, zum Beispiel `/etc`, `/home` oder `/var`.
 
-### SSH - Secure Shell.<br />
-`SSH` ist ein Protokoll, mit dem man sich sicher per Netzwerk mit einem Linux-System verbinden kann.
+### SSH - Secure Shell.
+>`SSH` ist ein Protokoll, mit dem man sich sicher per Netzwerk mit einem Linux-System verbinden kann.
 
-### Bash - Bourne Again Shell.<br />
-`Bash` ist eine weit verbreitete Kommandozeilen-Shell unter Linux, mit der Befehle eingegeben und Skripte ausgeführt werden.
+### Bash - Bourne Again Shell.
+>`Bash` ist eine weit verbreitete Kommandozeilen-Shell unter Linux, mit der Befehle eingegeben und Skripte ausgeführt werden.
 
-### TTY - Teletypewriter.<br />
-`TTY` ist eine textbasierte Konsole in Linux, über die Befehle ohne grafische Oberfläche eingegeben werden können.
+### TTY - Teletypewriter.
+>`TTY` ist eine textbasierte Konsole in Linux, über die Befehle ohne grafische Oberfläche eingegeben werden können.
 
-### X11 - X Window System Version 11.<br />
-`X11` ist ein Fenstersystem für grafische Linux-Oberflächen, das die Darstellung und Eingabe verwaltet.
+### X11 - X Window System Version 11.
+>`X11` ist ein Fenstersystem für grafische Linux-Oberflächen, das die Darstellung und Eingabe verwaltet.
 
-### Wayland - benannt nach der Stadt Wayland (Massachusetts).<br />
-`Wayland` ist ein modernes Protokoll für grafische Oberflächen unter Linux, das als Nachfolger von X11 gilt. Der Name ist keine Abkürzung, sondern geht auf die Heimatstadt des Entwicklers zurück.
+### Wayland - benannt nach der Stadt Wayland (Massachusetts).
+>`Wayland` ist ein modernes Protokoll für grafische Oberflächen unter Linux, das als Nachfolger von X11 gilt. Der Name ist keine Abkürzung, sondern geht auf die Heimatstadt des Entwicklers zurück.
 
-### KDE - K Desktop Environment.<br />
-`KDE` ist eine grafische Desktop-Umgebung für Linux mit vielen Programmen und umfangreichen Einstellungsmöglichkeiten.
+### KDE - K Desktop Environment.
+>`KDE` ist eine grafische Desktop-Umgebung für Linux mit vielen Programmen und umfangreichen Einstellungsmöglichkeiten.
 
-### GNOME - GNU Network Object Model Environment.<br />
-`GNOME` ist eine weit verbreitete grafische Desktop-Umgebung für Linux mit einer modernen und übersichtlichen Benutzeroberfläche.
+### GNOME - GNU Network Object Model Environment.
+>`GNOME` ist eine weit verbreitete grafische Desktop-Umgebung für Linux mit einer modernen und übersichtlichen Benutzeroberfläche.
