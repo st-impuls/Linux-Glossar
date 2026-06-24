@@ -48,6 +48,10 @@ nav:
       - Textbearbeitung & Filter: pages/commands/text-processing.md
       - Benutzer & Rechte: pages/commands/users-permissions.md
       - Netzwerk & Download: pages/commands/network-download.md
+      - Rechnen & Datum: pages/commands/calc-date.md
+      - Prozesse & Steuerung: pages/commands/process-control.md
+      - Paketverwaltung: pages/commands/package-management.md
+      - System & Dienste: pages/commands/system-services.md
 
 plugins:
   - search:

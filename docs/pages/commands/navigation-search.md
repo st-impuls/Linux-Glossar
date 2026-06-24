@@ -7,6 +7,10 @@
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
 - [Netzwerk & Download](network-download.md)
+- [Paketverwaltung](package-management.md)
+- [Prozesse & Steuerung](process-control.md)
+- [Rechnen & Datum](calc-date.md)
+- [System & Dienste](system-services.md)
 - [Textbearbeitung & Filter](text-processing.md)
 
 [← Zurück zur Übersicht](index.md)
@@ -24,7 +28,7 @@
 >**Beispiel:** `cd /home/user`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -63,7 +67,7 @@ cd projekt/quellcode    # relativer Pfad
 >**Beispiel:** `find /home -name "*.txt"`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -111,7 +115,7 @@ find . -name "*.log" -exec rm {} \;   # für jeden Treffer rm ausführen
 >**Beispiel:** `locate datei.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -152,7 +156,7 @@ locate -b "\bash"           # nur Treffer im Dateinamen
 >**Beispiel:** `ls -la`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -215,7 +219,7 @@ ls -d */                # nur Verzeichnisse anzeigen
 >**Beispiel:** `tree -L 2`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -260,7 +264,7 @@ tree -h /var/log            # mit lesbaren Dateigrößen
 >**Beispiel:** `whereis ls`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|

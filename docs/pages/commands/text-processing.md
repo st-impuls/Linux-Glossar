@@ -8,6 +8,10 @@
 - [Dateiinhalt anzeigen](file-content.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
+- [Paketverwaltung](package-management.md)
+- [Prozesse & Steuerung](process-control.md)
+- [Rechnen & Datum](calc-date.md)
+- [System & Dienste](system-services.md)
 
 [← Zurück zur Übersicht](index.md)
 
@@ -24,7 +28,7 @@
 >**Beispiel:** `cut -d ":" -f 1 /etc/passwd`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -64,7 +68,7 @@ cut -d "," -f 2- daten.csv         # ab dem 2. Feld bis zum Ende
 >**Beispiel:** `echo "Hallo Welt"`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -104,7 +108,7 @@ echo "hallo" | tr 'a-z' 'A-Z'   # Ausgabe an einen anderen Befehl weitergeben
 >**Beispiel:** `grep -i "fehler" logfile.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -159,7 +163,7 @@ grep -E "\.(jpg|png|gif)$" liste.txt    # Zeilen, die auf .jpg, .png oder .gif e
 >**Beispiel:** `sort -n zahlen.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -191,6 +195,43 @@ sort -t ":" -k 3 -n /etc/passwd # nach 3. Feld (UID) numerisch sortieren
 
 ---
 
+### tee
+>**Funktion:** Eingabe gleichzeitig auf den Bildschirm und in Datei(en) schreiben | Extern<br />
+>**Syntax:** `tee [optionen] [<datei>...]`<br />
+>**Erklärung:** Liest von der Standardeingabe und schreibt sie zugleich auf die Standardausgabe und in eine oder mehrere Dateien („T-Stück" in einer Pipe).<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-a` hängt an die Datei an, statt sie zu überschreiben<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-i` ignoriert das Unterbrechungssignal (`Ctrl + C`)<br />
+>**Beispiel:** `ls -l | tee liste.txt`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-a`, `--append` | hängt an die Datei(en) an, statt sie zu überschreiben |
+| `-i`, `--ignore-interrupts` | ignoriert das Unterbrechungssignal (`Ctrl + C`) |
+| `-p` | bricht bei Schreibfehlern in Pipes weniger streng ab |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+ls -l | tee liste.txt                 # Ausgabe anzeigen und speichern
+ls -l | tee a.txt b.txt               # in mehrere Dateien zugleich schreiben
+echo "neu" | tee -a log.txt           # an eine Datei anhängen
+ps aux | tee prozesse.txt | grep ssh  # speichern und gleichzeitig weiterfiltern
+echo "wert" | sudo tee /proc/sys/datei  # mit sudo in eine geschützte Datei schreiben
+```
+
+</details>
+
+>**Hinweis:** Praktisch, um eine Ausgabe zu speichern und trotzdem weiterzuverarbeiten. `sudo befehl > datei` schlägt bei geschützten Dateien fehl (die Shell leitet ohne root-Rechte um) – `befehl | sudo tee datei` löst das.
+
+---
+
 ### tr
 >**Funktion:** Zeichen ersetzen oder löschen | Extern<br />
 >**Syntax:** `tr [optionen] <satz1> [<satz2>]`<br />
@@ -201,7 +242,7 @@ sort -t ":" -k 3 -n /etc/passwd # nach 3. Feld (UID) numerisch sortieren
 >**Beispiel:** `echo "hallo" | tr 'a-z' 'A-Z'`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -229,6 +270,48 @@ cat datei.txt | tr -cd '0-9'        # nur die Ziffern behalten
 
 ---
 
+### uniq
+>**Funktion:** Aufeinanderfolgende doppelte Zeilen entfernen | Extern<br />
+>**Syntax:** `uniq [optionen] [<datei>...]`<br />
+>**Erklärung:** Fasst direkt aufeinanderfolgende gleiche Zeilen zu einer zusammen. Da nur benachbarte Zeilen verglichen werden, ist die Datei vorher meist mit `sort` zu sortieren.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-c` stellt jeder Zeile die Anzahl ihrer Vorkommen voran (count)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-d` zeigt nur Zeilen, die mehrfach vorkommen<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-u` zeigt nur Zeilen, die genau einmal vorkommen<br />
+>**Beispiel:** `sort datei.txt | uniq`
+
+<details markdown>
+<summary>Alle Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-c`, `--count` | stellt jeder Zeile die Anzahl ihrer Vorkommen voran |
+| `-d`, `--repeated` | zeigt nur Zeilen, die mehrfach vorkommen |
+| `-u`, `--unique` | zeigt nur Zeilen, die genau einmal vorkommen |
+| `-i`, `--ignore-case` | ignoriert Groß- und Kleinschreibung beim Vergleich |
+| `-f <n>`, `--skip-fields=<n>` | überspringt beim Vergleich die ersten n Felder |
+| `-s <n>`, `--skip-chars=<n>` | überspringt beim Vergleich die ersten n Zeichen |
+| `-w <n>`, `--check-chars=<n>` | vergleicht nur die ersten n Zeichen je Zeile |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sort datei.txt | uniq            # doppelte Zeilen entfernen (vorher sortieren!)
+sort datei.txt | uniq -c         # mit Anzahl der Vorkommen je Zeile
+sort datei.txt | uniq -d         # nur die mehrfach vorkommenden Zeilen
+sort datei.txt | uniq -u         # nur die einmaligen Zeilen
+sort zugriffe.log | uniq -c | sort -nr   # häufigste Zeilen zuerst (Rangliste)
+```
+
+</details>
+
+>**Hinweis:** `uniq` vergleicht nur **benachbarte** Zeilen – ohne vorheriges `sort` bleiben weiter auseinanderliegende Dubletten erhalten. `sort -u` entfernt Dubletten in einem Schritt, kann aber nicht zählen; für eine Häufigkeitsliste ist `sort | uniq -c` der Weg.
+
+---
+
 ### wc
 >**Funktion:** Zeilen, Wörter und Zeichen zählen | Extern<br />
 >**Syntax:** `wc [optionen] [<datei>...]`<br />
@@ -240,7 +323,7 @@ cat datei.txt | tr -cd '0-9'        # nur die Ziffern behalten
 >**Beispiel:** `wc -l datei.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -266,5 +349,49 @@ grep "fehler" log.txt | wc -l   # Anzahl der Treffer
 </details>
 
 >**Hinweis:** Sehr nützlich am Ende einer Pipe, um Ergebnisse zu zählen, z. B. `grep … | wc -l` für die Anzahl der Treffer.
+
+---
+
+### xargs
+>**Funktion:** Eingabe in Argumente für einen anderen Befehl umwandeln | Extern<br />
+>**Syntax:** `xargs [optionen] [<befehl>]`<br />
+>**Erklärung:** Liest Elemente von der Standardeingabe und übergibt sie als Argumente an den angegebenen Befehl. Nützlich, wenn ein Befehl die Daten nicht über eine Pipe, sondern als Argumente erwartet (z. B. `rm`).<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-n <z>` höchstens z Argumente pro Aufruf<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-I <zeichen>` setzt jedes Element an die Stelle des Platzhalters ein<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-0` Elemente sind durch Null-Bytes getrennt (mit `find -print0`)<br />
+>**Beispiel:** `ls *.txt | xargs rm`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-n <z>`, `--max-args=<z>` | höchstens z Argumente pro Befehlsaufruf |
+| `-I <zeichen>`, `--replace=<zeichen>` | ersetzt den Platzhalter durch jedes Element (z. B. `-I {}`) |
+| `-0`, `--null` | Elemente sind durch Null-Bytes getrennt (sicher bei Leerzeichen; mit `find -print0`) |
+| `-d <z>`, `--delimiter=<z>` | legt ein eigenes Trennzeichen fest |
+| `-p`, `--interactive` | fragt vor jedem Aufruf nach |
+| `-r`, `--no-run-if-empty` | führt den Befehl bei leerer Eingabe nicht aus |
+| `-P <n>`, `--max-procs=<n>` | führt bis zu n Aufrufe parallel aus |
+| `-t`, `--verbose` | zeigt den jeweils ausgeführten Befehl an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+ls *.txt | xargs rm                          # alle .txt-Dateien löschen
+find . -name "*.log" | xargs rm              # gefundene Dateien löschen
+find . -name "*.log" -print0 | xargs -0 rm   # sicher bei Leerzeichen in Namen
+echo "a b c" | xargs -n 1 echo               # je Argument ein eigener Aufruf
+ls *.jpg | xargs -I {} cp {} /backup/        # jede Datei einzeln kopieren ({} = Platzhalter)
+cat urls.txt | xargs -P 4 -n 1 wget          # bis zu 4 Downloads parallel
+```
+
+</details>
+
+>**Hinweis:** Bei Dateinamen mit Leerzeichen `find … -print0 | xargs -0` verwenden, sonst werden Namen falsch aufgeteilt. Mit `-I {}` legt man die Position der Argumente frei fest, mit `-P` arbeitet `xargs` parallel.
 
 ---

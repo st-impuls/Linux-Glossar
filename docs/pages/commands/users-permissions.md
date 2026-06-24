@@ -7,6 +7,10 @@
 - [Dateiinhalt anzeigen](file-content.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
+- [Paketverwaltung](package-management.md)
+- [Prozesse & Steuerung](process-control.md)
+- [Rechnen & Datum](calc-date.md)
+- [System & Dienste](system-services.md)
 - [Textbearbeitung & Filter](text-processing.md)
 
 [← Zurück zur Übersicht](index.md)
@@ -24,7 +28,7 @@
 >**Beispiel:** `sudo adduser user`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -61,7 +65,7 @@ sudo adduser --system backupbot   # Systembenutzer anlegen
 >**Beispiel:** `sudo chgrp entwickler projekt/`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -97,7 +101,7 @@ chgrp --reference=vorlage.txt datei.txt   # Gruppe von vorlage.txt übernehmen
 >**Beispiel:** `chmod 755 script.sh`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -165,7 +169,7 @@ chmod -R 750 ordner/       # rekursiv für einen Ordner
 >**Beispiel:** `chown user:user datei.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -203,7 +207,7 @@ sudo chown -R user:user ordner/    # rekursiv für einen Ordner
 >**Beispiel:** `sudo deluser user sudo`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -239,7 +243,7 @@ sudo deluser max sudo              # nur aus der Gruppe sudo entfernen
 >**Beispiel:** `sudo groupadd entwickler`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -297,7 +301,7 @@ sudo groupadd -r systemdienst   # Systemgruppe anlegen
 >**Beispiel:** `id user`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -335,7 +339,7 @@ id -nG              # alle Gruppennamen des Benutzers
 >**Beispiel:** `passwd`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -373,7 +377,7 @@ sudo passwd -S max      # Status des Kontos anzeigen
 >**Beispiel:** `su - user`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -409,7 +413,7 @@ su -c "apt update" root    # einen einzelnen Befehl als root ausführen
 >**Beispiel:** `sudo apt update`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -448,7 +452,7 @@ sudo -l                     # eigene erlaubte Befehle anzeigen
 >**Beispiel:** `sudo useradd -m -s /bin/bash user`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -487,7 +491,7 @@ sudo passwd max                     # danach das Passwort setzen
 >**Beispiel:** `sudo userdel -r user`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -520,7 +524,7 @@ sudo userdel -r max     # Konto samt Home-Verzeichnis löschen
 >**Beispiel:** `w`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -544,7 +548,7 @@ sudo userdel -r max     # Konto samt Home-Verzeichnis löschen
 >**Beispiel:** `who`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|

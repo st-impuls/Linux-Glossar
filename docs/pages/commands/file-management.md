@@ -7,6 +7,10 @@
 - [Dateiinhalt anzeigen](file-content.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
+- [Paketverwaltung](package-management.md)
+- [Prozesse & Steuerung](process-control.md)
+- [Rechnen & Datum](calc-date.md)
+- [System & Dienste](system-services.md)
 - [Textbearbeitung & Filter](text-processing.md)
 
 [← Zurück zur Übersicht](index.md)
@@ -24,7 +28,7 @@
 >**Beispiel:** `cp datei.txt /home/user/backup/`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -71,7 +75,7 @@ cp -u *.txt /home/user/docs/    # nur neuere/fehlende Dateien aktualisieren
 >**Beispiel:** `mkdir -p projekt/quellcode`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -107,7 +111,7 @@ mkdir -m 700 privat                  # Ordner nur für den Eigentümer zugängli
 >**Beispiel:** `mv alt.txt neu.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -150,7 +154,7 @@ mv -t archiv/ a.txt b.txt c.txt # Ziel zuerst, dann mehrere Quellen
 >**Beispiel:** `rm datei.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -192,7 +196,7 @@ rm -d leerer_ordner/        # leeres Verzeichnis löschen
 >**Beispiel:** `rmdir alter_ordner`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -228,7 +232,7 @@ rmdir -p projekt/quellcode/module   # verschachtelten, leeren Pfad komplett entf
 >**Beispiel:** `stat datei.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -282,7 +286,7 @@ stat -f /home               # Informationen zum Dateisystem von /home
 >**Beispiel:** `touch notizen.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|

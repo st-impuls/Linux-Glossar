@@ -10,6 +10,10 @@ Kategorien
 - [Dateiinhalt anzeigen](file-content.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
+- [Paketverwaltung](package-management.md)
+- [Prozesse & Steuerung](process-control.md)
+- [Rechnen & Datum](calc-date.md)
+- [System & Dienste](system-services.md)
 - [Textbearbeitung & Filter](text-processing.md)
 
 
@@ -68,3 +72,13 @@ cat <<'EOF' > config.txt
 key = $WERT
 EOF
 `​`​`
+
+## Das letzte Argument wiederverwenden (`$_`)
+
+`$_` ist eine spezielle Shell-Variable, die das **letzte Argument des zuvor ausgeführten Befehls** enthält. In Kombination mit `&&` spart das Tipparbeit und vermeidet Wiederholungen:
+
+- `mkdir projekt && cd $_` – Ordner anlegen und direkt hineinwechseln (`$_` = `projekt`).
+- `chmod +x install.sh && ./$_` – Skript ausführbar machen und sofort starten (`./$_` wird zu `./install.sh`).
+- `touch notiz.txt && nano $_` – Datei anlegen und gleich im Editor öffnen.
+
+**Hinweis:** `$_` bezieht sich immer auf das **letzte Wort** der vorherigen Befehlszeile. Die gleiche Wirkung hat die Tastenkombination `Alt + .`, die das letzte Argument direkt in die Eingabe einfügt.

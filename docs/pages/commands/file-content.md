@@ -7,6 +7,10 @@
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
+- [Paketverwaltung](package-management.md)
+- [Prozesse & Steuerung](process-control.md)
+- [Rechnen & Datum](calc-date.md)
+- [System & Dienste](system-services.md)
 - [Textbearbeitung & Filter](text-processing.md)
 
 [← Zurück zur Übersicht](index.md)
@@ -23,7 +27,7 @@
 >**Beispiel:** `cat datei.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -63,7 +67,7 @@ cat > notiz.txt                 # Eingabe direkt in eine Datei schreiben (Abschl
 >**Beispiel:** `head -n 20 datei.txt`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -101,7 +105,7 @@ head -n 5 *.log             # die ersten 5 Zeilen jeder Logdatei
 >**Beispiel:** `less /var/log/syslog`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 - `-?` zeigt eine Übersicht aller Befehle an (wie die Taste `h`)
 - `-N` zeigt Zeilennummern an
@@ -195,7 +199,7 @@ head -n 5 *.log             # die ersten 5 Zeilen jeder Logdatei
 >**Beispiel:** `tail -f /var/log/syslog`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|

@@ -53,6 +53,7 @@
 | `Ctrl + _` | Letzte Eingabe rückgängig machen |
 | `Alt + B / Alt + F` | wortweise rückwärts / vorwärts springen |
 | `Alt + D` | Wort nach dem Cursor löschen |
+| `Alt + .` | letztes Argument des vorherigen Befehls einfügen (gleichbedeutend mit `Esc` dann `.`) |
 | | |
 | `Ctrl + R` | Befehlsverlauf durchsuchen |
 | `Ctrl + Shift + N` | neues Terminalfenster |

@@ -7,6 +7,10 @@
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
 - [Navigation & Suche](navigation-search.md)
+- [Paketverwaltung](package-management.md)
+- [Prozesse & Steuerung](process-control.md)
+- [Rechnen & Datum](calc-date.md)
+- [System & Dienste](system-services.md)
 - [Textbearbeitung & Filter](text-processing.md)
 
 [← Zurück zur Übersicht](index.md)
@@ -24,7 +28,7 @@
 >**Beispiel:** `curl -O https://example.com/datei.zip`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -74,7 +78,7 @@ curl -X POST -d "name=max" https://example.com/api   # POST mit Daten senden
 >**Beispiel:** `dig example.com`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -114,7 +118,7 @@ dig @1.1.1.1 example.com        # über einen bestimmten DNS-Server fragen
 >**Beispiel:** `host example.com`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -192,7 +196,7 @@ sudo ip link set eth0 up              # Schnittstelle eth0 aktivieren
 >**Beispiel:** `nslookup example.com`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -228,7 +232,7 @@ nslookup                        # interaktiver Modus (Beenden mit `exit`)
 >**Beispiel:** `ping -c 4 example.com`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -266,7 +270,7 @@ ping -c 4 -i 0.5 8.8.8.8    # 4 Pakete im Abstand von 0,5 s
 >**Beispiel:** `scp datei.txt user@host:/home/user/`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -306,7 +310,7 @@ scp -P 2222 datei.txt user@host:/p  # über einen anderen Port
 >**Beispiel:** `ssh user@host`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -345,7 +349,7 @@ ssh -i ~/.ssh/id_ed25519 user@host  # bestimmten Schlüssel nutzen
 >**Beispiel:** `traceroute example.com`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
@@ -383,7 +387,7 @@ traceroute -m 15 example.com    # höchstens 15 Hops verfolgen
 >**Beispiel:** `wget https://example.com/datei.zip`
 
 <details markdown>
-<summary>Alle Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
