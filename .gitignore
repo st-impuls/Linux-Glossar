@@ -1,5 +1,6 @@
 # MkDocs-Build-Ausgabe (wird auf dem Server erzeugt)
 site/
+original-images/
 
 # Python
 __pycache__/

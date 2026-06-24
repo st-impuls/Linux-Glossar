@@ -1,4 +1,6 @@
-[← Zurück zur Übersicht](../index.md)
+[← Home](../index.md)
+- [Tastenkürzel](shortcuts.md)
+- [Befehle](commands/index.md)
 
 ## Begriffe
 

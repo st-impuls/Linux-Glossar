@@ -2,14 +2,15 @@
 
 ## Inhalt
 
-- [Abkürzungen / Begriffe](pages/abkuerzungen.md)
-- [Tastenkürzel](pages/tastenkuerzel.md)
-- [Befehle](pages/befehle.md)
+- [Abkürzungen / Begriffe](pages/abbreviations.md)
+- [Tastenkürzel](pages/shortcuts.md)
+- [Befehle](pages/commands/index.md)
 - [Notizen](#notizen)
 
 ---
 
-![Periodic Table of Linux Distros](images/periodic-table-of-distro.png)
+![Periodic Table of Linux Distros](images/periodic-table-of-distro.webp)
+[Bildquelle: https://distrowatch.com/dwres.php?resource=family-tree](https://distrowatch.com/dwres.php?resource=family-tree)
 
 ## Notizen
 
@@ -17,4 +18,4 @@
 
 Damit lokale `.md`-Dateien angezeigt werden, muss in den Einstellungen der Erweiterung die Option **Zugriff auf Datei-URLs zulassen** aktiviert werden (siehe Abbildung).
 
-![MarkView Markdown Viewer Einstellungen](images/MarkViewMarkdownViewer.png)
+![MarkView Markdown Viewer Einstellungen](images/MarkViewMarkdownViewer.webp)

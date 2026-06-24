@@ -38,9 +38,16 @@ theme:
 # Navigation / Menü
 nav:
   - Übersicht: index.md
-  - Abkürzungen / Begriffe: pages/abkuerzungen.md
-  - Tastenkürzel: pages/tastenkuerzel.md
-  - Befehle: pages/befehle.md
+  - Abkürzungen / Begriffe: pages/abbreviations.md
+  - Tastenkürzel: pages/shortcuts.md
+  - Befehle:
+      - Übersicht: pages/commands/index.md
+      - Navigation & Suche: pages/commands/navigation-search.md
+      - Datei- & Verzeichnisverwaltung: pages/commands/file-management.md
+      - Dateiinhalt anzeigen: pages/commands/file-content.md
+      - Textbearbeitung & Filter: pages/commands/text-processing.md
+      - Benutzer & Rechte: pages/commands/users-permissions.md
+      - Netzwerk & Download: pages/commands/network-download.md
 
 plugins:
   - search:
