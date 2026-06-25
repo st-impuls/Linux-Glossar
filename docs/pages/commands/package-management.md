@@ -10,6 +10,7 @@
 - [Netzwerk & Download](network-download.md)
 - [Prozesse & Steuerung](process-control.md)
 - [Rechnen & Datum](calc-date.md)
+- [Shell & Skripte](shell-scripting.md)
 - [System & Dienste](system-services.md)
 - [Textbearbeitung & Filter](text-processing.md)
 
@@ -48,14 +49,28 @@
 </details>
 
 <details markdown>
-<summary>Häufige Optionen</summary>
+<summary>Mehr Optionen</summary>
 
 | Option | Wirkung |
 |---|---|
-| `-y`, `--yes` | beantwortet Rückfragen automatisch mit „ja" |
-| `--no-install-recommends` | installiert empfohlene Zusatzpakete nicht mit |
-| `-q`, `--quiet` | weniger Ausgabe (für Skripte) |
-| `--only-upgrade` | aktualisiert nur, installiert keine neuen Pakete |
+| `-h`, `--help` | zeigt Hilfe zur Verwendung von `apt` an |
+| `-v`, `--version` | zeigt die installierte Version von `apt` an |
+| `-y`, `--yes`, `--assume-yes` | beantwortet Rückfragen automatisch mit „yes“ |
+| `--assume-no` | beantwortet Rückfragen automatisch mit „no“ |
+| `-s`, `--simulate` | simuliert den Vorgang, ohne Änderungen am System vorzunehmen |
+| `-d`, `--download-only` | lädt Pakete nur herunter, installiert sie aber nicht |
+| `-q`, `--quiet` | reduziert die Ausgabe im Terminal |
+| `--no-install-recommends` | installiert keine empfohlenen Zusatzpakete |
+| `--install-suggests` | installiert auch vorgeschlagene Pakete |
+| `--reinstall` | installiert ein bereits installiertes Paket erneut |
+| `--only-upgrade` | aktualisiert ein Paket nur, wenn es bereits installiert ist |
+| `-f`, `--fix-broken` | versucht, beschädigte Abhängigkeiten zu reparieren |
+| `--purge` | entfernt Pakete inklusive Konfigurationsdateien |
+| `--autoremove` | entfernt automatisch installierte, nicht mehr benötigte Pakete |
+| `--allow-downgrades` | erlaubt das Installieren einer älteren Paketversion |
+| `--allow-change-held-packages` | erlaubt Änderungen an zurückgehaltenen Paketen |
+| `-o <option>` | setzt eine Konfigurationsoption direkt über die Kommandozeile |
+| `-c <datei>` | verwendet eine bestimmte Konfigurationsdatei |
 
 </details>
 

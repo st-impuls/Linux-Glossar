@@ -11,6 +11,7 @@
 - [Paketverwaltung](package-management.md)
 - [Prozesse & Steuerung](process-control.md)
 - [Rechnen & Datum](calc-date.md)
+- [Shell & Skripte](shell-scripting.md)
 - [Textbearbeitung & Filter](text-processing.md)
 
 [← Zurück zur Übersicht](index.md)

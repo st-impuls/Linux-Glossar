@@ -11,6 +11,7 @@
 - [Paketverwaltung](package-management.md)
 - [Prozesse & Steuerung](process-control.md)
 - [Rechnen & Datum](calc-date.md)
+- [Shell & Skripte](shell-scripting.md)
 - [System & Dienste](system-services.md)
 
 [← Zurück zur Übersicht](index.md)
@@ -55,44 +56,6 @@ cut -d "," -f 2- daten.csv         # ab dem 2. Feld bis zum Ende
 </details>
 
 >**Hinweis:** `cut` eignet sich für einfach strukturierte Daten mit festem Trennzeichen. Bei mehreren aufeinanderfolgenden Leerzeichen als Trenner ist `awk` flexibler.
-
----
-
-### echo
->**Funktion:** Text ausgeben | Intern (Builtins)<br />
->**Syntax:** `echo [optionen] [<text>...]`<br />
->**Erklärung:** Gibt den übergebenen Text oder den Wert einer Variablen im Terminal aus.<br />
->**Optionen:**<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-n` gibt keinen abschließenden Zeilenumbruch aus<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-e` interpretiert Escape-Sequenzen wie `\n` (Zeilenumbruch) oder `\t` (Tabulator)<br />
->**Beispiel:** `echo "Hallo Welt"`
-
-<details markdown>
-<summary>Mehr Optionen</summary>
-
-| Option | Wirkung |
-|---|---|
-| `-n` | gibt keinen abschließenden Zeilenumbruch aus |
-| `-e` | interpretiert Escape-Sequenzen (`\n` Umbruch, `\t` Tabulator, `\\` Backslash) |
-| `-E` | interpretiert keine Escape-Sequenzen (Standard) |
-
-</details>
-
-<details markdown>
-<summary>Weitere Beispiele</summary>
-
-```bash
-echo "Hallo Welt"               # einfache Textausgabe
-echo $HOME                      # Wert einer Variablen ausgeben
-echo -e "Zeile1\nZeile2"        # mit interpretiertem Zeilenumbruch
-echo "Hallo" > datei.txt        # Ausgabe in eine Datei schreiben
-echo "Mehr" >> datei.txt        # an eine bestehende Datei anhängen
-echo "hallo" | tr 'a-z' 'A-Z'   # Ausgabe an einen anderen Befehl weitergeben
-```
-
-</details>
-
->**Hinweis:** Variablen werden mit `$` ausgegeben, z. B. `echo $HOME`. Mit `>` lässt sich die Ausgabe in eine Datei umleiten (schreiben); `>>` hängt an eine bestehende Datei an. Oft in Pipes oder Skripten verwendet.
 
 ---
 

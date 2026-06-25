@@ -10,6 +10,7 @@
 - [Netzwerk & Download](network-download.md)
 - [Paketverwaltung](package-management.md)
 - [Prozesse & Steuerung](process-control.md)
+- [Shell & Skripte](shell-scripting.md)
 - [System & Dienste](system-services.md)
 - [Textbearbeitung & Filter](text-processing.md)
 

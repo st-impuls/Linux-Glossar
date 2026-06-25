@@ -43,8 +43,8 @@
 ### Wayland - benannt nach der Stadt Wayland (Massachusetts).
 >`Wayland` ist ein modernes Protokoll für grafische Oberflächen unter Linux, das als Nachfolger von X11 gilt. Der Name ist keine Abkürzung, sondern geht auf die Heimatstadt des Entwicklers zurück.
 
-### KDE - K Desktop Environment.
->`KDE` ist eine grafische Desktop-Umgebung für Linux mit vielen Programmen und umfangreichen Einstellungsmöglichkeiten.
+### KDE - ursprünglich K Desktop Environment.
+>`KDE` ist eine grafische Desktop-Umgebung für Linux mit vielen Programmen und umfangreichen Einstellungsmöglichkeiten. `KDE` bezeichnet heute vor allem die Community und das Software-Ökosystem. Die moderne Desktop-Umgebung heißt KDE Plasma.
 
 ### GNOME - GNU Network Object Model Environment.
 >`GNOME` ist eine weit verbreitete grafische Desktop-Umgebung für Linux mit einer modernen und übersichtlichen Benutzeroberfläche.

@@ -10,6 +10,7 @@
 - [Paketverwaltung](package-management.md)
 - [Prozesse & Steuerung](process-control.md)
 - [Rechnen & Datum](calc-date.md)
+- [Shell & Skripte](shell-scripting.md)
 - [System & Dienste](system-services.md)
 - [Textbearbeitung & Filter](text-processing.md)
 
@@ -388,6 +389,20 @@ sudo passwd -S max      # Status des Kontos anzeigen
 </details>
 
 <details markdown>
+<summary>Unterschied: <code>su</code> und <code>su -</code></summary>
+
+Der Bindestrich entscheidet, ob die **Umgebung** des Zielbenutzers geladen wird:
+
+| Aufruf | Wirkung |
+|---|---|
+| `su` (bzw. `su <benutzer>`) | wechselt nur den Benutzer, behält aber die bisherige Umgebung: aktuelles Verzeichnis, `PATH` und Variablen der alten Sitzung bleiben erhalten |
+| `su -` (bzw. `su - <benutzer>`) | startet eine vollständige **Login-Shell**: lädt die Profildateien des Zielbenutzers (`~/.bash_profile`, `~/.profile`), setzt `HOME`, `PATH` und `SHELL` neu und wechselt in dessen Home-Verzeichnis |
+
+Praktisch heißt das: Nach `su` ohne Bindestrich fehlen oft Administrationspfade wie `/usr/sbin`, sodass manche Befehle „command not found" melden. `su -` liefert dieselbe Umgebung, als hätte sich der Zielbenutzer direkt angemeldet – darum ist `su -` (für root) meist die richtige Wahl.
+
+</details>
+
+<details markdown>
 <summary>Weitere Beispiele</summary>
 
 ```bash
@@ -398,7 +413,7 @@ su -c "apt update" root    # einen einzelnen Befehl als root ausführen
 
 </details>
 
->**Hinweis:** Es wird das Passwort des Zielbenutzers abgefragt (anders als bei `sudo`). Mit `exit` kehrt man zur vorherigen Sitzung zurück.
+>**Hinweis:** Es wird das Passwort des Zielbenutzers abgefragt (anders als bei `sudo`). Mit `exit` kehrt man zur vorherigen Sitzung zurück. Für root meist `su -` verwenden, damit die vollständige Umgebung (inkl. Administrationspfade) geladen wird.
 
 ---
 
@@ -437,7 +452,7 @@ sudo -l                     # eigene erlaubte Befehle anzeigen
 
 </details>
 
->**Hinweis:** Es wird das eigene Passwort abgefragt; der Benutzer muss in der Gruppe `sudo` bzw. `wheel` sein.
+>**Hinweis:** Es wird das eigene Passwort abgefragt; der Benutzer muss über sudoers berechtigt sein, oft über die Gruppe `sudo` oder `wheel`.
 
 ---
 
@@ -514,6 +529,52 @@ sudo userdel -r max     # Konto samt Home-Verzeichnis löschen
 
 ---
 
+### usermod
+>**Funktion:** Bestehendes Benutzerkonto ändern | Extern<br />
+>**Syntax:** `usermod [optionen] <benutzername>`<br />
+>**Erklärung:** Ändert die Eigenschaften eines vorhandenen Kontos – Name, Home-Verzeichnis, Shell, Gruppen oder Sperrstatus.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-aG <gruppe>` fügt den Benutzer zu einer zusätzlichen Gruppe hinzu (append)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-s <shell>` legt die Login-Shell fest<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-L` / `-U` sperrt / entsperrt das Konto<br />
+>**Beispiel:** `sudo usermod -aG sudo max`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-l <neu>`, `--login <neu>` | ändert den Anmeldenamen (login) |
+| `-d <pfad>`, `--home <pfad>` | setzt ein neues Home-Verzeichnis (mit `-m` Inhalt verschieben) |
+| `-m`, `--move-home` | verschiebt den Inhalt des alten Home-Verzeichnisses (nur mit `-d`) |
+| `-s <shell>`, `--shell <shell>` | legt die Login-Shell fest (z. B. `/bin/bash`) |
+| `-g <gruppe>`, `--gid <gruppe>` | ändert die primäre Gruppe |
+| `-G <gruppen>`, `--groups <gruppen>` | setzt die sekundären Gruppen (ersetzt bestehende!) |
+| `-a`, `--append` | nur mit `-G`: Gruppen hinzufügen, statt sie zu ersetzen |
+| `-L`, `--lock` | sperrt das Konto (Passwort-Login deaktiviert) |
+| `-U`, `--unlock` | entsperrt das Konto |
+| `-e <JJJJ-MM-TT>`, `--expiredate` | setzt das Ablaufdatum des Kontos |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo usermod -aG sudo max            # Benutzer der Gruppe sudo hinzufügen
+sudo usermod -aG docker,www-data max  # mehreren Gruppen hinzufügen
+sudo usermod -s /bin/zsh max         # Login-Shell ändern
+sudo usermod -l maxime max           # Benutzer umbenennen (max -> maxime)
+sudo usermod -d /home/maxime -m maxime  # Home-Verzeichnis verschieben
+sudo usermod -L max                  # Konto sperren
+```
+
+</details>
+
+>**Hinweis:** Beim Hinzufügen zu Gruppen immer `-aG` zusammen verwenden – `-G` allein **ersetzt** alle sekundären Gruppen und entfernt so versehentlich bestehende. Änderungen wirken erst bei der nächsten Anmeldung; eine neue Gruppenzugehörigkeit greift in der laufenden Sitzung erst nach erneutem Login (oder `newgrp <gruppe>`).
+
+---
+
 ### w
 >**Funktion:** Angemeldete Benutzer und ihre Aktivität anzeigen | Extern<br />
 >**Syntax:** `w [optionen] [<benutzer>]`<br />
@@ -567,7 +628,7 @@ sudo userdel -r max     # Konto samt Home-Verzeichnis löschen
 ### whoami
 >**Funktion:** Eigenen Benutzernamen anzeigen | Extern<br />
 >**Syntax:** `whoami`<br />
->**Erklärung:** Gibt den Anmeldenamen des aktuell angemeldeten Benutzers aus (who am i).<br />
+>**Erklärung:** Zeigt den effektiven Benutzernamen an, unter dem der aktuelle Prozess läuft.<br />
 >**Beispiel:** `whoami`
 
 >**Hinweis:** Entspricht `id -un`. Nach `sudo -i` bzw. `su` zeigt es den aktuell aktiven Benutzer (z. B. `root`).

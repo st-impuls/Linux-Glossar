@@ -4,7 +4,7 @@
 
 # Befehle
 
-Kategorien
+## Kategorien
 - [Benutzer & Rechte](users-permissions.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
@@ -13,6 +13,7 @@ Kategorien
 - [Paketverwaltung](package-management.md)
 - [Prozesse & Steuerung](process-control.md)
 - [Rechnen & Datum](calc-date.md)
+- [Shell & Skripte](shell-scripting.md)
 - [System & Dienste](system-services.md)
 - [Textbearbeitung & Filter](text-processing.md)
 
@@ -63,15 +64,15 @@ Mit einem Here-Document wird einem Befehl ein mehrzeiliger Text direkt als Einga
 - `befehl <<'EOF' … EOF` – der Text wird **wörtlich** übernommen, nichts wird ersetzt (gleichbedeutend: `<<"EOF"`, `<<\EOF`).
 - `befehl <<-EOF … EOF` – führende **Tabs** der Zeilen werden entfernt, sodass die Schlusszeile eingerückt sein darf.
 
-Die Schlusszeile darf nur den Begrenzer enthalten und muss am Zeilenanfang stehen (ohne vorangestellte Leerzeichen).
+Die Schlusszeile darf nur den Begrenzer enthalten und muss am Zeilenanfang stehen (ohne vorangestellte Leerzeichen). Bei `<<-EOF` darf die Schlusszeile mit Tabs eingerückt sein, aber nicht mit Leerzeichen.
 
 Beispiel – Text in eine Datei schreiben, ohne dass `$WERT` ersetzt wird:
 
-`​`​`sh
+```sh
 cat <<'EOF' > config.txt
 key = $WERT
 EOF
-`​`​`
+```
 
 ## Das letzte Argument wiederverwenden (`$_`)
 

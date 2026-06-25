@@ -51,6 +51,7 @@ nav:
       - Rechnen & Datum: pages/commands/calc-date.md
       - Prozesse & Steuerung: pages/commands/process-control.md
       - Paketverwaltung: pages/commands/package-management.md
+      - Shell & Skripte: pages/commands/shell-scripting.md
       - System & Dienste: pages/commands/system-services.md
 
 plugins:
