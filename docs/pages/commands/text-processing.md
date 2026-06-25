@@ -438,7 +438,7 @@ echo "Hallo Welt" | sed 's/Welt/Linux/'  # in einer Pipe
 
 </details>
 
->**Hinweis:** Als Trennzeichen muss nicht `/` dienen – bei Pfaden ist z. B. `s#/alt/pfad#/neu/pfad#` lesbarer. `-i` ändert die Datei unwiderruflich; vorher ohne `-i` testen oder mit `-i.bak` eine Sicherung anlegen.
+>**Hinweis:** Als Trennzeichen muss nicht `/` dienen: Das Zeichen direkt nach dem `s` legt das Trennzeichen für diesen Befehl fest – steht dort z. B. ein `#`, gilt `#` als Trenner (`s#alt#neu#`). Bei Pfaden ist das oft lesbarer, z. B. `s#/alt/pfad#/neu/pfad#`. Kommt das Trennzeichen im Such- oder Ersetzungstext selbst vor, muss es mit `\` maskiert werden (z. B. `s/a\/b/c/`) – ein anderes Trennzeichen erspart das oft. `-i` ändert die Datei unwiderruflich; vorher ohne `-i` testen oder mit `-i.bak` eine Sicherung anlegen.
 
 ---
 
