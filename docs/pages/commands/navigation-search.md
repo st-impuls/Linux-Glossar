@@ -58,7 +58,7 @@ cd projekt/quellcode    # relativer Pfad
 ---
 
 ### find
->**Funktion:** Dateien und Ordner suchen | Extern<br />
+>**Funktion:** Dateien und Ordner suchen<br />
 >**Syntax:** `find [<startverzeichnis>] [optionen]`<br />
 >**Erklärung:** Durchsucht ein Verzeichnis (und dessen Unterordner) live nach Dateien anhand von Name, Typ, Größe und weiteren Kriterien.<br />
 >**Optionen:**<br />
@@ -107,7 +107,7 @@ find . -name "*.log" -exec rm {} \;   # für jeden Treffer rm ausführen
 ---
 
 ### locate
->**Funktion:** Dateien schnell über den Namen finden | Extern<br />
+>**Funktion:** Dateien schnell über den Namen finden<br />
 >**Syntax:** `locate [optionen] <muster>...`<br />
 >**Erklärung:** Sucht Dateien anhand des Namens in einer zuvor angelegten Datenbank und ist dadurch deutlich schneller als `find`.<br />
 >**Optionen:**<br />
@@ -147,7 +147,7 @@ locate -b "\bash"           # nur Treffer im Dateinamen
 ---
 
 ### ls
->**Funktion:** Dateien und Ordner anzeigen | Extern<br />
+>**Funktion:** Dateien und Ordner anzeigen<br />
 >**Syntax:** `ls [optionen] [<datei|verzeichnis>...]`<br />
 >**Erklärung:** Listet den Inhalt eines Verzeichnisses auf.<br />
 >**Optionen:**<br />
@@ -210,7 +210,7 @@ ls -d */                # nur Verzeichnisse anzeigen
 ---
 
 ### tree
->**Funktion:** Verzeichnisstruktur als Baum anzeigen | Extern<br />
+>**Funktion:** Verzeichnisstruktur als Baum anzeigen<br />
 >**Syntax:** `tree [optionen] [<verzeichnis>]`<br />
 >**Erklärung:** Zeigt Verzeichnisse und Dateien in einer übersichtlichen Baumstruktur an.<br />
 >**Optionen:**<br />
@@ -256,7 +256,7 @@ tree -h /var/log            # mit lesbaren Dateigrößen
 ---
 
 ### whereis
->**Funktion:** Pfad zu Programm, Manpage oder Quellcode finden | Extern<br />
+>**Funktion:** Pfad zu Programm, Manpage oder Quellcode finden<br />
 >**Syntax:** `whereis [optionen] <name>...`<br />
 >**Erklärung:** Zeigt an, wo sich die Programmdatei, das Handbuch und ggf. die Quelldateien eines Befehls befinden.<br />
 >**Optionen:**<br />

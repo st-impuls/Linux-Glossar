@@ -18,8 +18,131 @@
 
 # Textbearbeitung & Filter
 
+### awk
+>**Funktion:** Textzeilen spalten- und musterbasiert verarbeiten<br />
+>**Syntax:** `awk [optionen] '<programm>' [<datei>...]`<br />
+>**Erklärung:** Mächtige Sprache zur Verarbeitung von Textzeilen. Zerlegt jede Zeile automatisch in Felder (`$1`, `$2`, …; `$0` = ganze Zeile) und führt für passende Zeilen Aktionen aus.<br />
+>**Verwendung:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`'{print $1}'` gibt das erste Feld jeder Zeile aus<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-F <z>` legt das Feldtrennzeichen fest<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`'/muster/{...}'` Aktion nur für passende Zeilen<br />
+>**Beispiel:** `awk '{print $1}' datei.txt`
+
+<details markdown>
+<summary>Aufbau & Variablen</summary>
+
+| Element | Bedeutung |
+|---|---|
+| `$1`, `$2`, … | das 1., 2., … Feld der Zeile |
+| `$0` | die gesamte Zeile |
+| `NF` | Anzahl der Felder in der Zeile |
+| `NR` | Nummer der aktuellen Zeile |
+| `'muster {aktion}'` | führt die Aktion nur bei passendem Muster aus |
+| `BEGIN {…}` / `END {…}` | Aktion vor der ersten / nach der letzten Zeile |
+| `-F <z>` | Feldtrennzeichen (z. B. `-F:` oder `-F','`) |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+awk '{print $1}' datei.txt                     # erstes Feld jeder Zeile
+awk -F: '{print $1}' /etc/passwd               # Benutzernamen (Trenner :)
+awk '{print $NF}' datei.txt                    # letztes Feld jeder Zeile
+awk 'NR==1' datei.txt                          # nur die erste Zeile
+awk '/fehler/ {print}' log.txt                 # Zeilen mit "fehler"
+awk '{sum += $1} END {print sum}' zahlen.txt   # eine Spalte aufsummieren
+awk -F, '$3 > 100 {print $1}' daten.csv        # nach Feldwert filtern
+```
+
+</details>
+
+>**Hinweis:** `awk` glänzt bei spaltenorientierten Daten und Berechnungen – dort, wo `cut` zu starr und `grep` zu einfach ist. Mehrere aufeinanderfolgende Leerzeichen werden standardmäßig als ein Trenner behandelt (anders als bei `cut`).
+
+---
+
+### column
+>**Funktion:** Eingabe in ausgerichtete Spalten formatieren<br />
+>**Syntax:** `column [optionen] [<datei>...]`<br />
+>**Erklärung:** Bringt Text in saubere, ausgerichtete Spalten – ideal, um Tabellen oder Listen lesbar darzustellen.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-t` erzeugt eine Tabelle mit ausgerichteten Spalten<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-s <z>` legt das Eingabe-Trennzeichen fest<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-N <namen>` setzt Spaltenüberschriften<br />
+>**Beispiel:** `column -t -s: /etc/passwd`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-t`, `--table` | richtet die Eingabe als Tabelle aus |
+| `-s <z>`, `--separator <z>` | Eingabe-Trennzeichen (z. B. `-s:` oder `-s,`) |
+| `-o <z>`, `--output-separator <z>` | Trennzeichen der Ausgabe |
+| `-N <namen>`, `--table-columns` | Spaltenüberschriften (kommagetrennt) |
+| `-R <n>`, `--table-right` | richtet die Spalte(n) n rechtsbündig aus |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+column -t -s: /etc/passwd                  # die :-getrennte Datei als Tabelle
+mount | column -t                          # Ausgabe übersichtlich ausrichten
+echo -e "Name Alter\nMax 30" | column -t   # Spalten ausrichten
+column -t -s, daten.csv                    # CSV als Tabelle anzeigen
+```
+
+</details>
+
+>**Hinweis:** `column -t` ist praktisch am Ende einer Pipe, um unübersichtliche Ausgaben auszurichten. Standardmäßig trennt es an Leerzeichen; für andere Trenner `-s` verwenden.
+
+---
+
+### comm
+>**Funktion:** Zwei sortierte Dateien zeilenweise vergleichen<br />
+>**Syntax:** `comm [optionen] <datei1> <datei2>`<br />
+>**Erklärung:** Vergleicht zwei **sortierte** Dateien und gibt drei Spalten aus: nur in Datei 1, nur in Datei 2, in beiden.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-1` blendet Spalte 1 aus (nur in Datei 1)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-2` blendet Spalte 2 aus (nur in Datei 2)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-3` blendet Spalte 3 aus (gemeinsame Zeilen)<br />
+>**Beispiel:** `comm datei1.txt datei2.txt`
+
+<details markdown>
+<summary>Optionen & Spalten</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-1` | unterdrückt Spalte 1 (Zeilen nur in Datei 1) |
+| `-2` | unterdrückt Spalte 2 (Zeilen nur in Datei 2) |
+| `-3` | unterdrückt Spalte 3 (Zeilen in beiden) |
+| `-12` | zeigt nur die gemeinsamen Zeilen |
+| `--check-order` | bricht ab, wenn die Dateien nicht sortiert sind |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+comm datei1.txt datei2.txt        # drei Spalten: nur1 / nur2 / beide
+comm -12 a.txt b.txt              # nur gemeinsame Zeilen
+comm -23 a.txt b.txt              # nur Zeilen, die ausschließlich in a stehen
+comm -3 a.txt b.txt               # nur die Unterschiede
+comm <(sort a.txt) <(sort b.txt)  # unsortierte Dateien vorher sortieren
+```
+
+</details>
+
+>**Hinweis:** Beide Dateien müssen **sortiert** sein, sonst ist das Ergebnis falsch. Mit Prozesssubstitution `<(sort …)` lässt sich das direkt erledigen. Für detaillierte Unterschiede mit Kontext eignet sich `diff`.
+
+---
+
 ### cut
->**Funktion:** Spalten oder Felder ausschneiden | Extern<br />
+>**Funktion:** Spalten oder Felder ausschneiden<br />
 >**Syntax:** `cut [optionen] [<datei>...]`<br />
 >**Erklärung:** Schneidet aus jeder Zeile bestimmte Teile heraus, z. B. einzelne Spalten.<br />
 >**Optionen:**<br />
@@ -59,8 +182,51 @@ cut -d "," -f 2- daten.csv         # ab dem 2. Feld bis zum Ende
 
 ---
 
+### diff
+>**Funktion:** Unterschiede zwischen zwei Dateien anzeigen<br />
+>**Syntax:** `diff [optionen] <datei1> <datei2>`<br />
+>**Erklärung:** Vergleicht zwei Dateien zeilenweise und zeigt, welche Zeilen sich unterscheiden und wie man die eine in die andere überführt.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-u` einheitliches, kompaktes Format (unified)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-i` ignoriert Groß-/Kleinschreibung<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-r` vergleicht Verzeichnisse rekursiv<br />
+>**Beispiel:** `diff -u alt.txt neu.txt`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-u`, `--unified` | kompaktes „unified"-Format (auch von `git` genutzt) |
+| `-c`, `--context` | Format mit Kontextzeilen |
+| `-i`, `--ignore-case` | ignoriert Groß-/Kleinschreibung |
+| `-w`, `--ignore-all-space` | ignoriert alle Leerzeichen-Unterschiede |
+| `-r`, `--recursive` | vergleicht Verzeichnisse rekursiv |
+| `-q`, `--brief` | meldet nur, ob sich die Dateien unterscheiden |
+| `-y`, `--side-by-side` | stellt beide Dateien nebeneinander dar |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+diff alt.txt neu.txt                         # Standardausgabe der Unterschiede
+diff -u alt.txt neu.txt                       # unified-Format (üblich für Patches)
+diff -y alt.txt neu.txt                       # Gegenüberstellung nebeneinander
+diff -q a.txt b.txt                           # nur: unterscheiden sich? (ja/nein)
+diff -r ordner1 ordner2                       # ganze Verzeichnisse vergleichen
+diff -u alt.txt neu.txt > aenderung.patch     # Unterschiede als Patch speichern
+```
+
+</details>
+
+>**Hinweis:** Das `-u`-Format ist Standard für Patches (`patch < aenderung.patch`) und entspricht der Anzeige von `git diff`. Für den Vergleich **sortierter** Mengen (gemeinsame/eindeutige Zeilen) ist `comm` besser geeignet.
+
+---
+
 ### grep
->**Funktion:** Nach Text suchen | Extern<br />
+>**Funktion:** Nach Text suchen<br />
 >**Syntax:** `grep [optionen] <muster> [<datei>...]`<br />
 >**Erklärung:** Durchsucht Dateien oder Ausgaben nach Zeilen, die zu einem Muster passen.<br />
 >**Optionen:**<br />
@@ -115,8 +281,169 @@ grep -E "\.(jpg|png|gif)$" liste.txt    # Zeilen, die auf .jpg, .png oder .gif e
 
 ---
 
+### join
+>**Funktion:** Zwei Dateien über ein gemeinsames Feld verbinden<br />
+>**Syntax:** `join [optionen] <datei1> <datei2>`<br />
+>**Erklärung:** Verknüpft die Zeilen zweier Dateien, die im angegebenen Feld denselben Wert haben (ähnlich einem Datenbank-Join). Beide Dateien müssen nach diesem Feld sortiert sein.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-1 <n>` / `-2 <n>` Verknüpfungsfeld in Datei 1 / 2<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-t <z>` Feldtrennzeichen<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-a <n>` zeigt auch Zeilen ohne Partner aus Datei n<br />
+>**Beispiel:** `join datei1.txt datei2.txt`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-1 <n>`, `-2 <n>` | legt das Verknüpfungsfeld in Datei 1 bzw. 2 fest |
+| `-j <n>` | gemeinsames Feld in beiden Dateien |
+| `-t <z>` | Feldtrennzeichen (Standard: Leerzeichen) |
+| `-a <n>` | gibt auch Zeilen ohne Treffer aus Datei n aus (wie ein outer join) |
+| `-o <format>` | legt fest, welche Felder ausgegeben werden |
+| `-i` | ignoriert Groß-/Kleinschreibung beim Vergleich |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+join a.txt b.txt                  # über das jeweils 1. Feld verbinden
+join -t, -1 1 -2 1 a.csv b.csv    # CSV über das 1. Feld verbinden
+join -a 1 a.txt b.txt             # auch Zeilen aus a ohne Partner zeigen
+join <(sort a.txt) <(sort b.txt)  # unsortierte Dateien vorher sortieren
+```
+
+</details>
+
+>**Hinweis:** Wie bei `comm` müssen beide Dateien nach dem Verknüpfungsfeld **sortiert** sein. Für eine einfache positionsbasierte Zusammenführung (ohne gemeinsames Feld) reicht `paste`.
+
+---
+
+### nl
+>**Funktion:** Zeilen nummerieren<br />
+>**Syntax:** `nl [optionen] [<datei>...]`<br />
+>**Erklärung:** Versieht die Zeilen einer Datei mit Nummern – flexibler als `cat -n`, z. B. nur für nicht leere Zeilen oder mit eigenem Format.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-b a` nummeriert alle Zeilen, `-b t` nur nicht leere<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-w <n>` Breite der Nummernspalte<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-s <z>` Trennzeichen nach der Nummer<br />
+>**Beispiel:** `nl datei.txt`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-b a` / `-b t` | nummeriert alle / nur nicht leere Zeilen (Standard: `t`) |
+| `-n <format>` | Zahlenformat: `ln` linksbündig, `rn` rechtsbündig, `rz` mit führenden Nullen |
+| `-w <n>`, `--number-width=<n>` | Breite der Nummernspalte |
+| `-s <z>`, `--number-separator=<z>` | Trennzeichen zwischen Nummer und Text |
+| `-v <n>` | Startnummer |
+| `-i <n>` | Schrittweite |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+nl datei.txt                 # nur nicht leere Zeilen nummerieren
+nl -b a datei.txt            # alle Zeilen nummerieren (auch leere)
+nl -w 3 -s '. ' datei.txt    # Format "  1. Text"
+nl -ba -nrz -w3 skript.sh    # mit führenden Nullen (001, 002, …)
+```
+
+</details>
+
+>**Hinweis:** Im Gegensatz zu `cat -n` nummeriert `nl` standardmäßig nur nicht leere Zeilen und lässt Format, Breite und Startwert frei einstellen.
+
+---
+
+### paste
+>**Funktion:** Zeilen mehrerer Dateien spaltenweise zusammenfügen<br />
+>**Syntax:** `paste [optionen] [<datei>...]`<br />
+>**Erklärung:** Fügt die Zeilen mehrerer Dateien nebeneinander (spaltenweise) zusammen, standardmäßig durch einen Tabulator getrennt.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-d <z>` legt das Trennzeichen fest<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-s` fügt die Zeilen einer Datei zu einer einzigen Zeile zusammen<br />
+>**Beispiel:** `paste namen.txt alter.txt`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-d <z>`, `--delimiters=<z>` | Trennzeichen statt Tabulator (z. B. `-d,`) |
+| `-s`, `--serial` | verbindet die Zeilen je Datei zu einer Zeile |
+| `-z`, `--zero-terminated` | trennt mit Null-Byte statt Zeilenumbruch |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+paste namen.txt alter.txt    # zwei Dateien als zwei Spalten (Tab-getrennt)
+paste -d, a.txt b.txt        # mit Komma als Trenner (CSV)
+paste -s -d, zahlen.txt      # eine Spalte zu einer Zeile: 1,2,3
+paste - - < datei.txt        # je zwei Zeilen nebeneinander legen
+```
+
+</details>
+
+>**Hinweis:** Anders als `join` arbeitet `paste` rein positionsbasiert (Zeile 1 zu Zeile 1) und braucht weder ein gemeinsames Feld noch sortierte Dateien.
+
+---
+
+### sed
+>**Funktion:** Text strömend bearbeiten (Stream-Editor)<br />
+>**Syntax:** `sed [optionen] '<befehl>' [<datei>...]`<br />
+>**Erklärung:** Bearbeitet Text zeilenweise nach festen Regeln – am häufigsten zum Suchen und Ersetzen. Liest aus Datei oder Pipe und schreibt das Ergebnis auf die Standardausgabe.<br />
+>**Verwendung:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`s/alt/neu/` ersetzt das erste Vorkommen je Zeile<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`s/alt/neu/g` ersetzt alle Vorkommen je Zeile<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-i` ändert die Datei direkt<br />
+>**Beispiel:** `sed 's/alt/neu/g' datei.txt`
+
+<details markdown>
+<summary>Befehle & Optionen</summary>
+
+| Ausdruck | Wirkung |
+|---|---|
+| `s/alt/neu/` | ersetzt das erste Vorkommen pro Zeile |
+| `s/alt/neu/g` | ersetzt alle Vorkommen pro Zeile (global) |
+| `s/alt/neu/gi` | zusätzlich ohne Beachtung der Groß-/Kleinschreibung |
+| `<n>d` / `/muster/d` | löscht Zeile n bzw. passende Zeilen |
+| `-n '<n>p'` | gibt nur Zeile n aus (mit `-n` = keine automatische Ausgabe) |
+| `-i`, `--in-place` | bearbeitet die Datei direkt (mit `-i.bak` = Sicherung) |
+| `-E`, `-r` | erweiterte reguläre Ausdrücke |
+| `-e <befehl>` | mehrere Befehle hintereinander angeben |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sed 's/alt/neu/g' datei.txt              # alle "alt" durch "neu" ersetzen (nur Ausgabe)
+sed -i 's/alt/neu/g' datei.txt           # Ersetzung direkt in der Datei
+sed -i.bak 's/alt/neu/g' datei.txt       # wie oben, mit Sicherung datei.txt.bak
+sed -n '5,10p' datei.txt                 # nur die Zeilen 5 bis 10 ausgeben
+sed '/^#/d' config.txt                   # alle Kommentarzeilen entfernen
+sed '2d' datei.txt                       # die zweite Zeile löschen
+echo "Hallo Welt" | sed 's/Welt/Linux/'  # in einer Pipe
+```
+
+</details>
+
+>**Hinweis:** Als Trennzeichen muss nicht `/` dienen – bei Pfaden ist z. B. `s#/alt/pfad#/neu/pfad#` lesbarer. `-i` ändert die Datei unwiderruflich; vorher ohne `-i` testen oder mit `-i.bak` eine Sicherung anlegen.
+
+---
+
 ### sort
->**Funktion:** Zeilen sortieren | Extern<br />
+>**Funktion:** Zeilen sortieren<br />
 >**Syntax:** `sort [optionen] [<datei>...]`<br />
 >**Erklärung:** Sortiert die Zeilen einer Datei oder Eingabe, standardmäßig alphabetisch.<br />
 >**Optionen:**<br />
@@ -158,8 +485,84 @@ sort -t ":" -k 3 -n /etc/passwd # nach 3. Feld (UID) numerisch sortieren
 
 ---
 
+### split
+>**Funktion:** Eine Datei in mehrere Teile zerlegen<br />
+>**Syntax:** `split [optionen] [<datei> [<präfix>]]`<br />
+>**Erklärung:** Teilt eine große Datei in mehrere kleinere Stücke – nach Zeilenzahl, Größe oder Anzahl. Die Teile heißen standardmäßig `xaa`, `xab`, …<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-l <n>` Teile mit je n Zeilen<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-b <größe>` Teile mit fester Größe (z. B. `10M`)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-n <n>` in genau n Teile aufteilen<br />
+>**Beispiel:** `split -l 1000 gross.txt teil_`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-l <n>`, `--lines=<n>` | je Teil n Zeilen |
+| `-b <größe>`, `--bytes=<größe>` | je Teil eine feste Größe (`K`, `M`, `G`) |
+| `-n <n>`, `--number=<n>` | in genau n gleich große Teile |
+| `-d`, `--numeric-suffixes` | numerische Endungen (00, 01, …) statt aa, ab |
+| `-a <n>`, `--suffix-length=<n>` | Länge der Endung |
+| `--additional-suffix=<z>` | hängt eine feste Endung an (z. B. `.txt`) |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+split -l 1000 gross.txt teil_       # Stücke mit je 1000 Zeilen: teil_aa, teil_ab …
+split -b 10M video.bin teil_        # Stücke mit je 10 MB
+split -n 4 datei.txt teil_          # in 4 gleich große Teile
+split -d -l 500 daten.csv teil_     # mit Zahlen-Endungen: teil_00, teil_01 …
+cat teil_* > wiederhergestellt.txt  # Teile wieder zusammenfügen
+```
+
+</details>
+
+>**Hinweis:** Mit `cat teil_* > datei` lassen sich die Stücke wieder zusammensetzen – die alphabetische Reihenfolge der Endungen sorgt für die richtige Abfolge. Praktisch, um große Dateien zu versenden oder portionsweise zu verarbeiten.
+
+---
+
+### tac
+>**Funktion:** Datei in umgekehrter Zeilenreihenfolge ausgeben<br />
+>**Syntax:** `tac [optionen] [<datei>...]`<br />
+>**Erklärung:** Gibt die Zeilen einer Datei in umgekehrter Reihenfolge aus – die letzte Zeile zuerst (umgekehrtes `cat`).<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-s <z>` legt den Zeilentrenner fest<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-r` behandelt den Trenner als regulären Ausdruck<br />
+>**Beispiel:** `tac datei.txt`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-s <z>`, `--separator=<z>` | verwendet z als Zeilentrenner statt des Zeilenumbruchs |
+| `-r`, `--regex` | interpretiert den Trenner als regulären Ausdruck |
+| `-b`, `--before` | setzt den Trenner vor statt nach den Abschnitt |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+tac datei.txt        # letzte Zeile zuerst
+tac log.txt | head   # die neuesten Log-Zeilen zuerst ansehen
+who | tac            # Ausgabe einer Pipe umkehren
+```
+
+</details>
+
+>**Hinweis:** Der Name ist `cat` rückwärts gelesen. Praktisch bei Logdateien, um die neuesten Einträge oben zu sehen (oft `tac datei | less`).
+
+---
+
 ### tee
->**Funktion:** Eingabe gleichzeitig auf den Bildschirm und in Datei(en) schreiben | Extern<br />
+>**Funktion:** Eingabe gleichzeitig auf den Bildschirm und in Datei(en) schreiben<br />
 >**Syntax:** `tee [optionen] [<datei>...]`<br />
 >**Erklärung:** Liest von der Standardeingabe und schreibt sie zugleich auf die Standardausgabe und in eine oder mehrere Dateien („T-Stück" in einer Pipe).<br />
 >**Optionen:**<br />
@@ -196,7 +599,7 @@ echo "wert" | sudo tee /proc/sys/datei  # mit sudo in eine geschützte Datei sch
 ---
 
 ### tr
->**Funktion:** Zeichen ersetzen oder löschen | Extern<br />
+>**Funktion:** Zeichen ersetzen oder löschen<br />
 >**Syntax:** `tr [optionen] <satz1> [<satz2>]`<br />
 >**Erklärung:** Wandelt oder entfernt einzelne Zeichen aus einem Eingabestrom (translate).<br />
 >**Optionen:**<br />
@@ -234,7 +637,7 @@ cat datei.txt | tr -cd '0-9'        # nur die Ziffern behalten
 ---
 
 ### uniq
->**Funktion:** Aufeinanderfolgende doppelte Zeilen entfernen | Extern<br />
+>**Funktion:** Aufeinanderfolgende doppelte Zeilen entfernen<br />
 >**Syntax:** `uniq [optionen] [<datei>...]`<br />
 >**Erklärung:** Fasst direkt aufeinanderfolgende gleiche Zeilen zu einer zusammen. Da nur benachbarte Zeilen verglichen werden, ist die Datei vorher meist mit `sort` zu sortieren.<br />
 >**Optionen:**<br />
@@ -276,7 +679,7 @@ sort zugriffe.log | uniq -c | sort -nr   # häufigste Zeilen zuerst (Rangliste)
 ---
 
 ### wc
->**Funktion:** Zeilen, Wörter und Zeichen zählen | Extern<br />
+>**Funktion:** Zeilen, Wörter und Zeichen zählen<br />
 >**Syntax:** `wc [optionen] [<datei>...]`<br />
 >**Erklärung:** Zählt standardmäßig Zeilen, Wörter und Bytes einer Datei oder Eingabe (word count).<br />
 >**Optionen:**<br />
@@ -316,7 +719,7 @@ grep "fehler" log.txt | wc -l   # Anzahl der Treffer
 ---
 
 ### xargs
->**Funktion:** Eingabe in Argumente für einen anderen Befehl umwandeln | Extern<br />
+>**Funktion:** Eingabe in Argumente für einen anderen Befehl umwandeln<br />
 >**Syntax:** `xargs [optionen] [<befehl>]`<br />
 >**Erklärung:** Liest Elemente von der Standardeingabe und übergibt sie als Argumente an den angegebenen Befehl. Nützlich, wenn ein Befehl die Daten nicht über eine Pipe, sondern als Argumente erwartet (z. B. `rm`).<br />
 >**Optionen:**<br />

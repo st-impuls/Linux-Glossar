@@ -19,7 +19,7 @@
 # Paketverwaltung
 
 ### apt
->**Funktion:** Pakete installieren, aktualisieren und entfernen (Debian/Ubuntu) | Extern<br />
+>**Funktion:** Pakete installieren, aktualisieren und entfernen (Debian/Ubuntu)<br />
 >**Syntax:** `apt [optionen] <unterbefehl> [<paket>...]`<br />
 >**Erklärung:** Moderne, einheitliche Oberfläche zur Paketverwaltung auf Debian/Ubuntu. Die Aktionen laufen über Unterbefehle wie `install` oder `update`; schreibende Aktionen brauchen `sudo`.<br />
 >**Unterbefehle:**<br />
@@ -96,7 +96,7 @@ apt show git                   # Paketdetails anzeigen
 ---
 
 ### dpkg
->**Funktion:** Lokale `.deb`-Pakete verwalten (Debian/Ubuntu) | Extern<br />
+>**Funktion:** Lokale `.deb`-Pakete verwalten (Debian/Ubuntu)<br />
 >**Syntax:** `dpkg [optionen] <paket|datei>`<br />
 >**Erklärung:** Niedrigere Ebene als `apt`: installiert einzelne `.deb`-Dateien und fragt den Paketstatus ab. Löst keine Abhängigkeiten automatisch auf.<br />
 >**Optionen:**<br />
@@ -138,7 +138,7 @@ dpkg -S /usr/bin/git         # Paket zu einer Datei finden
 ---
 
 ### flatpak
->**Funktion:** Distributionsunabhängige Anwendungspakete verwalten | Extern<br />
+>**Funktion:** Distributionsunabhängige Anwendungspakete verwalten<br />
 >**Syntax:** `flatpak [optionen] <unterbefehl> [<app>...]`<br />
 >**Erklärung:** Installiert sandbox-isolierte Anwendungen, die unabhängig von der Distribution funktionieren – meist aus dem Flathub-Repository.<br />
 >**Unterbefehle:**<br />
@@ -181,7 +181,7 @@ flatpak uninstall org.gimp.GIMP         # Anwendung entfernen
 ---
 
 ### snap
->**Funktion:** Snap-Pakete verwalten (vor allem Ubuntu) | Extern<br />
+>**Funktion:** Snap-Pakete verwalten (vor allem Ubuntu)<br />
 >**Syntax:** `snap [optionen] <unterbefehl> [<paket>...]`<br />
 >**Erklärung:** Canonicals Paketformat: in sich geschlossene, automatisch aktualisierte Pakete aus dem Snap Store. Unter Ubuntu vorinstalliert.<br />
 >**Unterbefehle:**<br />

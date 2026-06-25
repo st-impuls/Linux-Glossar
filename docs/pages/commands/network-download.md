@@ -19,7 +19,7 @@
 # Netzwerk & Download
 
 ### curl
->**Funktion:** Daten von oder zu einem Server übertragen | Extern<br />
+>**Funktion:** Daten von oder zu einem Server übertragen<br />
 >**Syntax:** `curl [optionen] <url>`<br />
 >**Erklärung:** Ruft Daten über eine URL ab oder sendet sie; unterstützt viele Protokolle (HTTP, HTTPS, FTP u. a.). Standardmäßig wird die Ausgabe im Terminal angezeigt.<br />
 >**Optionen:**<br />
@@ -69,7 +69,7 @@ curl -X POST -d "name=max" https://example.com/api   # POST mit Daten senden
 ---
 
 ### dig
->**Funktion:** DNS-Informationen abfragen | Extern<br />
+>**Funktion:** DNS-Informationen abfragen<br />
 >**Syntax:** `dig [optionen] [@<server>] <name> [<typ>]`<br />
 >**Erklärung:** Fragt DNS-Server nach Einträgen zu einem Domainnamen ab (Domain Information Groper) und zeigt ausführliche, technische Antworten.<br />
 >**Optionen:**<br />
@@ -110,7 +110,7 @@ dig @1.1.1.1 example.com        # über einen bestimmten DNS-Server fragen
 ---
 
 ### host
->**Funktion:** DNS-Namen einfach auflösen | Extern<br />
+>**Funktion:** DNS-Namen einfach auflösen<br />
 >**Syntax:** `host [optionen] <name> [<server>]`<br />
 >**Erklärung:** Einfaches Werkzeug für DNS-Abfragen; liefert knappe, leicht lesbare Antworten.<br />
 >**Optionen:**<br />
@@ -147,7 +147,7 @@ host -a example.com         # alle Einträge anzeigen
 ---
 
 ### ip
->**Funktion:** Netzwerk-Adressen, -Routen und -Geräte verwalten | Extern<br />
+>**Funktion:** Netzwerk-Adressen, -Routen und -Geräte verwalten<br />
 >**Syntax:** `ip [optionen] <objekt> [befehl]`<br />
 >**Erklärung:** Zentrales, modernes Werkzeug zum Anzeigen und Konfigurieren von Netzwerkschnittstellen, IP-Adressen und Routen. Ersetzt das ältere `ifconfig`.<br />
 >**Verwendung:**<br />
@@ -189,7 +189,7 @@ sudo ip link set eth0 up              # Schnittstelle eth0 aktivieren
 ---
 
 ### nslookup
->**Funktion:** DNS-Namen auflösen (auch interaktiv) | Extern<br />
+>**Funktion:** DNS-Namen auflösen (auch interaktiv)<br />
 >**Syntax:** `nslookup [optionen] <name> [<server>]`<br />
 >**Erklärung:** Klassisches Werkzeug für DNS-Abfragen mit optionalem interaktivem Modus; auch unter Windows verfügbar.<br />
 >**Optionen:**<br />
@@ -224,7 +224,7 @@ nslookup                        # interaktiver Modus (Beenden mit `exit`)
 ---
 
 ### ping
->**Funktion:** Erreichbarkeit eines Hosts prüfen | Extern<br />
+>**Funktion:** Erreichbarkeit eines Hosts prüfen<br />
 >**Syntax:** `ping [optionen] <host>`<br />
 >**Erklärung:** Sendet ICMP-Pakete an einen Host und misst, ob und wie schnell er antwortet.<br />
 >**Optionen:**<br />
@@ -261,7 +261,7 @@ ping -c 4 -i 0.5 8.8.8.8    # 4 Pakete im Abstand von 0,5 s
 ---
 
 ### scp
->**Funktion:** Dateien sicher zwischen Rechnern kopieren | Extern<br />
+>**Funktion:** Dateien sicher zwischen Rechnern kopieren<br />
 >**Syntax:** `scp [optionen] <quelle> <ziel>`<br />
 >**Erklärung:** Kopiert Dateien über eine verschlüsselte SSH-Verbindung zwischen lokalem und entferntem Rechner (secure copy).<br />
 >**Optionen:**<br />
@@ -301,7 +301,7 @@ scp -P 2222 datei.txt user@host:/p  # über einen anderen Port
 ---
 
 ### ssh
->**Funktion:** Sicher auf einem entfernten Rechner anmelden | Extern<br />
+>**Funktion:** Sicher auf einem entfernten Rechner anmelden<br />
 >**Syntax:** `ssh [optionen] [<benutzer>@]<host> [befehl]`<br />
 >**Erklärung:** Baut eine verschlüsselte Verbindung zu einem entfernten Rechner auf und öffnet dort eine Shell oder führt einen Befehl aus (secure shell).<br />
 >**Optionen:**<br />
@@ -341,7 +341,7 @@ ssh -i ~/.ssh/id_ed25519 user@host  # bestimmten Schlüssel nutzen
 ---
 
 ### traceroute
->**Funktion:** Route der Pakete zu einem Host anzeigen | Extern<br />
+>**Funktion:** Route der Pakete zu einem Host anzeigen<br />
 >**Syntax:** `traceroute [optionen] <host>`<br />
 >**Erklärung:** Zeigt den Weg (die einzelnen Zwischenstationen, „Hops"), den Pakete bis zum Zielhost nehmen, samt Antwortzeiten.<br />
 >**Optionen:**<br />
@@ -378,7 +378,7 @@ traceroute -m 15 example.com    # höchstens 15 Hops verfolgen
 ---
 
 ### wget
->**Funktion:** Dateien aus dem Netz herunterladen | Extern<br />
+>**Funktion:** Dateien aus dem Netz herunterladen<br />
 >**Syntax:** `wget [optionen] <url>...`<br />
 >**Erklärung:** Lädt Dateien über HTTP, HTTPS oder FTP herunter und speichert sie standardmäßig unter ihrem ursprünglichen Namen. Funktioniert auch im Hintergrund und bei instabiler Verbindung.<br />
 >**Optionen:**<br />

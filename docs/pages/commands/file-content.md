@@ -19,7 +19,7 @@
 # Dateiinhalt anzeigen
 
 ### cat
->**Funktion:** Dateiinhalt anzeigen | Extern<br />
+>**Funktion:** Dateiinhalt anzeigen<br />
 >**Syntax:** `cat [optionen] [<datei>...]`<br />
 >**Erklärung:** Gibt den gesamten Inhalt einer Datei direkt im Terminal aus (concatenate).<br />
 >**Optionen:**<br />
@@ -59,7 +59,7 @@ cat > notiz.txt                 # Eingabe direkt in eine Datei schreiben (Abschl
 ---
 
 ### head
->**Funktion:** Anfang einer Datei anzeigen | Extern<br />
+>**Funktion:** Anfang einer Datei anzeigen<br />
 >**Syntax:** `head [optionen] [<datei>...]`<br />
 >**Erklärung:** Gibt standardmäßig die ersten 10 Zeilen einer Datei aus.<br />
 >**Optionen:**<br />
@@ -96,7 +96,7 @@ head -n 5 *.log             # die ersten 5 Zeilen jeder Logdatei
 ---
 
 ### less
->**Funktion:** Datei seitenweise anzeigen | Extern<br />
+>**Funktion:** Datei seitenweise anzeigen<br />
 >**Syntax:** `less [optionen] <datei>...`<br />
 >**Erklärung:** Öffnet eine Datei im Lesemodus; man kann vor- und zurückblättern. Beenden mit `q`.<br />
 >**Optionen:**<br />
@@ -166,7 +166,7 @@ head -n 5 *.log             # die ersten 5 Zeilen jeder Logdatei
 ---
 
 ### more
->**Funktion:** Datei seitenweise anzeigen (nur vorwärts) | Extern<br />
+>**Funktion:** Datei seitenweise anzeigen (nur vorwärts)<br />
 >**Syntax:** `more [optionen] <datei>...`<br />
 >**Erklärung:** Zeigt eine Datei schrittweise an. Im Gegensatz zu `less` kann nur vorwärts geblättert werden.<br />
 >**Optionen:**<br />
@@ -191,7 +191,7 @@ head -n 5 *.log             # die ersten 5 Zeilen jeder Logdatei
 ---
 
 ### tail
->**Funktion:** Ende einer Datei anzeigen | Extern<br />
+>**Funktion:** Ende einer Datei anzeigen<br />
 >**Syntax:** `tail [optionen] [<datei>...]`<br />
 >**Erklärung:** Gibt standardmäßig die letzten 10 Zeilen einer Datei aus.<br />
 >**Optionen:**<br />

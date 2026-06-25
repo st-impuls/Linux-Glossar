@@ -19,7 +19,7 @@
 # Datei- & Verzeichnisverwaltung
 
 ### cp
->**Funktion:** Dateien oder Ordner kopieren | Extern<br />
+>**Funktion:** Dateien oder Ordner kopieren<br />
 >**Syntax:** `cp [optionen] <quelle>... <ziel>`<br />
 >**Erklärung:** Kopiert Dateien oder Verzeichnisse an einen anderen Ort. Die letzte Angabe ist das Ziel; davor stehen eine oder mehrere Quellen.<br />
 >**Optionen:**<br />
@@ -67,7 +67,7 @@ cp -u *.txt /home/user/docs/    # nur neuere/fehlende Dateien aktualisieren
 ---
 
 ### mkdir
->**Funktion:** Neues Verzeichnis erstellen | Extern<br />
+>**Funktion:** Neues Verzeichnis erstellen<br />
 >**Syntax:** `mkdir [optionen] <verzeichnis>...`<br />
 >**Erklärung:** Erstellt einen oder mehrere neue Ordner.<br />
 >**Optionen:**<br />
@@ -103,7 +103,7 @@ mkdir -m 700 privat                  # Ordner nur für den Eigentümer zugängli
 ---
 
 ### mv
->**Funktion:** Dateien oder Ordner verschieben oder umbenennen | Extern<br />
+>**Funktion:** Dateien oder Ordner verschieben oder umbenennen<br />
 >**Syntax:** `mv [optionen] <quelle>... <ziel>`<br />
 >**Erklärung:** Verschiebt eine Datei bzw. einen Ordner an einen anderen Ort oder benennt sie um. Gibt es nur eine Quelle und das Ziel ist kein Verzeichnis, wird umbenannt; bei mehreren Quellen muss das Ziel ein Verzeichnis sein.<br />
 >**Optionen:**<br />
@@ -145,7 +145,7 @@ mv -t archiv/ a.txt b.txt c.txt # Ziel zuerst, dann mehrere Quellen
 ---
 
 ### rm
->**Funktion:** Dateien oder Verzeichnisse löschen | Extern<br />
+>**Funktion:** Dateien oder Verzeichnisse löschen<br />
 >**Syntax:** `rm [optionen] <datei>...`<br />
 >**Erklärung:** Löscht Dateien; mit `-r` auch ganze Verzeichnisse samt Inhalt.<br />
 >**Optionen:**<br />
@@ -188,7 +188,7 @@ rm -d leerer_ordner/        # leeres Verzeichnis löschen
 ---
 
 ### rmdir
->**Funktion:** Leeres Verzeichnis löschen | Extern<br />
+>**Funktion:** Leeres Verzeichnis löschen<br />
 >**Syntax:** `rmdir [optionen] <verzeichnis>...`<br />
 >**Erklärung:** Löscht ein Verzeichnis, aber nur wenn es **leer** ist. Enthält es noch Dateien oder Unterordner, bricht der Befehl mit einer Fehlermeldung ab.<br />
 >**Optionen:**<br />
@@ -223,7 +223,7 @@ rmdir -p projekt/quellcode/module   # verschachtelten, leeren Pfad komplett entf
 ---
 
 ### stat
->**Funktion:** Detaillierte Datei- oder Verzeichnisinformationen anzeigen | Extern<br />
+>**Funktion:** Detaillierte Datei- oder Verzeichnisinformationen anzeigen<br />
 >**Syntax:** `stat [optionen] <datei>...`<br />
 >**Erklärung:** Zeigt ausführliche Informationen zu einer Datei oder einem Verzeichnis an: Größe, Rechte, Besitzer, Inode und die Zeitstempel für Zugriff, Änderung und Statusänderung.<br />
 >**Optionen:**<br />
@@ -278,7 +278,7 @@ stat -f /home               # Informationen zum Dateisystem von /home
 ---
 
 ### touch
->**Funktion:** Neue Datei erstellen oder Zeitstempel ändern | Extern<br />
+>**Funktion:** Neue Datei erstellen oder Zeitstempel ändern<br />
 >**Syntax:** `touch [optionen] <datei>...`<br />
 >**Erklärung:** Erstellt eine leere Datei oder aktualisiert den Zeitstempel einer vorhandenen Datei auf die aktuelle Zeit.<br />
 >**Optionen:**<br />

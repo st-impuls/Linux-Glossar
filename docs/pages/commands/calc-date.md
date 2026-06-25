@@ -19,7 +19,7 @@
 # Rechnen & Datum
 
 ### bc
->**Funktion:** Rechner mit beliebiger Genauigkeit | Extern<br />
+>**Funktion:** Rechner mit beliebiger Genauigkeit<br />
 >**Syntax:** `bc [optionen] [<datei>...]`<br />
 >**Erklärung:** Wertet mathematische Ausdrücke aus – auch mit Nachkommastellen und sehr großen Zahlen. Im Kern eine kleine Programmiersprache mit Variablen, Schleifen und Funktionen. Liest aus der Eingabe (Pipe/Here-String) oder arbeitet interaktiv.<br />
 >**Optionen:**<br />
@@ -69,7 +69,7 @@ ergebnis=$(echo "5 * 5" | bc)    # Ergebnis in einer Variablen speichern
 ---
 
 ### date
->**Funktion:** Datum und Uhrzeit anzeigen oder setzen | Extern<br />
+>**Funktion:** Datum und Uhrzeit anzeigen oder setzen<br />
 >**Syntax:** `date [optionen] [+<format>]`<br />
 >**Erklärung:** Zeigt das aktuelle Datum und die Uhrzeit an; mit einem Format-String lässt sich die Ausgabe frei gestalten. Als Administrator kann auch die Systemzeit gesetzt werden.<br />
 >**Optionen:**<br />

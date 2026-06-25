@@ -19,7 +19,7 @@
 # Benutzer & Rechte
 
 ### adduser
->**Funktion:** Benutzer anlegen (Debian/Ubuntu) | Extern<br />
+>**Funktion:** Benutzer anlegen (Debian/Ubuntu)<br />
 >**Syntax:** `adduser [optionen] <benutzer> [<gruppe>]`<br />
 >**Erklärung:** Komfortables, interaktives Werkzeug zum Anlegen eines Benutzers oder zum Hinzufügen zu einer Gruppe; ein Perl-Skript auf Basis von `useradd`.<br />
 >**Optionen:**<br />
@@ -57,7 +57,7 @@ sudo adduser --system backupbot   # Systembenutzer anlegen
 ---
 
 ### chgrp
->**Funktion:** Gruppe einer Datei ändern | Extern<br />
+>**Funktion:** Gruppe einer Datei ändern<br />
 >**Syntax:** `chgrp [optionen] <gruppe> <datei>...`<br />
 >**Erklärung:** Ändert die Gruppenzugehörigkeit einer Datei oder eines Verzeichnisses (change group).<br />
 >**Optionen:**<br />
@@ -93,7 +93,7 @@ chgrp --reference=vorlage.txt datei.txt   # Gruppe von vorlage.txt übernehmen
 ---
 
 ### chmod
->**Funktion:** Zugriffsrechte ändern | Extern<br />
+>**Funktion:** Zugriffsrechte ändern<br />
 >**Syntax:** `chmod [optionen] <modus> <datei>...`<br />
 >**Erklärung:** Ändert die Berechtigungen (Lesen, Schreiben, Ausführen) einer Datei oder eines Ordners.<br />
 >**Optionen:**<br />
@@ -161,7 +161,7 @@ chmod -R 750 ordner/       # rekursiv für einen Ordner
 ---
 
 ### chown
->**Funktion:** Besitzer ändern | Extern<br />
+>**Funktion:** Besitzer ändern<br />
 >**Syntax:** `chown [optionen] <besitzer>[:<gruppe>] <datei>...`<br />
 >**Erklärung:** Ändert den Eigentümer und optional die Gruppe einer Datei oder eines Ordners.<br />
 >**Optionen:**<br />
@@ -198,7 +198,7 @@ sudo chown -R user:user ordner/    # rekursiv für einen Ordner
 ---
 
 ### deluser
->**Funktion:** Benutzer löschen (Debian/Ubuntu) | Extern<br />
+>**Funktion:** Benutzer löschen (Debian/Ubuntu)<br />
 >**Syntax:** `deluser [optionen] <benutzer> [<gruppe>]`<br />
 >**Erklärung:** Komfortables Werkzeug zum Entfernen eines Benutzers oder zum Entfernen aus einer Gruppe; ein Perl-Skript auf Basis von `userdel`.<br />
 >**Optionen:**<br />
@@ -235,7 +235,7 @@ sudo deluser max sudo              # nur aus der Gruppe sudo entfernen
 ---
 
 ### groupadd
->**Funktion:** Gruppe anlegen | Extern<br />
+>**Funktion:** Gruppe anlegen<br />
 >**Syntax:** `groupadd [optionen] <gruppe>`<br />
 >**Erklärung:** Legt eine neue Benutzergruppe im System an (Low-Level-Werkzeug).<br />
 >**Optionen:**<br />
@@ -270,7 +270,7 @@ sudo groupadd -r systemdienst   # Systemgruppe anlegen
 ---
 
 ### groupdel
->**Funktion:** Gruppe löschen | Extern<br />
+>**Funktion:** Gruppe löschen<br />
 >**Syntax:** `groupdel [optionen] <gruppe>`<br />
 >**Erklärung:** Entfernt eine bestehende Benutzergruppe aus dem System.<br />
 >**Optionen:**<br />
@@ -282,7 +282,7 @@ sudo groupadd -r systemdienst   # Systemgruppe anlegen
 ---
 
 ### groups
->**Funktion:** Gruppenzugehörigkeit anzeigen | Extern<br />
+>**Funktion:** Gruppenzugehörigkeit anzeigen<br />
 >**Syntax:** `groups [<benutzer>...]`<br />
 >**Erklärung:** Zeigt alle Gruppen an, denen der aktuelle oder ein angegebener Benutzer angehört.<br />
 >**Beispiel:** `groups user`
@@ -292,7 +292,7 @@ sudo groupadd -r systemdienst   # Systemgruppe anlegen
 ---
 
 ### id
->**Funktion:** Benutzer- und Gruppen-IDs anzeigen | Extern<br />
+>**Funktion:** Benutzer- und Gruppen-IDs anzeigen<br />
 >**Syntax:** `id [optionen] [<benutzer>]`<br />
 >**Erklärung:** Zeigt die UID, GID und die Gruppenzugehörigkeit des aktuellen oder eines angegebenen Benutzers an.<br />
 >**Optionen:**<br />
@@ -331,7 +331,7 @@ id -nG              # alle Gruppennamen des Benutzers
 ---
 
 ### passwd
->**Funktion:** Passwort ändern | Extern<br />
+>**Funktion:** Passwort ändern<br />
 >**Syntax:** `passwd [optionen] [<benutzer>]`<br />
 >**Erklärung:** Ändert das Passwort des eigenen Benutzers oder (als Administrator) eines anderen Benutzers.<br />
 >**Optionen:**<br />
@@ -369,7 +369,7 @@ sudo passwd -S max      # Status des Kontos anzeigen
 ---
 
 ### su
->**Funktion:** Benutzer wechseln | Extern<br />
+>**Funktion:** Benutzer wechseln<br />
 >**Syntax:** `su [optionen] [<benutzer>]`<br />
 >**Erklärung:** Startet eine Shell als anderer Benutzer, standardmäßig als `root` (substitute user).<br />
 >**Optionen:**<br />
@@ -418,7 +418,7 @@ su -c "apt update" root    # einen einzelnen Befehl als root ausführen
 ---
 
 ### sudo
->**Funktion:** Befehl mit Administratorrechten ausführen | Extern<br />
+>**Funktion:** Befehl mit Administratorrechten ausführen<br />
 >**Syntax:** `sudo [optionen] <befehl>`<br />
 >**Erklärung:** Führt einen einzelnen Befehl mit den Rechten eines anderen Benutzers aus, standardmäßig als `root` (superuser do).<br />
 >**Optionen:**<br />
@@ -457,7 +457,7 @@ sudo -l                     # eigene erlaubte Befehle anzeigen
 ---
 
 ### useradd
->**Funktion:** Benutzer anlegen | Extern<br />
+>**Funktion:** Benutzer anlegen<br />
 >**Syntax:** `useradd [optionen] <benutzername>`<br />
 >**Erklärung:** Legt ein neues Benutzerkonto an (Low-Level-Werkzeug).<br />
 >**Optionen:**<br />
@@ -497,7 +497,7 @@ sudo passwd max                     # danach das Passwort setzen
 ---
 
 ### userdel
->**Funktion:** Benutzer löschen | Extern<br />
+>**Funktion:** Benutzer löschen<br />
 >**Syntax:** `userdel [optionen] <benutzername>`<br />
 >**Erklärung:** Entfernt ein Benutzerkonto aus dem System (Low-Level-Werkzeug).<br />
 >**Optionen:**<br />
@@ -530,7 +530,7 @@ sudo userdel -r max     # Konto samt Home-Verzeichnis löschen
 ---
 
 ### usermod
->**Funktion:** Bestehendes Benutzerkonto ändern | Extern<br />
+>**Funktion:** Bestehendes Benutzerkonto ändern<br />
 >**Syntax:** `usermod [optionen] <benutzername>`<br />
 >**Erklärung:** Ändert die Eigenschaften eines vorhandenen Kontos – Name, Home-Verzeichnis, Shell, Gruppen oder Sperrstatus.<br />
 >**Optionen:**<br />
@@ -576,7 +576,7 @@ sudo usermod -L max                  # Konto sperren
 ---
 
 ### w
->**Funktion:** Angemeldete Benutzer und ihre Aktivität anzeigen | Extern<br />
+>**Funktion:** Angemeldete Benutzer und ihre Aktivität anzeigen<br />
 >**Syntax:** `w [optionen] [<benutzer>]`<br />
 >**Erklärung:** Zeigt, welche Benutzer angemeldet sind und welchen Prozess sie gerade ausführen, samt System-Auslastung.<br />
 >**Optionen:**<br />
@@ -600,7 +600,7 @@ sudo usermod -L max                  # Konto sperren
 ---
 
 ### who
->**Funktion:** Angemeldete Benutzer anzeigen | Extern<br />
+>**Funktion:** Angemeldete Benutzer anzeigen<br />
 >**Syntax:** `who [optionen]`<br />
 >**Erklärung:** Zeigt an, welche Benutzer aktuell am System angemeldet sind, samt Terminal und Anmeldezeit.<br />
 >**Optionen:**<br />
@@ -626,7 +626,7 @@ sudo usermod -L max                  # Konto sperren
 ---
 
 ### whoami
->**Funktion:** Eigenen Benutzernamen anzeigen | Extern<br />
+>**Funktion:** Eigenen Benutzernamen anzeigen<br />
 >**Syntax:** `whoami`<br />
 >**Erklärung:** Zeigt den effektiven Benutzernamen an, unter dem der aktuelle Prozess läuft.<br />
 >**Beispiel:** `whoami`

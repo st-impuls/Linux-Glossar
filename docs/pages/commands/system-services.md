@@ -19,7 +19,7 @@
 # System & Dienste
 
 ### df
->**Funktion:** Belegung der Dateisysteme anzeigen | Extern<br />
+>**Funktion:** Belegung der Dateisysteme anzeigen<br />
 >**Syntax:** `df [optionen] [<datei|mountpoint>...]`<br />
 >**Erklärung:** Zeigt den belegten und freien Speicherplatz der eingehängten Dateisysteme (disk free).<br />
 >**Optionen:**<br />
@@ -60,7 +60,7 @@ df -h /home    # Dateisystem, auf dem /home liegt
 ---
 
 ### du
->**Funktion:** Speicherverbrauch von Dateien und Verzeichnissen anzeigen | Extern<br />
+>**Funktion:** Speicherverbrauch von Dateien und Verzeichnissen anzeigen<br />
 >**Syntax:** `du [optionen] [<pfad>...]`<br />
 >**Erklärung:** Berechnet, wie viel Speicherplatz Dateien und Verzeichnisse belegen (disk usage).<br />
 >**Optionen:**<br />
@@ -102,7 +102,7 @@ du -ah . | sort -h | tail  # die größten Dateien/Ordner zuletzt
 ---
 
 ### free
->**Funktion:** Belegung des Arbeitsspeichers anzeigen | Extern<br />
+>**Funktion:** Belegung des Arbeitsspeichers anzeigen<br />
 >**Syntax:** `free [optionen]`<br />
 >**Erklärung:** Zeigt belegten und freien Arbeitsspeicher (RAM) sowie den Auslagerungsspeicher (Swap).<br />
 >**Optionen:**<br />
@@ -140,7 +140,7 @@ free -ht       # mit Gesamtsumme
 ---
 
 ### hostnamectl
->**Funktion:** Rechnernamen und Systeminformationen anzeigen/setzen | Extern<br />
+>**Funktion:** Rechnernamen und Systeminformationen anzeigen/setzen<br />
 >**Syntax:** `hostnamectl [optionen] [<unterbefehl>]`<br />
 >**Erklärung:** Zeigt den Hostnamen und grundlegende Systemdaten (OS, Kernel, Architektur) und kann den Hostnamen ändern.<br />
 >**Verwendung:**<br />
@@ -176,7 +176,7 @@ sudo hostnamectl set-hostname pc1   # Hostnamen dauerhaft ändern
 ---
 
 ### journalctl
->**Funktion:** Systemd-Protokoll (Journal) anzeigen | Extern<br />
+>**Funktion:** Systemd-Protokoll (Journal) anzeigen<br />
 >**Syntax:** `journalctl [optionen]`<br />
 >**Erklärung:** Zeigt die Logs, die der systemd-Journaldienst sammelt – vom Systemstart, von Diensten und vom Kernel.<br />
 >**Optionen:**<br />
@@ -221,7 +221,7 @@ journalctl -k                                          # Kernelmeldungen
 ---
 
 ### mount
->**Funktion:** Dateisysteme einhängen | Extern<br />
+>**Funktion:** Dateisysteme einhängen<br />
 >**Syntax:** `mount [optionen] <gerät> <mountpoint>`<br />
 >**Erklärung:** Bindet ein Dateisystem (z. B. Festplatte oder USB-Stick) an ein Verzeichnis ein. Ohne Argumente zeigt es die aktuell eingehängten Dateisysteme.<br />
 >**Optionen:**<br />
@@ -260,7 +260,7 @@ sudo mount -o loop image.iso /mnt  # ISO-Abbild einhängen
 ---
 
 ### reboot
->**Funktion:** System neu starten | Extern<br />
+>**Funktion:** System neu starten<br />
 >**Syntax:** `reboot [optionen]`<br />
 >**Erklärung:** Startet den Rechner neu. Entspricht weitgehend `systemctl reboot`.<br />
 >**Verwendung:**<br />
@@ -295,7 +295,7 @@ sudo shutdown -r now  # sofortiger Neustart (Alternative)
 ---
 
 ### service
->**Funktion:** Dienste starten, stoppen und steuern (klassisch) | Extern<br />
+>**Funktion:** Dienste starten, stoppen und steuern (klassisch)<br />
 >**Syntax:** `service <dienst> <aktion>`<br />
 >**Erklärung:** Älterer Befehl zum Steuern von Diensten (SysV-Init). Auf systemd-Systemen ein Wrapper, der an `systemctl` weiterreicht.<br />
 >**Verwendung:**<br />
@@ -334,7 +334,7 @@ service --status-all       # alle Dienste auflisten
 ---
 
 ### shutdown
->**Funktion:** System herunterfahren oder neu starten | Extern<br />
+>**Funktion:** System herunterfahren oder neu starten<br />
 >**Syntax:** `shutdown [optionen] [<zeit>] [<nachricht>]`<br />
 >**Erklärung:** Fährt das System geordnet herunter oder startet es neu – sofort oder zu einer geplanten Zeit.<br />
 >**Optionen:**<br />
@@ -374,7 +374,7 @@ sudo shutdown -c                # geplante Abschaltung abbrechen
 ---
 
 ### systemctl
->**Funktion:** Systemd-Dienste und das System steuern | Extern<br />
+>**Funktion:** Systemd-Dienste und das System steuern<br />
 >**Syntax:** `systemctl [optionen] <unterbefehl> [<dienst>]`<br />
 >**Erklärung:** Zentrales Werkzeug von systemd zum Starten, Stoppen, Aktivieren und Abfragen von Diensten (Units) sowie zum Steuern des Systemzustands.<br />
 >**Unterbefehle:**<br />
@@ -423,7 +423,7 @@ sudo systemctl daemon-reload                          # nach Änderung an Unit-D
 ---
 
 ### timedatectl
->**Funktion:** Datum, Uhrzeit und Zeitzone anzeigen/setzen | Extern<br />
+>**Funktion:** Datum, Uhrzeit und Zeitzone anzeigen/setzen<br />
 >**Syntax:** `timedatectl [optionen] [<unterbefehl>]`<br />
 >**Erklärung:** Zeigt und ändert die Systemzeit, die Zeitzone und die automatische Zeitsynchronisation (NTP).<br />
 >**Verwendung:**<br />
@@ -461,7 +461,7 @@ sudo timedatectl set-ntp true                 # Zeitsynchronisation aktivieren
 ---
 
 ### umount
->**Funktion:** Dateisysteme aushängen | Extern<br />
+>**Funktion:** Dateisysteme aushängen<br />
 >**Syntax:** `umount [optionen] <gerät|mountpoint>`<br />
 >**Erklärung:** Hängt ein zuvor eingehängtes Dateisystem wieder aus. Erst danach lässt sich z. B. ein USB-Stick sicher entfernen.<br />
 >**Optionen:**<br />
@@ -497,7 +497,7 @@ sudo umount -l /mnt     # verzögert aushängen (wenn noch in Benutzung)
 ---
 
 ### uname
->**Funktion:** Systeminformationen anzeigen | Extern<br />
+>**Funktion:** Systeminformationen anzeigen<br />
 >**Syntax:** `uname [optionen]`<br />
 >**Erklärung:** Gibt Informationen über das System und den Kernel aus (Kernelname, Version, Architektur).<br />
 >**Optionen:**<br />
@@ -537,7 +537,7 @@ uname -m   # Architektur (z. B. x86_64)
 ---
 
 ### uptime
->**Funktion:** Laufzeit und Systemlast anzeigen | Extern<br />
+>**Funktion:** Laufzeit und Systemlast anzeigen<br />
 >**Syntax:** `uptime [optionen]`<br />
 >**Erklärung:** Zeigt, wie lange das System bereits läuft, wie viele Benutzer angemeldet sind und die durchschnittliche Systemlast (load average).<br />
 >**Optionen:**<br />

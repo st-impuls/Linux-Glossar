@@ -19,7 +19,7 @@
 # Prozesse & Steuerung
 
 ### htop
->**Funktion:** Prozesse interaktiv anzeigen und verwalten | Extern<br />
+>**Funktion:** Prozesse interaktiv anzeigen und verwalten<br />
 >**Syntax:** `htop [optionen]`<br />
 >**Erklärung:** Interaktiver, farbiger Prozess-Monitor – komfortablere Alternative zu `top` mit Mausbedienung, Scrollen und Baumansicht.<br />
 >**Optionen:**<br />
@@ -153,7 +153,7 @@ kill -l              # alle Signale auflisten
 ---
 
 ### ps
->**Funktion:** Laufende Prozesse anzeigen (Momentaufnahme) | Extern<br />
+>**Funktion:** Laufende Prozesse anzeigen (Momentaufnahme)<br />
 >**Syntax:** `ps [optionen]`<br />
 >**Erklärung:** Zeigt eine Momentaufnahme der laufenden Prozesse. Ohne Optionen nur die Prozesse der aktuellen Shell.<br />
 >**Optionen:**<br />
@@ -197,7 +197,7 @@ ps aux | grep firefox        # nach einem Prozessnamen suchen
 ---
 
 ### sleep
->**Funktion:** Eine bestimmte Zeit warten | Extern<br />
+>**Funktion:** Eine bestimmte Zeit warten<br />
 >**Syntax:** `sleep <dauer>...`<br />
 >**Erklärung:** Pausiert für die angegebene Dauer. Praktisch in Skripten, um zwischen Schritten zu warten.<br />
 >**Verwendung:**<br />
@@ -236,7 +236,7 @@ while true; do date; sleep 60; done   # jede Minute die Uhrzeit ausgeben
 ---
 
 ### top
->**Funktion:** Prozesse und Systemlast laufend anzeigen | Extern<br />
+>**Funktion:** Prozesse und Systemlast laufend anzeigen<br />
 >**Syntax:** `top [optionen]`<br />
 >**Erklärung:** Zeigt fortlaufend aktualisiert die aktivsten Prozesse sowie die Auslastung von CPU, Speicher und System. Beenden mit `q`.<br />
 >**Optionen:**<br />
@@ -281,7 +281,7 @@ while true; do date; sleep 60; done   # jede Minute die Uhrzeit ausgeben
 ---
 
 ### watch
->**Funktion:** Einen Befehl wiederholt ausführen und die Ausgabe beobachten | Extern<br />
+>**Funktion:** Einen Befehl wiederholt ausführen und die Ausgabe beobachten<br />
 >**Syntax:** `watch [optionen] <befehl>`<br />
 >**Erklärung:** Führt den Befehl regelmäßig (Standard: alle 2 Sekunden) aus und zeigt die jeweils aktuelle Ausgabe im Vollbild. Beenden mit `Ctrl + C`.<br />
 >**Optionen:**<br />

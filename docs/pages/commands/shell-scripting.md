@@ -84,7 +84,7 @@ echo "hallo" | tr 'a-z' 'A-Z'   # Ausgabe an einen anderen Befehl weitergeben
 ---
 
 ### env
->**Funktion:** Umgebung anzeigen oder Befehl mit geänderter Umgebung starten | Extern<br />
+>**Funktion:** Umgebung anzeigen oder Befehl mit geänderter Umgebung starten<br />
 >**Syntax:** `env [optionen] [<name>=<wert>...] [<befehl>]`<br />
 >**Erklärung:** Ohne Argumente zeigt es alle Umgebungsvariablen. Mit Zuweisungen startet es einen Befehl mit zusätzlich oder geändert gesetzten Variablen.<br />
 >**Optionen:**<br />
