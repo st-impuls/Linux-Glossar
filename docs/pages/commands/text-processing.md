@@ -40,6 +40,9 @@
 | `'muster {aktion}'` | führt die Aktion nur bei passendem Muster aus |
 | `BEGIN {…}` / `END {…}` | Aktion vor der ersten / nach der letzten Zeile |
 | `-F <z>` | Feldtrennzeichen (z. B. `-F:` oder `-F','`) |
+| `-v <var>=<wert>` | setzt eine Variable vor dem Lauf |
+| `-f <datei>` | liest das awk-Programm aus einer Datei |
+| `--help` / `--version` | Hilfe / Version (gawk) |
 
 </details>
 
@@ -78,10 +81,15 @@ awk -F, '$3 > 100 {print $1}' daten.csv        # nach Feldwert filtern
 | Option | Wirkung |
 |---|---|
 | `-t`, `--table` | richtet die Eingabe als Tabelle aus |
-| `-s <z>`, `--separator <z>` | Eingabe-Trennzeichen (z. B. `-s:` oder `-s,`) |
+| `-s <z>`, `--separator <z>` | Eingabe-Trennzeichen, am besten in Anführungszeichen (z. B. `-s ','` oder `-s '.'`) |
 | `-o <z>`, `--output-separator <z>` | Trennzeichen der Ausgabe |
 | `-N <namen>`, `--table-columns` | Spaltenüberschriften (kommagetrennt) |
 | `-R <n>`, `--table-right` | richtet die Spalte(n) n rechtsbündig aus |
+| `-J`, `--json` | gibt die Tabelle im JSON-Format aus (erfordert `-N`) |
+| `-x`, `--fillrows` | füllt zuerst die Zeilen statt der Spalten |
+| `-c <breite>`, `--output-width <breite>` | begrenzt die Gesamtbreite der Ausgabe |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -97,14 +105,14 @@ column -t -s, daten.csv                    # CSV als Tabelle anzeigen
 
 </details>
 
->**Hinweis:** `column -t` ist praktisch am Ende einer Pipe, um unübersichtliche Ausgaben auszurichten. Standardmäßig trennt es an Leerzeichen; für andere Trenner `-s` verwenden.
+>**Hinweis:** `column -t` ist praktisch am Ende einer Pipe, um unübersichtliche Ausgaben auszurichten. Standardmäßig trennt es an Leerzeichen; für andere Trenner `-s` verwenden – das Trennzeichen am besten in Anführungszeichen setzen (`-s ','`, `-s '.'`), besonders bei Zeichen mit Sonderbedeutung in der Shell wie Leerzeichen, `;` oder `*`.
 
 ---
 
 ### comm
 >**Funktion:** Zwei sortierte Dateien zeilenweise vergleichen<br />
 >**Syntax:** `comm [optionen] <datei1> <datei2>`<br />
->**Erklärung:** Vergleicht zwei **sortierte** Dateien und gibt drei Spalten aus: nur in Datei 1, nur in Datei 2, in beiden.<br />
+>**Erklärung:** Vergleicht zwei **sortierte** Dateien und teilt die Zeilen auf drei Spalten auf: Spalte 1 = Zeilen, die **nur** in Datei 1 stehen (nicht in Datei 2); Spalte 2 = Zeilen, die **nur** in Datei 2 stehen; Spalte 3 = Zeilen, die in **beiden** Dateien vorkommen. Gemeinsame Zeilen erscheinen also nur in Spalte 3, nicht zusätzlich in Spalte 1 oder 2.<br />
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-1` blendet Spalte 1 aus (nur in Datei 1)<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-2` blendet Spalte 2 aus (nur in Datei 2)<br />
@@ -121,6 +129,12 @@ column -t -s, daten.csv                    # CSV als Tabelle anzeigen
 | `-3` | unterdrückt Spalte 3 (Zeilen in beiden) |
 | `-12` | zeigt nur die gemeinsamen Zeilen |
 | `--check-order` | bricht ab, wenn die Dateien nicht sortiert sind |
+| `--nocheck-order` | prüft die Sortierung nicht |
+| `--output-delimiter=<z>` | legt das Trennzeichen zwischen den Spalten fest |
+| `--total` | zeigt am Ende eine Zeile mit den Summen je Spalte |
+| `-z`, `--zero-terminated` | trennt Zeilen mit dem Nullbyte |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -163,6 +177,9 @@ comm <(sort a.txt) <(sort b.txt)  # unsortierte Dateien vorher sortieren
 | `--complement` | kehrt die Auswahl um (alles außer den gewählten Feldern) |
 | `-s`, `--only-delimited` | überspringt Zeilen ohne Trennzeichen |
 | `--output-delimiter=<z>` | legt ein eigenes Trennzeichen für die Ausgabe fest |
+| `-z`, `--zero-terminated` | trennt Zeilen mit dem Nullbyte statt Zeilenumbruch |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -204,6 +221,14 @@ cut -d "," -f 2- daten.csv         # ab dem 2. Feld bis zum Ende
 | `-r`, `--recursive` | vergleicht Verzeichnisse rekursiv |
 | `-q`, `--brief` | meldet nur, ob sich die Dateien unterscheiden |
 | `-y`, `--side-by-side` | stellt beide Dateien nebeneinander dar |
+| `-b`, `--ignore-space-change` | ignoriert Änderungen in der Menge der Leerzeichen |
+| `-B`, `--ignore-blank-lines` | ignoriert hinzugefügte/entfernte Leerzeilen |
+| `-N`, `--new-file` | behandelt eine fehlende Datei als leer |
+| `-a`, `--text` | behandelt alle Dateien als Text |
+| `--color[=<wann>]` | hebt Unterschiede farblich hervor |
+| `-s`, `--report-identical-files` | meldet auch, wenn Dateien gleich sind |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -252,6 +277,15 @@ diff -u alt.txt neu.txt > aenderung.patch     # Unterschiede als Patch speichern
 | `-E`, `--extended-regexp` | erweiterte reguläre Ausdrücke (`grep -E` = `egrep`) |
 | `-A <n>` / `-B <n>` / `-C <n>` | zeigt n Zeilen nach / vor / um den Treffer |
 | `--color=auto` | hebt die Treffer farblich hervor |
+| `-F`, `--fixed-strings` | sucht nach festem Text statt regulärem Ausdruck (`fgrep`) |
+| `-P`, `--perl-regexp` | nutzt Perl-kompatible reguläre Ausdrücke |
+| `-f <datei>`, `--file=<datei>` | liest die Suchmuster aus einer Datei |
+| `-x`, `--line-regexp` | findet nur Zeilen, die komplett passen |
+| `-m <n>`, `--max-count=<n>` | hört nach n Treffern je Datei auf |
+| `--include=<muster>` / `--exclude=<muster>` | beschränkt die durchsuchten Dateien |
+| `-q`, `--quiet` | gibt nichts aus, nur Erfolg/Misserfolg im Status |
+| `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -302,6 +336,11 @@ grep -E "\.(jpg|png|gif)$" liste.txt    # Zeilen, die auf .jpg, .png oder .gif e
 | `-a <n>` | gibt auch Zeilen ohne Treffer aus Datei n aus (wie ein outer join) |
 | `-o <format>` | legt fest, welche Felder ausgegeben werden |
 | `-i` | ignoriert Groß-/Kleinschreibung beim Vergleich |
+| `-v <n>` | gibt nur Zeilen ohne Partner aus Datei n aus |
+| `-e <text>` | ersetzt fehlende Felder durch den angegebenen Text |
+| `--header` | behandelt die erste Zeile jeder Datei als Kopfzeile |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -342,6 +381,12 @@ join <(sort a.txt) <(sort b.txt)  # unsortierte Dateien vorher sortieren
 | `-s <z>`, `--number-separator=<z>` | Trennzeichen zwischen Nummer und Text |
 | `-v <n>` | Startnummer |
 | `-i <n>` | Schrittweite |
+| `-h <stil>`, `--header-numbering=<stil>` | Nummerierung für den Kopfbereich |
+| `-f <stil>`, `--footer-numbering=<stil>` | Nummerierung für den Fußbereich |
+| `-d <z>`, `--section-delimiter=<z>` | Kennzeichen für einen Abschnittswechsel |
+| `-p`, `--no-renumber` | zählt über Abschnitte hinweg weiter |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -378,6 +423,8 @@ nl -ba -nrz -w3 skript.sh    # mit führenden Nullen (001, 002, …)
 | `-d <z>`, `--delimiters=<z>` | Trennzeichen statt Tabulator (z. B. `-d,`) |
 | `-s`, `--serial` | verbindet die Zeilen je Datei zu einer Zeile |
 | `-z`, `--zero-terminated` | trennt mit Null-Byte statt Zeilenumbruch |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -420,6 +467,11 @@ paste - - < datei.txt        # je zwei Zeilen nebeneinander legen
 | `-i`, `--in-place` | bearbeitet die Datei direkt (mit `-i.bak` = Sicherung) |
 | `-E`, `-r` | erweiterte reguläre Ausdrücke |
 | `-e <befehl>` | mehrere Befehle hintereinander angeben |
+| `-f <datei>`, `--file=<datei>` | liest die Befehle aus einer Datei |
+| `-s`, `--separate` | behandelt mehrere Dateien getrennt statt als einen Strom |
+| `-z`, `--null-data` | trennt Zeilen mit dem Nullbyte |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -465,6 +517,14 @@ echo "Hallo Welt" | sed 's/Welt/Linux/'  # in einer Pipe
 | `-h`, `--human-numeric-sort` | sortiert lesbare Größen (z. B. `2K`, `1M`, `3G`) |
 | `-f`, `--ignore-case` | ignoriert Groß-/Kleinschreibung |
 | `-o <datei>`, `--output=<datei>` | schreibt das Ergebnis in eine Datei |
+| `-b`, `--ignore-leading-blanks` | ignoriert führende Leerzeichen |
+| `-c`, `--check` | prüft nur, ob bereits sortiert ist |
+| `-m`, `--merge` | führt bereits sortierte Dateien zusammen |
+| `-s`, `--stable` | stabile Sortierung (Reihenfolge gleicher Zeilen bleibt) |
+| `-V`, `--version-sort` | sortiert Versionsnummern natürlich (`v2` vor `v10`) |
+| `-z`, `--zero-terminated` | trennt Zeilen mit dem Nullbyte |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -506,6 +566,11 @@ sort -t ":" -k 3 -n /etc/passwd # nach 3. Feld (UID) numerisch sortieren
 | `-d`, `--numeric-suffixes` | numerische Endungen (00, 01, …) statt aa, ab |
 | `-a <n>`, `--suffix-length=<n>` | Länge der Endung |
 | `--additional-suffix=<z>` | hängt eine feste Endung an (z. B. `.txt`) |
+| `-C <größe>`, `--line-bytes=<größe>` | je Teil höchstens diese Größe, aber an Zeilengrenzen |
+| `-e`, `--elide-empty-files` | erzeugt keine leeren Teildateien |
+| `--verbose` | meldet jede erstellte Datei |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -543,6 +608,8 @@ cat teil_* > wiederhergestellt.txt  # Teile wieder zusammenfügen
 | `-s <z>`, `--separator=<z>` | verwendet z als Zeilentrenner statt des Zeilenumbruchs |
 | `-r`, `--regex` | interpretiert den Trenner als regulären Ausdruck |
 | `-b`, `--before` | setzt den Trenner vor statt nach den Abschnitt |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -578,6 +645,8 @@ who | tac            # Ausgabe einer Pipe umkehren
 | `-a`, `--append` | hängt an die Datei(en) an, statt sie zu überschreiben |
 | `-i`, `--ignore-interrupts` | ignoriert das Unterbrechungssignal (`Ctrl + C`) |
 | `-p` | bricht bei Schreibfehlern in Pipes weniger streng ab |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -616,6 +685,8 @@ echo "wert" | sudo tee /proc/sys/datei  # mit sudo in eine geschützte Datei sch
 | `-s`, `--squeeze-repeats` | fasst wiederholte Zeichen zu einem zusammen |
 | `-c`, `--complement` | wirkt auf alle Zeichen **außer** den angegebenen |
 | `-t`, `--truncate-set1` | kürzt Satz 1 auf die Länge von Satz 2 |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -658,6 +729,11 @@ cat datei.txt | tr -cd '0-9'        # nur die Ziffern behalten
 | `-f <n>`, `--skip-fields=<n>` | überspringt beim Vergleich die ersten n Felder |
 | `-s <n>`, `--skip-chars=<n>` | überspringt beim Vergleich die ersten n Zeichen |
 | `-w <n>`, `--check-chars=<n>` | vergleicht nur die ersten n Zeichen je Zeile |
+| `-D` | zeigt alle doppelten Zeilen, nicht nur eine je Gruppe |
+| `--group` | zeigt alle Zeilen, Gruppen durch eine Leerzeile getrennt |
+| `-z`, `--zero-terminated` | trennt Zeilen mit dem Nullbyte |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -698,6 +774,8 @@ sort zugriffe.log | uniq -c | sort -nr   # häufigste Zeilen zuerst (Rangliste)
 | `-c`, `--bytes` | zählt nur die Bytes |
 | `-m`, `--chars` | zählt nur die Zeichen (bei UTF-8 nicht identisch mit den Bytes) |
 | `-L`, `--max-line-length` | gibt die Länge der längsten Zeile aus |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -741,6 +819,11 @@ grep "fehler" log.txt | wc -l   # Anzahl der Treffer
 | `-r`, `--no-run-if-empty` | führt den Befehl bei leerer Eingabe nicht aus |
 | `-P <n>`, `--max-procs=<n>` | führt bis zu n Aufrufe parallel aus |
 | `-t`, `--verbose` | zeigt den jeweils ausgeführten Befehl an |
+| `-a <datei>`, `--arg-file=<datei>` | liest die Elemente aus einer Datei statt von der Standardeingabe |
+| `-L <n>`, `--max-lines=<n>` | höchstens n Eingabezeilen pro Befehlsaufruf |
+| `-s <n>`, `--max-chars=<n>` | begrenzt die Länge der Befehlszeile auf n Zeichen |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 

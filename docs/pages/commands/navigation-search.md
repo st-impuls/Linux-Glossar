@@ -36,6 +36,7 @@
 | `-L` | folgt symbolischen Links, zeigt den logischen Pfad (Standard) |
 | `-P` | nutzt den physischen Pfad und löst symbolische Links auf |
 | `-e` | gibt mit `-P` einen Fehlerstatus zurück, wenn das Arbeitsverzeichnis nicht ermittelt werden kann |
+| `-@` | stellt eine Datei mit erweiterten Attributen als Verzeichnis dar (selten unterstützt) |
 
 </details>
 
@@ -81,9 +82,20 @@ cd projekt/quellcode    # relativer Pfad
 | `-user <name>` | Dateien eines bestimmten Besitzers |
 | `-perm <modus>` | Dateien mit bestimmten Rechten |
 | `-maxdepth <n>` | begrenzt die Suchtiefe auf n Ebenen |
+| `-mindepth <n>` | beginnt erst ab Tiefe n zu durchsuchen |
+| `-path <muster>` | sucht im gesamten Pfad statt nur im Namen (`-ipath` ohne Groß-/Kleinschreibung) |
+| `-regex <muster>` | sucht im gesamten Pfad per regulärem Ausdruck |
+| `-newer <datei>` | findet Dateien, die neuer sind als die Vergleichsdatei |
 | `-empty` | findet leere Dateien und Verzeichnisse |
 | `-delete` | löscht die gefundenen Dateien |
+| `-print0` | trennt die Treffer mit dem Nullbyte (gut für `xargs -0`) |
+| `-ls` | zeigt die Treffer im `ls -l`-Format an |
 | `-exec <befehl> {} \;` | führt für jeden Treffer einen Befehl aus (`{}` = Trefferpfad) |
+| `-exec <befehl> {} +` | wie `\;`, übergibt aber mehrere Treffer gebündelt an einen Aufruf |
+| `! <test>`, `-not <test>` | negiert einen Test |
+| `<test1> -o <test2>` | ODER-Verknüpfung (`-a` = UND, ist Standard) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -125,8 +137,18 @@ find . -name "*.log" -exec rm {} \;   # für jeden Treffer rm ausführen
 | `-l <n>`, `--limit <n>` | begrenzt die Ausgabe auf n Treffer |
 | `-b`, `--basename` | sucht nur im Dateinamen, nicht im ganzen Pfad |
 | `-e`, `--existing` | zeigt nur Dateien, die derzeit wirklich existieren |
-| `-r <regex>`, `--regexp <regex>` | sucht mit einem regulären Ausdruck |
+| `-r <regex>`, `--regexp <regex>` | sucht mit einem regulären Ausdruck (Basic Regex) |
+| `--regex` | interpretiert die Muster als erweiterte reguläre Ausdrücke |
 | `-S`, `--statistics` | zeigt Statistiken zur Datenbank an |
+| `-A`, `--all` | zeigt nur Treffer, die auf **alle** Muster passen |
+| `-w`, `--wholename` | sucht im ganzen Pfad (Standard, Gegenstück zu `-b`) |
+| `-0`, `--null` | trennt die Treffer mit dem Nullbyte (gut für `xargs -0`) |
+| `-d <pfad>`, `--database <pfad>` | nutzt eine andere Datenbankdatei |
+| `-L`, `--follow` | folgt bei `-e` symbolischen Links (Standard) |
+| `-P`, `--nofollow` | folgt bei `-e` symbolischen Links nicht |
+| `-q`, `--quiet` | unterdrückt Fehlermeldungen |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -173,7 +195,15 @@ locate -b "\bash"           # nur Treffer im Dateinamen
 | `-1` | ein Eintrag pro Zeile |
 | `-i`, `--inode` | zeigt die Inode-Nummer an |
 | `-F`, `--classify` | hängt Typkennzeichen an (`/` Ordner, `*` ausführbar, `@` Link) |
+| `-p` | hängt nur an Verzeichnisse ein `/` an |
+| `-o` | wie `-l`, aber ohne die Gruppenspalte |
+| `-g` | wie `-l`, aber ohne die Besitzerspalte |
+| `-Q`, `--quote-name` | setzt Dateinamen in Anführungszeichen |
+| `--group-directories-first` | listet Verzeichnisse vor Dateien |
+| `--time-style=<stil>` | legt das Format der Zeitangabe fest (z. B. `long-iso`, `full-iso`) |
 | `--color=auto` | hebt Dateitypen farblich hervor |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -234,6 +264,15 @@ ls -d */                # nur Verzeichnisse anzeigen
 | `-P <muster>` | zeigt nur Einträge, die zum Muster passen |
 | `-C` | erzwingt farbige Ausgabe |
 | `--du` | summiert die Größen je Verzeichnis auf |
+| `-p` | zeigt die Zugriffsrechte vor jedem Eintrag |
+| `-u` | zeigt den Besitzer jedes Eintrags |
+| `-g` | zeigt die Gruppe jedes Eintrags |
+| `-D` | zeigt das Datum der letzten Änderung |
+| `--dirsfirst` | listet Verzeichnisse vor Dateien |
+| `-x` | bleibt innerhalb desselben Dateisystems |
+| `-J` | gibt die Struktur im JSON-Format aus |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -252,6 +291,48 @@ tree -h /var/log            # mit lesbaren Dateigrößen
 </details>
 
 >**Hinweis:** `tree` ist oft nicht vorinstalliert und muss ggf. nachinstalliert werden, z. B. mit `sudo apt install tree`.
+
+---
+
+### updatedb
+>**Funktion:** Datenbank für `locate` aktualisieren<br />
+>**Syntax:** `updatedb [optionen]`<br />
+>**Erklärung:** Durchsucht das Dateisystem und baut die Datenbank neu auf, aus der `locate` seine Treffer liest. Erst danach findet `locate` neu angelegte Dateien.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-v` zeigt die indexierten Dateien an (verbose)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-o <datei>` schreibt die Datenbank in eine andere Datei (output)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-U <pfad>` indexiert nur unterhalb des angegebenen Pfades<br />
+>**Beispiel:** `sudo updatedb`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-v`, `--verbose` | zeigt die indexierten Dateien an |
+| `-o <datei>`, `--output <datei>` | schreibt die Datenbank in eine andere Datei |
+| `-U <pfad>`, `--database-root <pfad>` | indexiert nur unterhalb des angegebenen Pfades |
+| `-e <pfade>`, `--prunepaths <pfade>` | schließt bestimmte Pfade von der Indexierung aus |
+| `-f <fs>`, `--add-prunefs <fs>` | schließt zusätzliche Dateisystemtypen von der Indexierung aus |
+| `-n <namen>`, `--add-prunenames <namen>` | schließt zusätzliche Verzeichnisnamen aus |
+| `-l <0\|1>`, `--require-visibility` | berücksichtigt bei der Ausgabe die Dateirechte |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo updatedb                       # ganze Datenbank neu aufbauen
+sudo updatedb -v                    # dabei die indexierten Dateien anzeigen
+sudo updatedb -U /home/user -o ~/meine.db  # nur ein Verzeichnis in eigene DB
+```
+
+</details>
+
+>**Hinweis:** Erfordert meist `sudo`. Welche Pfade dauerhaft ausgeschlossen werden, steht in `/etc/updatedb.conf` (`PRUNEPATHS`, `PRUNEFS`). Auf vielen Systemen läuft `updatedb` automatisch per `cron`/Timer, sodass ein manueller Aufruf nur nötig ist, wenn `locate` etwas Neues nicht findet. Gehört zum selben Paket wie `locate` (`mlocate` bzw. `plocate`).
 
 ---
 
@@ -275,6 +356,11 @@ tree -h /var/log            # mit lesbaren Dateigrößen
 | `-u` | zeigt nur Einträge mit ungewöhnlicher Anzahl Treffer |
 | `-B <verz>` | begrenzt die Suche nach Binaries auf bestimmte Verzeichnisse |
 | `-M <verz>` | begrenzt die Suche nach Manpages auf bestimmte Verzeichnisse |
+| `-S <verz>` | begrenzt die Suche nach Quelldateien auf bestimmte Verzeichnisse |
+| `-f` | beendet die Verzeichnisliste von `-B`/`-M`/`-S` (danach folgen die Namen) |
+| `-l` | zeigt die tatsächlich durchsuchten Verzeichnisse an |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -290,5 +376,48 @@ whereis -m passwd       # nur die Manpage(s)
 </details>
 
 >**Hinweis:** Verwandt sind `which` (zeigt nur den Pfad zum Programm) und `find` (sucht beliebige Dateien). `whereis` durchsucht nur feste Standardverzeichnisse und ist daher sehr schnell.
+
+---
+
+### which
+>**Funktion:** Pfad zur ausführbaren Datei eines Befehls anzeigen<br />
+>**Syntax:** `which [optionen] <name>...`<br />
+>**Erklärung:** Durchsucht die Verzeichnisse aus `PATH` und gibt aus, welche Programmdatei beim Aufruf des Befehls tatsächlich ausgeführt würde.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-a` zeigt alle Treffer in `PATH`, nicht nur den ersten (all)<br />
+>**Beispiel:** `which python3`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-a`, `--all` | zeigt alle Treffer in `PATH`, nicht nur den ersten |
+| `-i`, `--read-alias` | liest Aliase von der Standardeingabe und berücksichtigt sie |
+| `--skip-alias` | ignoriert Aliase (auch bei `--read-alias`) |
+| `--read-functions` | liest Shell-Funktionen von der Standardeingabe |
+| `--skip-functions` | ignoriert Shell-Funktionen |
+| `--skip-dot` | überspringt `PATH`-Einträge, die mit `.` beginnen |
+| `--skip-tilde` | überspringt `PATH`-Einträge, die mit `~` beginnen |
+| `--show-dot` | zeigt `./`, wenn das Programm im Arbeitsverzeichnis liegt |
+| `--show-tilde` | kürzt das Home-Verzeichnis zu `~` |
+| `--tty-only` | wertet die `--skip-*`/`--show-*`-Optionen nur aus, wenn die Ausgabe ein Terminal ist |
+| `--help` | zeigt die Hilfe an |
+| `--version`, `-v`, `-V` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+which ls                # Pfad zum zuerst gefundenen Programm
+which -a python3        # alle python3 in PATH (z. B. /usr/bin und /usr/local/bin)
+which git || echo fehlt # im Skript prüfen, ob ein Programm vorhanden ist
+```
+
+</details>
+
+>**Hinweis:** `which` kennt nur externe Programme in `PATH` – Aliase, Funktionen und Shell-Builtins erkennt es nicht. Dafür ist das Builtin `type` zuverlässiger (es zeigt auch Aliase und Builtins an). `whereis` findet zusätzlich Manpage und Quellcode.
 
 ---

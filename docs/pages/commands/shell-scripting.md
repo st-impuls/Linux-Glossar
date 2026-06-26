@@ -25,6 +25,7 @@
 >**Verwendung:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`alias` listet alle Aliase auf<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`alias <name>='<befehl>'` legt einen Alias an<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`alias -p` gibt alle Aliase in wiederverwendbarer Form aus<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`unalias <name>` entfernt einen Alias<br />
 >**Beispiel:** `alias ll='ls -la'`
 
@@ -100,6 +101,11 @@ echo "hallo" | tr 'a-z' 'A-Z'   # Ausgabe an einen anderen Befehl weitergeben
 | `-i`, `--ignore-environment` | startet mit komplett leerer Umgebung |
 | `-u <name>`, `--unset=<name>` | entfernt die Variable für diesen Aufruf |
 | `-C <verz>`, `--chdir=<verz>` | wechselt vor dem Start ins angegebene Verzeichnis |
+| `-0`, `--null` | trennt die Ausgabe mit dem Nullbyte statt mit Zeilenumbruch |
+| `-S <text>`, `--split-string=<text>` | zerlegt einen String in mehrere Argumente (für die Shebang-Zeile) |
+| `-v`, `--debug` | zeigt jeden Verarbeitungsschritt an |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -136,6 +142,7 @@ env -i bash          # Shell mit leerer Umgebung starten
 |---|---|
 | `-p` | listet alle exportierten Variablen auf |
 | `-n <name>` | hebt den Export auf (Variable bleibt lokal in der Shell) |
+| `-f <name>` | exportiert eine Funktion statt einer Variablen |
 
 </details>
 
@@ -173,6 +180,10 @@ export -p                      # alle exportierten Variablen anzeigen
 | `-d <n>` | löscht den Eintrag mit der Nummer n |
 | `-w` | schreibt den Verlauf in die History-Datei |
 | `-a` | hängt die neuen Zeilen an die History-Datei an |
+| `-r` | liest die History-Datei und hängt sie an den Verlauf an |
+| `-n` | liest nur die noch nicht gelesenen Zeilen der History-Datei |
+| `-p <text>` | führt die History-Expansion aus, ohne etwas zu speichern |
+| `-s <text>` | fügt die Argumente als einen Eintrag in den Verlauf ein |
 
 </details>
 
@@ -214,6 +225,15 @@ history -c    # Verlauf der Sitzung löschen
 >&nbsp;&nbsp;&nbsp;&nbsp;`%s` Zeichenkette, `%d` ganze Zahl, `%f` Kommazahl<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`\n` Zeilenumbruch, `\t` Tabulator<br />
 >**Beispiel:** `printf "%s ist %d Jahre alt\n" Max 30`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-v <variable>` | schreibt die Ausgabe in eine Variable statt auf die Standardausgabe |
+
+</details>
 
 <details markdown>
 <summary>Format-Platzhalter</summary>
@@ -268,6 +288,10 @@ printf "%d\n" {1..3}              # Format wird je Argument wiederholt
 | `-a <array>` | liest die Wörter in ein Array |
 | `-r` | interpretiert `\` nicht als Escape (empfohlen) |
 | `-d <zeichen>` | liest bis zum angegebenen Zeichen statt bis zum Zeilenende |
+| `-e` | nutzt die Readline-Bearbeitung (Pfeiltasten, Vervollständigung) |
+| `-i <text>` | setzt einen Vorgabetext (nur zusammen mit `-e`) |
+| `-N <z>` | liest genau z Zeichen, ohne an Leerzeichen zu trennen |
+| `-u <fd>` | liest aus dem angegebenen Dateideskriptor statt von der Tastatur |
 
 </details>
 
@@ -308,6 +332,11 @@ while read -r zeile; do echo "$zeile"; done < datei.txt   # Datei zeilenweise le
 | `-u` (`-o nounset`) | unbekannte Variablen lösen einen Fehler aus |
 | `-x` (`-o xtrace`) | gibt jeden Befehl vor der Ausführung aus (Debugging) |
 | `-o pipefail` | eine Pipe gilt als fehlgeschlagen, sobald ein Teil fehlschlägt |
+| `-a` (`-o allexport`) | exportiert automatisch alle neu gesetzten Variablen |
+| `-f` (`-o noglob`) | schaltet die Dateinamen-Expansion (Globbing) ab |
+| `-C` (`-o noclobber`) | verhindert das Überschreiben von Dateien mit `>` |
+| `-n` (`-o noexec`) | liest die Befehle nur, ohne sie auszuführen (Syntaxprüfung) |
+| `-v` (`-o verbose`) | gibt die Eingabezeilen beim Lesen aus |
 | `+e`, `+x` … | schaltet die jeweilige Option wieder aus |
 
 </details>
@@ -375,6 +404,10 @@ source funktionen.sh        # Funktionen in die aktuelle Shell laden
 | `-n <text>` | Zeichenkette nicht leer ist |
 | `<a> = <b>` / `<a> != <b>` | Zeichenketten (un)gleich |
 | `<a> -eq <b>` | Zahlen gleich (auch `-ne`, `-lt`, `-le`, `-gt`, `-ge`) |
+| `-r`/`-w`/`-x <datei>` | Datei ist les-/schreib-/ausführbar |
+| `-s <datei>` | Datei existiert und ist nicht leer |
+| `-L <pfad>` | Pfad ist ein symbolischer Link |
+| `<a> -nt <b>` / `<a> -ot <b>` | Datei a ist neuer / älter als b |
 
 </details>
 
@@ -427,6 +460,7 @@ test 5 -lt 9 && echo "kleiner"
 | `trap '' <signal>` | ignoriert das Signal (leerer Befehl) |
 | `trap - <signal>` | stellt das Standardverhalten wieder her |
 | `trap -p` | listet die aktuell gesetzten Handler auf |
+| `trap -l` | listet alle Signalnamen mit Nummern auf |
 
 </details>
 
@@ -465,6 +499,8 @@ trap -p                                # gesetzte Handler anzeigen
 | `-a`, `--all` | zeigt alle passenden Fundstellen (Alias, Builtin, Datei) |
 | `-t` | gibt nur die Art aus (`alias`, `builtin`, `function`, `file`) |
 | `-p` | gibt nur den Pfad eines externen Programms aus |
+| `-P` | sucht ausschließlich im `PATH`, auch wenn ein Builtin/Alias existiert |
+| `-f` | ignoriert Shell-Funktionen bei der Suche |
 
 </details>
 
@@ -492,6 +528,17 @@ type -p git   # /usr/bin/git
 >&nbsp;&nbsp;&nbsp;&nbsp;`-v <name>` entfernt eine Variable (Standard)<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-f <name>` entfernt eine Funktion<br />
 >**Beispiel:** `unset name`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-v <name>` | entfernt eine Variable (Standard) |
+| `-f <name>` | entfernt eine Funktion |
+| `-n <name>` | entfernt einen Namensverweis (nameref), nicht dessen Ziel |
+
+</details>
 
 <details markdown>
 <summary>Weitere Beispiele</summary>

@@ -38,6 +38,11 @@
 | `-E`, `--show-ends` | zeigt am Zeilenende ein `$` an |
 | `-T`, `--show-tabs` | zeigt Tabulatoren als `^I` an |
 | `-A`, `--show-all` | zeigt alle Sonderzeichen sichtbar an (entspricht `-vET`) |
+| `-v`, `--show-nonprinting` | zeigt nicht druckbare Zeichen sichtbar an (außer Tab/Zeilenende) |
+| `-e` | entspricht `-vE` (Sonderzeichen + `$` am Zeilenende) |
+| `-t` | entspricht `-vT` (Sonderzeichen + Tabs als `^I`) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -76,6 +81,9 @@ cat > notiz.txt                 # Eingabe direkt in eine Datei schreiben (Abschl
 | `-c <n>`, `--bytes=<n>` | zeigt die ersten n Bytes an |
 | `-q`, `--quiet` | unterdrückt die Dateinamen-Kopfzeilen bei mehreren Dateien |
 | `-v`, `--verbose` | zeigt immer die Dateinamen-Kopfzeile an |
+| `-z`, `--zero-terminated` | trennt Zeilen mit dem Nullbyte statt mit Zeilenumbruch |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -123,6 +131,8 @@ head -n 5 *.log             # die ersten 5 Zeilen jeder Logdatei
 - `+F` startet direkt im Folgemodus (wie `tail -f`)
 - `+<n>` startet bei Zeile n (z. B. `+100`)
 - `+/<muster>` springt direkt zur ersten Fundstelle
+- `-?`, `--help` zeigt die Hilfe an
+- `-V`, `--version` zeigt die Version an
 
 </details>
 
@@ -175,6 +185,23 @@ head -n 5 *.log             # die ersten 5 Zeilen jeder Logdatei
 >**Beispiel:** `more datei.txt`
 
 <details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-d`, `--silent` | zeigt eine Bedienhilfe an, statt einen Signalton auszugeben |
+| `-s`, `--squeeze` | fasst mehrere Leerzeilen zu einer zusammen |
+| `-p`, `--print-over` | löscht den Bildschirm vor der Anzeige (kein Scrollen) |
+| `-c`, `--clean-print` | baut jeden Bildschirm von oben neu auf (kein Scrollen) |
+| `-n <n>`, `--lines <n>` | zeigt n Zeilen pro Bildschirm an |
+| `+<n>` | beginnt bei Zeile n |
+| `+/<muster>` | beginnt bei der ersten Fundstelle des Musters |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
 <summary>Interaktive Befehle (Tasten im Programm)</summary>
 
 | Taste | Wirkung |
@@ -209,6 +236,14 @@ head -n 5 *.log             # die ersten 5 Zeilen jeder Logdatei
 | `-f`, `--follow` | folgt der Datei live und zeigt neue Zeilen sofort an |
 | `-F` | wie `-f`, folgt der Datei auch nach Rotation/Neuanlage |
 | `-q`, `--quiet` | unterdrückt die Dateinamen-Kopfzeilen bei mehreren Dateien |
+| `-v`, `--verbose` | zeigt immer die Dateinamen-Kopfzeile an |
+| `-z`, `--zero-terminated` | trennt Zeilen mit dem Nullbyte statt mit Zeilenumbruch |
+| `-s <n>`, `--sleep-interval=<n>` | Wartezeit in Sekunden zwischen den Prüfungen bei `-f` |
+| `--pid=<pid>` | beendet `-f`, sobald der angegebene Prozess endet |
+| `--retry` | versucht weiter, die Datei zu öffnen, auch wenn sie (noch) fehlt |
+| `--max-unchanged-stats=<n>` | öffnet die Datei bei `-F` nach n erfolglosen Prüfungen neu |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 

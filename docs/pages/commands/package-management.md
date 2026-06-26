@@ -71,6 +71,9 @@
 | `--allow-change-held-packages` | erlaubt Änderungen an zurückgehaltenen Paketen |
 | `-o <option>` | setzt eine Konfigurationsoption direkt über die Kommandozeile |
 | `-c <datei>` | verwendet eine bestimmte Konfigurationsdatei |
+| `-t <release>`, `--target-release` | installiert aus einer bestimmten Veröffentlichung (z. B. Backports) |
+| `-V`, `--verbose-versions` | zeigt die vollständigen Versionsnummern an |
+| `-m`, `--fix-missing` | ignoriert fehlende Pakete und macht ohne sie weiter |
 
 </details>
 
@@ -117,6 +120,14 @@ apt show git                   # Paketdetails anzeigen
 | `-L <paket>`, `--listfiles` | zeigt, welche Dateien zu einem Paket gehören |
 | `-s <paket>`, `--status` | zeigt den Status eines Pakets |
 | `-S <datei>`, `--search` | findet heraus, zu welchem Paket eine Datei gehört |
+| `--unpack <datei>` | entpackt ein Paket, ohne es zu konfigurieren |
+| `--configure <paket>` | konfiguriert ein entpacktes Paket (`-a` = alle ausstehenden) |
+| `-C`, `--audit` | sucht nach halb installierten oder defekten Paketen |
+| `--get-selections` | zeigt die Paketauswahl (Status) an |
+| `--set-selections` | setzt die Paketauswahl aus der Standardeingabe |
+| `--print-architecture` | zeigt die Systemarchitektur an (z. B. `amd64`) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -159,7 +170,26 @@ dpkg -S /usr/bin/git         # Paket zu einer Datei finden
 | `list` | listet installierte Anwendungen und Laufzeiten auf |
 | `search <begriff>` | sucht nach Anwendungen |
 | `run <app>` | startet eine installierte Anwendung |
+| `info <app>` | zeigt Informationen zu einer installierten Anwendung |
 | `remote-add` | fügt eine Paketquelle hinzu (z. B. Flathub) |
+| `remotes` | listet die konfigurierten Paketquellen auf |
+| `override <app>` | passt die Berechtigungen einer Anwendung an |
+| `repair` | repariert die Flatpak-Installation |
+| `history` | zeigt das Protokoll vergangener Aktionen |
+
+</details>
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `--user` | wirkt nur auf die Installation des Benutzers |
+| `--system` | wirkt auf die systemweite Installation (Standard, oft mit `sudo`) |
+| `-y`, `--assumeyes` | beantwortet Rückfragen automatisch mit „yes“ |
+| `-v`, `--verbose` | ausführliche Ausgabe |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -203,6 +233,25 @@ flatpak uninstall org.gimp.GIMP         # Anwendung entfernen
 | `find <begriff>` | sucht im Snap Store |
 | `info <paket>` | zeigt Informationen zu einem Snap |
 | `revert <paket>` | setzt ein Snap auf die vorherige Version zurück |
+| `enable <paket>` / `disable <paket>` | aktiviert bzw. deaktiviert ein Snap |
+| `services` | zeigt die Dienste der Snaps an |
+| `logs <dienst>` | zeigt die Protokolle eines Snap-Dienstes |
+| `changes` | zeigt laufende und vergangene Änderungen |
+| `version` | zeigt die Snap- und Snapd-Versionen an |
+
+</details>
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `--classic` | installiert im Classic-Modus (ohne strenge Sandbox) |
+| `--channel=<kanal>` | wählt den Kanal (z. B. `latest/stable`) |
+| `--edge` / `--beta` / `--candidate` / `--stable` | Kurzform für den jeweiligen Kanal |
+| `--devmode` | installiert im Entwicklermodus (Sandbox ausgesetzt) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 

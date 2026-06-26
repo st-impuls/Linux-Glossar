@@ -38,6 +38,10 @@
 | `-s <spalte>`, `--sort-key=<spalte>` | sortiert nach Spalte (z. B. `PERCENT_CPU`) |
 | `-t`, `--tree` | startet in der Baumansicht |
 | `-C`, `--no-color` | einfarbige Darstellung |
+| `-F <text>`, `--filter=<text>` | startet mit einem voreingestellten Filter |
+| `-H`, `--highlight-changes` | hebt geänderte Werte hervor |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -81,6 +85,7 @@
 | `-r` | zeigt nur laufende (running) Jobs |
 | `-s` | zeigt nur angehaltene (stopped) Jobs |
 | `-n` | zeigt nur Jobs mit geändertem Status seit der letzten Meldung |
+| `-x <befehl>` | ersetzt Jobnummern im Befehl durch PIDs und führt ihn aus |
 
 </details>
 
@@ -175,6 +180,13 @@ kill -l              # alle Signale auflisten
 | `-p <pid>` | nur bestimmte PIDs |
 | `--sort=<spalte>` | sortiert, z. B. `--sort=-%cpu` (absteigend) |
 | `-o <felder>` | eigene Spaltenauswahl, z. B. `-o pid,comm,%cpu` |
+| `-l` | langes Format (Priorität, Status, PPID u. a.) |
+| `-H` | zeigt die Prozesshierarchie durch Einrückung |
+| `--forest` | zeigt die Prozesshierarchie als ASCII-Baum |
+| `-C <name>` | wählt Prozesse nach Befehlsnamen |
+| `--no-headers` | unterdrückt die Kopfzeile |
+| `--help <abschnitt>` | zeigt die Hilfe an (z. B. `--help all`) |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -204,6 +216,16 @@ ps aux | grep firefox        # nach einem Prozessnamen suchen
 >&nbsp;&nbsp;&nbsp;&nbsp;`sleep <n>` wartet n Sekunden (z. B. `sleep 5`)<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`sleep <n>m` Minuten, `<n>h` Stunden (nur GNU)<br />
 >**Beispiel:** `sleep 10`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
 
 <details markdown>
 <summary>Zeitangaben</summary>
@@ -255,6 +277,11 @@ while true; do date; sleep 60; done   # jede Minute die Uhrzeit ausgeben
 | `-n <z>` | beendet sich nach z Aktualisierungen automatisch |
 | `-b` | Batch-Modus (für Ausgabe in Dateien/Pipes) |
 | `-o <feld>` | sortiert nach Feld (z. B. `-o %MEM`) |
+| `-H` | zeigt einzelne Threads statt nur Prozesse |
+| `-c` | zeigt die volle Befehlszeile |
+| `-w [<breite>]` | legt die Ausgabebreite fest (vor allem im Batch-Modus) |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-v`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -300,6 +327,11 @@ while true; do date; sleep 60; done   # jede Minute die Uhrzeit ausgeben
 | `-g`, `--chgexit` | beendet sich, sobald sich die Ausgabe ändert |
 | `-b`, `--beep` | Signalton, wenn der Befehl mit Fehler endet |
 | `-x`, `--exec` | übergibt den Befehl ohne Shell-Interpretation |
+| `-p`, `--precise` | versucht, das Intervall exakt einzuhalten |
+| `-e`, `--errexit` | hält an, sobald der Befehl mit Fehler endet |
+| `-c`, `--color` | interpretiert ANSI-Farb- und Stilcodes |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-v`, `--version` | zeigt die Version an |
 
 </details>
 

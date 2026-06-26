@@ -46,6 +46,14 @@
 | `-b`, `--backup` | legt von vorhandenen Zieldateien eine Sicherung an |
 | `-t <ziel>`, `--target-directory=<ziel>` | gibt das Zielverzeichnis zuerst an |
 | `-T`, `--no-target-directory` | behandelt das Ziel als normale Datei, nicht als Verzeichnis |
+| `-L`, `--dereference` | folgt symbolischen Links in der Quelle und kopiert deren Ziel |
+| `-P`, `--no-dereference` | kopiert symbolische Links als Links, nicht deren Ziel |
+| `-d` | kopiert Links als Links und erhält Hardlinks (wie `-P --preserve=links`) |
+| `--parents` | übernimmt den vollständigen Quellpfad in das Zielverzeichnis |
+| `-x`, `--one-file-system` | bleibt beim rekursiven Kopieren innerhalb desselben Dateisystems |
+| `--remove-destination` | entfernt vorhandene Zieldateien vor dem Kopieren |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -83,6 +91,9 @@ cp -u *.txt /home/user/docs/    # nur neuere/fehlende Dateien aktualisieren
 | `-p`, `--parents` | erstellt bei Bedarf übergeordnete Verzeichnisse; meldet keinen Fehler, wenn der Ordner schon existiert |
 | `-v`, `--verbose` | zeigt für jedes erstellte Verzeichnis eine Meldung an (ausführlich) |
 | `-m <modus>`, `--mode=<modus>` | setzt die Zugriffsrechte des neuen Verzeichnisses direkt (z. B. `-m 755`) |
+| `-Z`, `--context[=<kontext>]` | setzt den SELinux-/SMACK-Sicherheitskontext |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -124,6 +135,11 @@ mkdir -m 700 privat                  # Ordner nur für den Eigentümer zugängli
 | `-b`, `--backup` | legt von vorhandenen Zieldateien eine Sicherung an |
 | `-t <ziel>`, `--target-directory=<ziel>` | gibt das Zielverzeichnis zuerst an |
 | `-T`, `--no-target-directory` | behandelt das Ziel als normale Datei, nicht als Verzeichnis |
+| `-S <endung>`, `--suffix=<endung>` | legt die Endung für Sicherungskopien fest (mit `-b`) |
+| `--strip-trailing-slashes` | entfernt abschließende `/` aus den Quellangaben |
+| `-Z`, `--context` | setzt den SELinux-Kontext des Ziels auf den Standardwert |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -167,6 +183,10 @@ mv -t archiv/ a.txt b.txt c.txt # Ziel zuerst, dann mehrere Quellen
 | `-v`, `--verbose` | zeigt jede gelöschte Datei an (ausführlich) |
 | `--one-file-system` | bleibt bei `-r` innerhalb desselben Dateisystems (überspringt eingehängte) |
 | `--preserve-root` | schützt das Wurzelverzeichnis `/` vor versehentlichem Löschen (Standard) |
+| `--no-preserve-root` | behandelt `/` **nicht** besonders – **gefährlich**, hebt den Schutz des Wurzelverzeichnisses auf |
+| `--interactive[=<when>]` | steuert die Nachfragen: `never`, `once` (wie `-I`) oder `always` (wie `-i`) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -204,6 +224,8 @@ rm -d leerer_ordner/        # leeres Verzeichnis löschen
 | `-p`, `--parents` | entfernt auch übergeordnete Verzeichnisse, sofern diese nach dem Löschen leer sind (z. B. `a/b/c` → `a/b` → `a`) |
 | `-v`, `--verbose` | zeigt für jedes entfernte Verzeichnis eine Meldung an (ausführlich) |
 | `--ignore-fail-on-non-empty` | meldet keinen Fehler, wenn ein Verzeichnis wegen vorhandenen Inhalts nicht gelöscht werden kann |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -242,6 +264,9 @@ rmdir -p projekt/quellcode/module   # verschachtelten, leeren Pfad komplett entf
 | `-f`, `--file-system` | zeigt Informationen zum **Dateisystem** statt zur Datei |
 | `-L`, `--dereference` | folgt symbolischen Links und zeigt das Ziel an |
 | `-t`, `--terse` | kompakte Ausgabe in einer Zeile (gut für Skripte) |
+| `--cached=<modus>` | steuert die Nutzung zwischengespeicherter Attribute (`always`, `never`, `default`) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -297,6 +322,11 @@ stat -f /home               # Informationen zum Dateisystem von /home
 | `-t <stempel>` | setzt eine bestimmte Zeit im Format `[[CC]YY]MMDDhhmm[.ss]`, mehr dazu -> "Weiter Beispiele" |
 | `-d <datum>`, `--date=<datum>` | setzt die Zeit aus einer freien Datumsangabe (z. B. `"2 days ago"`, `"2026-01-01 10:00"`) |
 | `-r <datei>`, `--reference=<datei>` | übernimmt die Zeitstempel einer anderen Datei |
+| `-h`, `--no-dereference` | ändert den Zeitstempel eines symbolischen Links selbst, nicht des Ziels |
+| `--time=<wort>` | legt fest, welcher Zeitstempel geändert wird (`access`/`atime` oder `modify`/`mtime`) |
+| `-f` | wird ignoriert (nur zur Kompatibilität mit anderen Systemen, ohne Wirkung) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 

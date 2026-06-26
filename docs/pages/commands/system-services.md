@@ -39,6 +39,12 @@
 | `-a`, `--all` | zeigt auch Pseudo-Dateisysteme an |
 | `-t <typ>`, `--type=<typ>` | nur Dateisysteme dieses Typs |
 | `-x <typ>`, `--exclude-type=<typ>` | schließt einen Typ aus |
+| `-B <größe>`, `--block-size=<größe>` | nutzt eine feste Blockgröße (z. B. `-BM`) |
+| `-l`, `--local` | beschränkt auf lokale Dateisysteme |
+| `-P`, `--portability` | POSIX-kompatibles Ausgabeformat |
+| `--total` | fügt eine Zeile mit der Gesamtsumme hinzu |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -81,6 +87,13 @@ df -h /home    # Dateisystem, auf dem /home liegt
 | `-c`, `--total` | gibt am Ende eine Gesamtsumme aus |
 | `-x`, `--one-file-system` | bleibt auf einem Dateisystem |
 | `--exclude=<muster>` | schließt passende Einträge aus |
+| `-B <größe>`, `--block-size=<größe>` | nutzt eine feste Blockgröße |
+| `--apparent-size` | zählt die tatsächliche Dateigröße statt belegter Blöcke |
+| `-L`, `--dereference` | folgt symbolischen Links |
+| `-S`, `--separate-dirs` | rechnet Unterverzeichnisse nicht zum übergeordneten dazu |
+| `--time` | zeigt zusätzlich den Zeitstempel der letzten Änderung |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -120,6 +133,12 @@ du -ah . | sort -h | tail  # die größten Dateien/Ordner zuletzt
 | `-s <n>`, `--seconds <n>` | wiederholt die Ausgabe alle n Sekunden |
 | `-t`, `--total` | zeigt eine Zeile mit der Gesamtsumme |
 | `-w`, `--wide` | breite Ausgabe (trennt buffers und cache) |
+| `-b` / `-k` | Ausgabe in Byte / Kibibyte |
+| `--si` | nutzt Zehnerpotenzen (KB, MB) statt 1024er-Schritten |
+| `-l`, `--lohi` | zeigt hohen und niedrigen Speicher getrennt an |
+| `-c <n>`, `--count <n>` | wiederholt die Ausgabe n-mal (mit `-s`) |
+| `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -157,6 +176,19 @@ free -ht       # mit Gesamtsumme
 | `set-hostname <name>` | setzt den (statischen) Hostnamen |
 | `set-icon-name <name>` | setzt das Symbol für den Rechner |
 | `set-chassis <typ>` | setzt den Gerätetyp (z. B. `laptop`, `server`) |
+
+</details>
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `--static` / `--transient` / `--pretty` | wählt, welcher Hostname gesetzt bzw. gezeigt wird |
+| `-H <host>`, `--host=<host>` | führt den Befehl auf einem entfernten Host aus |
+| `--no-ask-password` | fragt nicht nach einem Passwort |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -199,6 +231,13 @@ sudo hostnamectl set-hostname pc1   # Hostnamen dauerhaft ändern
 | `-p <prio>`, `--priority=<prio>` | filtert nach Priorität (z. B. `err`) |
 | `--since`, `--until` | Zeitraum, z. B. `--since "today"` |
 | `-k`, `--dmesg` | nur Kernelmeldungen |
+| `-x`, `--catalog` | ergänzt Einträge um erklärende Texte |
+| `-o <format>`, `--output=<format>` | wählt das Ausgabeformat (z. B. `json`, `short`) |
+| `-g <muster>`, `--grep=<muster>` | zeigt nur Einträge, die zum Muster passen |
+| `--no-pager` | gibt direkt aus, ohne Pager |
+| `--list-boots` | listet die vergangenen Bootvorgänge auf |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -239,6 +278,13 @@ journalctl -k                                          # Kernelmeldungen
 | `-a`, `--all` | hängt alle Einträge aus `/etc/fstab` ein |
 | `-r`, `--read-only` | hängt nur lesend ein |
 | `-l` | listet eingehängte Dateisysteme mit Labels |
+| `-w`, `--rw` | hängt schreibend ein (Standard) |
+| `-B`, `--bind` | hängt ein Verzeichnis an einer zweiten Stelle ein |
+| `-L <label>` | hängt das Dateisystem mit diesem Label ein |
+| `-U <uuid>` | hängt das Dateisystem mit dieser UUID ein |
+| `-v`, `--verbose` | ausführliche Ausgabe |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -276,6 +322,9 @@ sudo mount -o loop image.iso /mnt  # ISO-Abbild einhängen
 | `--halt` | hält das System an, statt neu zu starten |
 | `-f`, `--force` | erzwingt den Neustart ohne sauberes Herunterfahren |
 | `-w`, `--wtmp-only` | schreibt nur den Log-Eintrag, ohne neu zu starten |
+| `--poweroff` | schaltet aus, statt neu zu starten |
+| `--no-wall` | sendet keine Warnmeldung an angemeldete Benutzer |
+| `--help` | zeigt die Hilfe an |
 
 </details>
 
@@ -314,6 +363,7 @@ sudo shutdown -r now  # sofortiger Neustart (Alternative)
 | `reload` | lädt die Konfiguration neu, ohne zu stoppen |
 | `status` | zeigt den Status des Dienstes |
 | `--status-all` | listet alle Dienste mit Status |
+| `--full-restart` | stoppt und startet den Dienst vollständig neu |
 
 </details>
 
@@ -352,6 +402,10 @@ service --status-all       # alle Dienste auflisten
 | `-r`, `--reboot` | startet neu |
 | `-c` | bricht eine geplante Abschaltung ab |
 | `-k` | sendet nur die Warnmeldung, ohne herunterzufahren |
+| `-H`, `--halt` | hält das System an (ohne den Strom abzuschalten) |
+| `-P`, `--poweroff` | schaltet aus (wie `-h`) |
+| `--no-wall` | sendet keine Warnmeldung |
+| `--help` | zeigt die Hilfe an |
 | `<zeit>` | `now`, `+<minuten>` oder `hh:mm` |
 
 </details>
@@ -400,7 +454,27 @@ sudo shutdown -c                # geplante Abschaltung abbrechen
 | `is-enabled <dienst>` | prüft, ob der Autostart aktiv ist |
 | `list-units --type=service` | listet aktive Dienste auf |
 | `daemon-reload` | lädt geänderte Unit-Dateien neu ein |
+| `reload-or-restart <dienst>` | lädt neu oder startet neu, je nach Möglichkeit |
+| `mask <dienst>` / `unmask <dienst>` | sperrt bzw. entsperrt einen Dienst vollständig |
+| `list-unit-files` | listet alle Unit-Dateien mit ihrem Status |
+| `cat <dienst>` | zeigt die Unit-Datei eines Dienstes |
 | `reboot` / `poweroff` | startet neu / schaltet aus |
+
+</details>
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `--now` | mit `enable`/`disable`: den Dienst sofort starten/stoppen |
+| `--type=<typ>` | filtert nach Unit-Typ (z. B. `service`) |
+| `--state=<zustand>` | filtert nach Zustand (z. B. `running`) |
+| `--all` | zeigt auch inaktive Units an |
+| `--user` | wirkt auf die Benutzer-Instanz von systemd |
+| `--no-pager` | gibt direkt aus, ohne Pager |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -441,6 +515,20 @@ sudo systemctl daemon-reload                          # nach Änderung an Unit-D
 | `set-timezone <zone>` | setzt die Zeitzone (z. B. `Europe/Berlin`) |
 | `list-timezones` | listet alle Zeitzonen auf |
 | `set-ntp true\|false` | (de)aktiviert die automatische Zeitsynchronisation |
+| `timesync-status` | zeigt den Status der Zeitsynchronisation |
+| `show` | zeigt die Eigenschaften maschinenlesbar an |
+
+</details>
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-H <host>`, `--host=<host>` | führt den Befehl auf einem entfernten Host aus |
+| `--no-ask-password` | fragt nicht nach einem Passwort |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -478,6 +566,11 @@ sudo timedatectl set-ntp true                 # Zeitsynchronisation aktivieren
 | `-f`, `--force` | erzwingt das Aushängen (z. B. bei nicht erreichbarem Netzlaufwerk) |
 | `-a`, `--all` | hängt alle Dateisysteme aus `/etc/fstab` aus |
 | `-R`, `--recursive` | hängt verschachtelte Mountpoints aus |
+| `-r`, `--read-only` | hängt bei Fehler stattdessen nur lesend wieder ein |
+| `-v`, `--verbose` | ausführliche Ausgabe |
+| `-t <typ>`, `--types <typ>` | beschränkt auf bestimmte Dateisystemtypen |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -518,6 +611,10 @@ sudo umount -l /mnt     # verzögert aushängen (wenn noch in Benutzung)
 | `-m`, `--machine` | Maschinen-/Architekturtyp (z. B. `x86_64`) |
 | `-n`, `--nodename` | Netzwerk-Hostname |
 | `-o`, `--operating-system` | Betriebssystem (z. B. `GNU/Linux`) |
+| `-p`, `--processor` | Prozessortyp (oft „unknown") |
+| `-i`, `--hardware-platform` | Hardware-Plattform (oft „unknown") |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -552,6 +649,8 @@ uname -m   # Architektur (z. B. x86_64)
 |---|---|
 | `-p`, `--pretty` | Laufzeit in lesbarer Form (z. B. „up 3 hours, 5 minutes") |
 | `-s`, `--since` | Zeitpunkt des letzten Systemstarts |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 

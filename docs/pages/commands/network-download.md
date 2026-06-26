@@ -46,6 +46,18 @@
 | `-d <daten>`, `--data <daten>` | sendet Daten im Rumpf (impliziert POST) |
 | `-u <user:pass>`, `--user <user:pass>` | sendet Zugangsdaten zur Authentifizierung |
 | `-k`, `--insecure` | akzeptiert ungültige TLS-Zertifikate (mit Vorsicht) |
+| `-v`, `--verbose` | zeigt ausführliche Verbindungs- und Debug-Infos an |
+| `-i`, `--include` | gibt die Antwortkopfzeilen zusammen mit dem Inhalt aus |
+| `-A <agent>`, `--user-agent <agent>` | sendet eine eigene User-Agent-Kennung |
+| `-b <daten>`, `--cookie <daten>` | sendet Cookies (als Text oder aus einer Datei) |
+| `-x <proxy>`, `--proxy <proxy>` | leitet die Anfrage über einen Proxy |
+| `--compressed` | fordert eine komprimierte Antwort an und entpackt sie |
+| `-m <sek>`, `--max-time <sek>` | bricht die Übertragung nach n Sekunden ab |
+| `--retry <n>` | wiederholt die Anfrage bei Fehlern bis zu n-mal |
+| `-F <feld>`, `--form <feld>` | sendet Formulardaten (multipart, auch Datei-Uploads) |
+| `-T <datei>`, `--upload-file <datei>` | lädt eine Datei hoch (PUT) |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -89,6 +101,9 @@ curl -X POST -d "name=max" https://example.com/api   # POST mit Daten senden
 | `-x <ip>` | Reverse-Lookup: IP → Hostname |
 | `@<server>` | einen bestimmten DNS-Server fragen (z. B. `@8.8.8.8`) |
 | `+trace` | die Auflösung Schritt für Schritt ab den Root-Servern verfolgen |
+| `+tcp` | nutzt TCP statt UDP für die Abfrage |
+| `-p <port>` | fragt einen anderen Port ab (Standard 53) |
+| `-4` / `-6` | nutzt nur IPv4 bzw. nur IPv6 |
 
 </details>
 
@@ -127,6 +142,10 @@ dig @1.1.1.1 example.com        # über einen bestimmten DNS-Server fragen
 | `-a` | alle verfügbaren Einträge anzeigen (entspricht `-t ANY -v`) |
 | `-v` | ausführliche Ausgabe |
 | `-4` / `-6` | nur IPv4 bzw. nur IPv6 verwenden |
+| `-W <sek>` | Wartezeit (Timeout) pro Abfrage in Sekunden |
+| `-R <n>` | Anzahl der Wiederholungen bei UDP |
+| `-T` | nutzt TCP statt UDP |
+| `-C` | vergleicht die SOA-Einträge der autoritativen Nameserver |
 
 </details>
 
@@ -168,6 +187,11 @@ host -a example.com         # alle Einträge anzeigen
 | `ip -s link` | zeigt Statistiken (Pakete, Fehler) |
 | `ip addr add <ip>/<maske> dev <gerät>` | weist einer Schnittstelle eine Adresse zu |
 | `ip link set <gerät> up` / `down` | schaltet eine Schnittstelle ein bzw. aus |
+| `ip -br a` | kompakte (brief) Adressübersicht |
+| `ip -c a` | farbige Ausgabe |
+| `ip -j a` | Ausgabe im JSON-Format (`-j`) |
+| `ip -4 a` / `ip -6 a` | nur IPv4- bzw. IPv6-Adressen |
+| `ip -V` | zeigt die Version an |
 
 </details>
 
@@ -204,6 +228,9 @@ sudo ip link set eth0 up              # Schnittstelle eth0 aktivieren
 | `-type=<typ>` | Eintragstyp abfragen (A, MX, NS, TXT …) |
 | `-query=<typ>` | gleichbedeutend mit `-type` |
 | `<name> <server>` | die Abfrage über einen bestimmten DNS-Server stellen |
+| `-port=<port>` | fragt einen anderen Port ab (Standard 53) |
+| `-debug` | zeigt ausführliche Debug-Informationen an |
+| `-recurse` / `-norecurse` | schaltet die rekursive Abfrage ein bzw. aus |
 
 </details>
 
@@ -242,6 +269,11 @@ nslookup                        # interaktiver Modus (Beenden mit `exit`)
 | `-s <bytes>` | Größe der gesendeten Pakete |
 | `-W <sek>` | Timeout pro Antwort |
 | `-4` / `-6` | IPv4 bzw. IPv6 erzwingen |
+| `-q` | nur die Kurzzusammenfassung anzeigen (quiet) |
+| `-t <ttl>` | setzt die TTL (Time to live) der Pakete |
+| `-D` | zeigt vor jeder Zeile einen Zeitstempel an |
+| `-a` | gibt bei einer Antwort einen Signalton aus (audible) |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -281,6 +313,11 @@ ping -c 4 -i 0.5 8.8.8.8    # 4 Pakete im Abstand von 0,5 s
 | `-C` | komprimiert die Übertragung |
 | `-i <datei>` | nutzt einen bestimmten privaten Schlüssel |
 | `-q` | unterdrückt die Fortschrittsanzeige |
+| `-v` | ausführliche Ausgabe zur Fehlersuche |
+| `-l <kbit>` | begrenzt die Bandbreite (in Kbit/s) |
+| `-o <option>` | übergibt eine SSH-Konfigurationsoption |
+| `-F <datei>` | nutzt eine andere SSH-Konfigurationsdatei |
+| `-3` | kopiert zwischen zwei entfernten Hosts über den lokalen Rechner |
 
 </details>
 
@@ -321,6 +358,18 @@ scp -P 2222 datei.txt user@host:/p  # über einen anderen Port
 | `-L <lport>:<host>:<rport>` | lokales Port-Forwarding (Tunnel) |
 | `-N` | führt keinen Befehl aus (nur für Tunnel) |
 | `-v` | ausführliche Ausgabe zur Fehlersuche |
+| `-t` | erzwingt ein Pseudo-Terminal (für interaktive Programme) |
+| `-T` | deaktiviert die Pseudo-Terminal-Zuweisung |
+| `-A` | leitet den Authentifizierungs-Agenten weiter (agent forwarding) |
+| `-C` | komprimiert die Verbindung |
+| `-D <port>` | dynamisches Port-Forwarding (SOCKS-Proxy) |
+| `-R <rport>:<host>:<lport>` | entferntes Port-Forwarding |
+| `-J <host>` | Verbindung über einen Sprung-Host (jump host) |
+| `-o <option>` | setzt eine Konfigurationsoption (z. B. `-o StrictHostKeyChecking=no`) |
+| `-F <datei>` | nutzt eine andere SSH-Konfigurationsdatei |
+| `-f` | wechselt nach der Anmeldung in den Hintergrund |
+| `-q` | stiller Modus (unterdrückt Warnungen) |
+| `-V` | zeigt die Version an |
 
 </details>
 
@@ -359,6 +408,12 @@ ssh -i ~/.ssh/id_ed25519 user@host  # bestimmten Schlüssel nutzen
 | `-q <n>` | Anzahl der Testpakete pro Hop |
 | `-w <sek>` | Wartezeit auf eine Antwort |
 | `-I` | nutzt ICMP statt UDP |
+| `-T` | nutzt TCP-SYN-Pakete (oft durch Firewalls erlaubt) |
+| `-U` | nutzt UDP-Pakete (Standard) |
+| `-p <port>` | nutzt einen bestimmten Zielport |
+| `-f <n>` | beginnt bei einer bestimmten TTL (first hop) |
+| `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -404,6 +459,16 @@ traceroute -m 15 example.com    # höchstens 15 Hops verfolgen
 | `-np`, `--no-parent` | folgt beim rekursiven Laden nicht in übergeordnete Verzeichnisse |
 | `-U <agent>`, `--user-agent=<agent>` | sendet eine eigene User-Agent-Kennung |
 | `--no-check-certificate` | ignoriert ungültige TLS-Zertifikate (mit Vorsicht) |
+| `-t <n>`, `--tries=<n>` | Anzahl der Wiederholungsversuche (`0` = unbegrenzt) |
+| `-T <sek>`, `--timeout=<sek>` | setzt alle Zeitlimits (Timeouts) |
+| `-N`, `--timestamping` | lädt nur neuere Dateien erneut herunter |
+| `--header=<kopfzeile>` | sendet eine eigene HTTP-Kopfzeile |
+| `--post-data=<daten>` | sendet Daten per POST |
+| `--user=<name>` / `--password=<pw>` | Zugangsdaten für HTTP/FTP |
+| `-k`, `--convert-links` | wandelt Links für die lokale Offline-Ansicht um |
+| `-m`, `--mirror` | spiegelt eine Seite (wie `-r -N -l inf --no-remove-listing`) |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 

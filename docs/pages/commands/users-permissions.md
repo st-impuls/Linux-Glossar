@@ -38,6 +38,14 @@
 | `--shell <shell>` | legt die Login-Shell fest (z. B. `/bin/bash`) |
 | `--system` | legt einen Systembenutzer ohne Login an |
 | `--disabled-password` | legt das Konto ohne Passwort an |
+| `--uid <n>` | legt eine feste Benutzer-ID fest |
+| `--gid <n>` | legt die primäre Gruppen-ID fest |
+| `--gecos <text>` | setzt den vollständigen Namen (GECOS-Feld) |
+| `--disabled-login` | legt das Konto an, verhindert aber jede Anmeldung |
+| `--no-create-home` | legt kein Home-Verzeichnis an |
+| `--quiet` | unterdrückt informative Meldungen |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -74,6 +82,11 @@ sudo adduser --system backupbot   # Systembenutzer anlegen
 | `-v`, `--verbose` | zeigt für jede Datei die vorgenommene Änderung an |
 | `-c`, `--changes` | meldet nur tatsächlich vorgenommene Änderungen |
 | `--reference=<datei>` | übernimmt die Gruppe von einer anderen Datei |
+| `-f`, `--silent` | unterdrückt die meisten Fehlermeldungen |
+| `-h`, `--no-dereference` | wirkt auf den Link selbst, nicht auf das Ziel |
+| `-H` / `-L` / `-P` | steuert mit `-R`, ob symbolischen Links gefolgt wird |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -110,6 +123,9 @@ chgrp --reference=vorlage.txt datei.txt   # Gruppe von vorlage.txt übernehmen
 | `-v`, `--verbose` | zeigt für jede Datei die vorgenommene Änderung an |
 | `-c`, `--changes` | meldet nur tatsächlich vorgenommene Änderungen |
 | `--reference=<datei>` | übernimmt die Rechte von einer anderen Datei |
+| `-f`, `--silent` | unterdrückt die meisten Fehlermeldungen |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -178,6 +194,12 @@ chmod -R 750 ordner/       # rekursiv für einen Ordner
 | `-v`, `--verbose` | zeigt für jede Datei die vorgenommene Änderung an |
 | `-c`, `--changes` | meldet nur tatsächlich vorgenommene Änderungen |
 | `--reference=<datei>` | übernimmt Besitzer und Gruppe von einer anderen Datei |
+| `-f`, `--silent` | unterdrückt die meisten Fehlermeldungen |
+| `-h`, `--no-dereference` | wirkt auf den Link selbst, nicht auf das Ziel |
+| `-H` / `-L` / `-P` | steuert mit `-R`, ob symbolischen Links gefolgt wird |
+| `--from=<aktuell>` | ändert nur, wenn der aktuelle Besitzer passt |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -216,6 +238,10 @@ sudo chown -R user:user ordner/    # rekursiv für einen Ordner
 | `--remove-all-files` | löscht alle Dateien des Benutzers im System |
 | `--backup` | legt vor dem Löschen ein Backup der Dateien an |
 | `--backup-to <pfad>` | legt das Backup in ein bestimmtes Verzeichnis |
+| `--system` | entfernt nur, wenn es sich um einen Systembenutzer handelt |
+| `--quiet` | unterdrückt informative Meldungen |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -251,6 +277,11 @@ sudo deluser max sudo              # nur aus der Gruppe sudo entfernen
 | `-g <gid>`, `--gid <gid>` | legt die Gruppen-ID (GID) fest |
 | `-r`, `--system` | legt eine Systemgruppe an |
 | `-f`, `--force` | bricht nicht mit Fehler ab, wenn die Gruppe bereits existiert |
+| `-o`, `--non-unique` | erlaubt eine nicht eindeutige (doppelte) GID |
+| `-p <hash>`, `--password <hash>` | setzt ein (verschlüsseltes) Gruppenpasswort |
+| `-K <schl=wert>`, `--key <schl=wert>` | überschreibt einen Wert aus `/etc/login.defs` |
+| `-R <pfad>`, `--root <pfad>` | wendet Änderungen in einem anderen Wurzelverzeichnis an |
+| `--help` | zeigt die Hilfe an |
 
 </details>
 
@@ -277,6 +308,17 @@ sudo groupadd -r systemdienst   # Systemgruppe anlegen
 >&nbsp;&nbsp;&nbsp;&nbsp;`-f` erzwingt das Löschen, auch wenn es die primäre Gruppe eines Benutzers ist (force)<br />
 >**Beispiel:** `sudo groupdel entwickler`
 
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-f`, `--force` | erzwingt das Löschen, auch wenn es die primäre Gruppe eines Benutzers ist |
+| `-R <pfad>`, `--root <pfad>` | wendet Änderungen in einem anderen Wurzelverzeichnis an |
+| `--help` | zeigt die Hilfe an |
+
+</details>
+
 >**Hinweis:** Meist mit `sudo` nötig. Die primäre Gruppe eines bestehenden Benutzers lässt sich normalerweise nicht löschen. Gegenstück: `groupadd`.
 
 ---
@@ -286,6 +328,16 @@ sudo groupadd -r systemdienst   # Systemgruppe anlegen
 >**Syntax:** `groups [<benutzer>...]`<br />
 >**Erklärung:** Zeigt alle Gruppen an, denen der aktuelle oder ein angegebener Benutzer angehört.<br />
 >**Beispiel:** `groups user`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
 
 >**Hinweis:** Ohne Argument werden die Gruppen des aktuell angemeldeten Benutzers angezeigt. Detailliertere Angaben liefert `id`.
 
@@ -311,6 +363,10 @@ sudo groupadd -r systemdienst   # Systemgruppe anlegen
 | `-G`, `--groups` | zeigt alle Gruppen-IDs an |
 | `-n`, `--name` | zeigt Namen statt Nummern an (mit `-u`/`-g`/`-G`) |
 | `-r`, `--real` | zeigt die reale statt der effektiven ID an |
+| `-z`, `--zero` | trennt die Ausgaben mit dem Nullbyte |
+| `-Z`, `--context` | zeigt nur den SELinux-Sicherheitskontext |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -327,6 +383,26 @@ id -nG              # alle Gruppennamen des Benutzers
 </details>
 
 >**Hinweis:** Ohne Argument werden die Angaben zum aktuell angemeldeten Benutzer ausgegeben.
+
+---
+
+### logname
+>**Funktion:** Anmeldenamen des Benutzers anzeigen<br />
+>**Syntax:** `logname`<br />
+>**Erklärung:** Zeigt den Namen an, unter dem sich der Benutzer ursprünglich angemeldet hat (ermittelt aus der Anmeldedatenbank des Systems).<br />
+>**Beispiel:** `logname`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+>**Hinweis:** Anders als `whoami` zeigt `logname` immer den **ursprünglichen** Anmeldenamen – nach `su` oder `sudo` bleibt es also der echte Anmeldebenutzer, während `whoami` den aktuell aktiven Benutzer (z. B. `root`) ausgibt.
 
 ---
 
@@ -349,6 +425,13 @@ id -nG              # alle Gruppennamen des Benutzers
 | `-d`, `--delete` | entfernt das Passwort (Konto ohne Passwort) |
 | `-e`, `--expire` | erzwingt eine Passwortänderung bei der nächsten Anmeldung |
 | `-S`, `--status` | zeigt den Status des Kontos an |
+| `-a`, `--all` | mit `-S`: Status aller Konten anzeigen |
+| `-n <tage>`, `--mindays` | Mindestzeit zwischen Passwortänderungen |
+| `-x <tage>`, `--maxdays` | maximale Gültigkeit des Passworts |
+| `-w <tage>`, `--warndays` | Vorwarnzeit vor dem Ablauf |
+| `-k`, `--keep-tokens` | ändert nur bereits abgelaufene Passwörter |
+| `-q`, `--quiet` | stiller Modus |
+| `--help` | zeigt die Hilfe an |
 
 </details>
 
@@ -385,6 +468,11 @@ sudo passwd -S max      # Status des Kontos anzeigen
 | `-`, `-l`, `--login` | startet eine Login-Shell mit der Umgebung des Zielbenutzers |
 | `-c <befehl>`, `--command=<befehl>` | führt einen einzelnen Befehl als Zielbenutzer aus |
 | `-s <shell>`, `--shell=<shell>` | nutzt eine bestimmte Shell |
+| `-m`, `-p`, `--preserve-environment` | behält die bisherige Umgebung bei |
+| `-g <gruppe>`, `--group=<gruppe>` | legt die primäre Gruppe fest (nur als root) |
+| `-w <liste>`, `--whitelist-environment=<liste>` | behält bestimmte Variablen bei |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -437,6 +525,13 @@ su -c "apt update" root    # einen einzelnen Befehl als root ausführen
 | `-s`, `--shell` | startet eine Shell als Zielbenutzer |
 | `-l`, `--list` | zeigt die erlaubten Befehle des aktuellen Benutzers an |
 | `-k`, `--reset-timestamp` | verlangt beim nächsten Aufruf wieder das Passwort |
+| `-E`, `--preserve-env` | übergibt die aktuelle Umgebung an den Befehl |
+| `-n`, `--non-interactive` | fragt nicht nach (scheitert, statt zu warten) |
+| `-v`, `--validate` | erneuert das Zeitlimit, ohne einen Befehl auszuführen |
+| `-b`, `--background` | führt den Befehl im Hintergrund aus |
+| `-e`, `--edit` | bearbeitet eine Datei mit erhöhten Rechten (sudoedit) |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -472,12 +567,28 @@ sudo -l                     # eigene erlaubte Befehle anzeigen
 | Option | Wirkung |
 |---|---|
 | `-m`, `--create-home` | erstellt das Home-Verzeichnis des Benutzers |
+| `-M`, `--no-create-home` | legt kein Home-Verzeichnis an |
+| `-d <pfad>`, `--home-dir <pfad>` | legt den Pfad des Home-Verzeichnisses fest |
+| `-b <pfad>`, `--base-dir <pfad>` | Basisverzeichnis für das Home (Standard `/home`) |
+| `-k <pfad>`, `--skel <pfad>` | Vorlagenverzeichnis für das Home (Standard `/etc/skel`) |
 | `-s <shell>`, `--shell <shell>` | legt die Login-Shell fest (z. B. `/bin/bash`) |
 | `-G <gruppen>`, `--groups <gruppen>` | fügt den Benutzer zusätzlichen Gruppen hinzu |
 | `-g <gruppe>`, `--gid <gruppe>` | legt die primäre Gruppe fest |
+| `-N`, `--no-user-group` | legt keine gleichnamige Gruppe für den Benutzer an |
+| `-U`, `--user-group` | legt eine gleichnamige Gruppe an (Standard auf vielen Systemen) |
 | `-u <uid>`, `--uid <uid>` | legt die Benutzer-ID fest |
+| `-o`, `--non-unique` | erlaubt eine nicht eindeutige (doppelte) UID |
 | `-c <text>`, `--comment <text>` | Kommentar bzw. vollständiger Name (GECOS) |
+| `-e <JJJJ-MM-TT>`, `--expiredate` | Ablaufdatum des Kontos |
+| `-f <n>`, `--inactive <n>` | Tage nach Passwortablauf bis zur Sperre (`-1` = aus) |
+| `-p <hash>`, `--password <hash>` | setzt das Passwort als **verschlüsselten** Hash (nicht im Klartext) |
 | `-r`, `--system` | legt einen Systembenutzer an |
+| `-D`, `--defaults` | zeigt/ändert die Standardwerte (`/etc/default/useradd`) |
+| `-K <schl=wert>`, `--key <schl=wert>` | überschreibt einen Wert aus `/etc/login.defs` |
+| `-l`, `--no-log-init` | trägt den Benutzer nicht in lastlog/faillog ein |
+| `-R <pfad>`, `--root <pfad>` | wendet Änderungen in einem anderen Wurzelverzeichnis an (chroot) |
+| `-Z <kontext>`, `--selinux-user` | ordnet einen SELinux-Benutzer zu |
+| `--help` | zeigt die Hilfe an |
 
 </details>
 
@@ -487,6 +598,8 @@ sudo -l                     # eigene erlaubte Befehle anzeigen
 ```bash
 sudo useradd -m -s /bin/bash max    # Benutzer mit Home und Bash anlegen
 sudo useradd -m -G sudo,dev max     # zusätzlich zu Gruppen hinzufügen
+sudo useradd -r -s /usr/sbin/nologin dienst  # Dienstkonto ohne Login-Shell
+sudo useradd -r -s /bin/false dienst2        # Alternative: Login ebenfalls gesperrt
 sudo passwd max                     # danach das Passwort setzen
 ```
 
@@ -512,6 +625,9 @@ sudo passwd max                     # danach das Passwort setzen
 |---|---|
 | `-r`, `--remove` | löscht zusätzlich das Home-Verzeichnis und den Mail-Spool |
 | `-f`, `--force` | erzwingt das Löschen, auch wenn der Benutzer noch angemeldet ist |
+| `-R <pfad>`, `--root <pfad>` | wendet Änderungen in einem anderen Wurzelverzeichnis an (chroot) |
+| `-Z`, `--selinux-user` | entfernt die SELinux-Benutzerzuordnung |
+| `--help` | zeigt die Hilfe an |
 
 </details>
 
@@ -554,6 +670,14 @@ sudo userdel -r max     # Konto samt Home-Verzeichnis löschen
 | `-L`, `--lock` | sperrt das Konto (Passwort-Login deaktiviert) |
 | `-U`, `--unlock` | entsperrt das Konto |
 | `-e <JJJJ-MM-TT>`, `--expiredate` | setzt das Ablaufdatum des Kontos |
+| `-c <text>`, `--comment <text>` | ändert den Kommentar bzw. vollständigen Namen (GECOS) |
+| `-u <uid>`, `--uid <uid>` | ändert die Benutzer-ID (UID) |
+| `-o`, `--non-unique` | erlaubt eine nicht eindeutige (doppelte) UID (nur mit `-u`) |
+| `-f <n>`, `--inactive <n>` | Tage nach Passwortablauf bis zur Sperre (`-1` = aus) |
+| `-p <hash>`, `--password <hash>` | setzt das Passwort als **verschlüsselten** Hash (nicht im Klartext) |
+| `-R <pfad>`, `--root <pfad>` | wendet Änderungen in einem anderen Wurzelverzeichnis an (chroot) |
+| `-Z <kontext>`, `--selinux-user` | ändert die SELinux-Benutzerzuordnung |
+| `--help` | zeigt die Hilfe an |
 
 </details>
 
@@ -592,6 +716,10 @@ sudo usermod -L max                  # Konto sperren
 | `-s`, `--short` | Kurzformat ohne Anmeldezeit und CPU-Angaben |
 | `-h`, `--no-header` | blendet die Kopfzeile aus |
 | `-i`, `--ip-addr` | zeigt die IP-Adresse statt des Hostnamens an |
+| `-f`, `--from` | zeigt bzw. verbirgt das Feld „von wo" (Remote-Host) |
+| `-o`, `--old-style` | altes Ausgabeformat |
+| `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -618,6 +746,11 @@ sudo usermod -L max                  # Konto sperren
 | `-r`, `--runlevel` | zeigt das aktuelle Runlevel an |
 | `-H`, `--heading` | zeigt eine Kopfzeile mit Spaltentiteln an |
 | `-q`, `--count` | zählt die angemeldeten Benutzer |
+| `-m` | nur Angaben zum eigenen Terminal |
+| `-l`, `--login` | zeigt die System-Login-Prozesse |
+| `-T`, `--mesg` | zeigt an, ob Nachrichten erlaubt sind (`+`/`-`) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
@@ -630,6 +763,16 @@ sudo usermod -L max                  # Konto sperren
 >**Syntax:** `whoami`<br />
 >**Erklärung:** Zeigt den effektiven Benutzernamen an, unter dem der aktuelle Prozess läuft.<br />
 >**Beispiel:** `whoami`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
 
 >**Hinweis:** Entspricht `id -un`. Nach `sudo -i` bzw. `su` zeigt es den aktuell aktiven Benutzer (z. B. `root`).
 

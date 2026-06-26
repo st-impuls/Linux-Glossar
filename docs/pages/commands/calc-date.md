@@ -34,9 +34,12 @@
 |---|---|
 | `-l`, `--mathlib` | lädt die mathematische Bibliothek (`sqrt`, `s`, `c`, `l`, `e`) und setzt `scale=20` |
 | `-q`, `--quiet` | unterdrückt den Begrüßungstext beim Start |
+| `-P`, `--no-prompt` | zeigt keine Eingabeaufforderung an |
 | `-i`, `--interactive` | erzwingt den interaktiven Modus |
 | `-w`, `--warn` | warnt bei nicht-POSIX-Konstrukten |
 | `-s`, `--standard` | verarbeitet strikt nach POSIX-`bc` |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-v`, `--version` | zeigt die Version an |
 
 </details>
 
@@ -85,10 +88,16 @@ ergebnis=$(echo "5 * 5" | bc)    # Ergebnis in einer Variablen speichern
 |---|---|
 | `+<format>` | legt das Ausgabeformat fest (Platzhalter siehe unten) |
 | `-d <datum>`, `--date=<datum>` | zeigt ein anderes Datum an (auch „menschlich": `"yesterday"`, `"2 days ago"`) |
+| `-f <datei>`, `--file=<datei>` | verarbeitet je eine Datumsangabe pro Zeile aus einer Datei (wie `-d` mehrfach) |
 | `-u`, `--utc` | nutzt UTC statt der lokalen Zeitzone |
 | `-r <datei>`, `--reference=<datei>` | zeigt die letzte Änderungszeit einer Datei |
 | `-s <datum>`, `--set=<datum>` | setzt die Systemzeit (root nötig) |
 | `-I[<genauigkeit>]`, `--iso-8601` | Ausgabe im ISO-8601-Format |
+| `-R`, `--rfc-email` | Ausgabe im RFC-5322-Format (z. B. für E-Mail-Header) |
+| `--rfc-3339=<genauigkeit>` | Ausgabe im RFC-3339-Format (`date`, `seconds` oder `ns`) |
+| `--debug` | erläutert das geparste Datum und warnt bei fragwürdiger Eingabe |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
 
 </details>
 
