@@ -219,6 +219,45 @@ sudo chown -R user:user ordner/    # rekursiv für einen Ordner
 
 ---
 
+### chpasswd
+>**Funktion:** Passwörter mehrerer Benutzer im Stapel ändern<br />
+>**Syntax:** `chpasswd [optionen]`<br />
+>**Erklärung:** Liest Zeilen der Form `benutzer:passwort` von der Standardeingabe und setzt die Passwörter ohne Rückfrage. Gedacht für Skripte und das Anlegen oder Aktualisieren vieler Konten auf einmal.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-e` die Passwörter liegen bereits verschlüsselt vor<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-c <methode>` wählt das Verschlüsselungsverfahren<br />
+>**Beispiel:** `echo 'anna:geheim123' | sudo chpasswd`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-e`, `--encrypted` | die übergebenen Passwörter liegen bereits verschlüsselt vor |
+| `-c <methode>`, `--crypt-method <methode>` | Verschlüsselungsverfahren (`SHA512`, `SHA256`, `MD5`, `DES`, `NONE`) |
+| `-m`, `--md5` | nutzt MD5 für unverschlüsselt übergebene Passwörter |
+| `-s <runden>`, `--sha-rounds <runden>` | Anzahl der Runden für SHA256/SHA512 |
+| `-R <verz>`, `--root <verz>` | wendet die Änderungen in einem alternativen Wurzelverzeichnis an |
+| `-h`, `--help` | zeigt die Hilfe an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+echo 'anna:geheim123' | sudo chpasswd         # ein Passwort setzen
+sudo chpasswd < passwoerter.txt               # viele auf einmal (benutzer:passwort je Zeile)
+printf 'anna:pw1\nben:pw2\n' | sudo chpasswd  # mehrere Benutzer
+echo 'anna:$6$xyz...' | sudo chpasswd -e      # bereits verschlüsseltes Passwort
+```
+
+</details>
+
+>**Hinweis:** Braucht `sudo`/root. Klartext-Passwörter in der Eingabe sind unsicher (Shell-History, Prozessliste) – besser eine Datei mit strengen Rechten oder bereits verschlüsselte Hashes (`-e`) verwenden. Für die interaktive Änderung eines einzelnen Passworts `passwd` nutzen.
+
+---
+
 ### deluser
 >**Funktion:** Benutzer löschen (Debian/Ubuntu)<br />
 >**Syntax:** `deluser [optionen] <benutzer> [<gruppe>]`<br />

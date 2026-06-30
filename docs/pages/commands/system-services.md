@@ -114,6 +114,47 @@ du -ah . | sort -h | tail  # die größten Dateien/Ordner zuletzt
 
 ---
 
+### fdisk
+>**Funktion:** Partitionstabellen anzeigen und bearbeiten<br />
+>**Syntax:** `fdisk [optionen] [<gerät>]`<br />
+>**Erklärung:** Zeigt und bearbeitet die Partitionstabellen von Datenträgern (MBR/DOS und GPT). Mit einem Gerät als Argument startet ein interaktiver Modus; mit `-l` werden vorhandene Partitionen nur aufgelistet.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-l` listet die Partitionstabellen auf<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-x` listet mit zusätzlichen Details auf<br />
+>**Beispiel:** `sudo fdisk -l`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-l`, `--list` | listet die Partitionstabellen (aller oder eines Geräts) auf |
+| `-x`, `--list-details` | listet mit zusätzlichen Details auf |
+| `-b <größe>`, `--sector-size <größe>` | legt die Sektorgröße fest (512, 1024, 2048, 4096) |
+| `-t <typ>`, `--type <typ>` | bearbeitet nur Partitionstabellen dieses Typs (z. B. `gpt`, `dos`) |
+| `-u[<einheit>]`, `--units[=<einheit>]` | Einheit für die Anzeige (`cylinders` oder `sectors`) |
+| `-w <wann>`, `--wipe <wann>` | löscht Signaturen: `auto`, `always` oder `never` |
+| `-s <partition>`, `--getsz` | gibt die Größe einer Partition in Sektoren aus (veraltet) |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo fdisk -l            # alle Partitionstabellen auflisten
+sudo fdisk -l /dev/sda   # nur die eines Geräts
+sudo fdisk /dev/sdb      # Partitionen interaktiv bearbeiten
+```
+
+</details>
+
+>**Hinweis:** Braucht `sudo`. Der interaktive Modus ändert die Partitionstabelle erst beim Speichern mit `w`; mit `q` wird ohne Änderungen beendet. Wichtige Tasten dort: `m` Hilfe, `p` anzeigen, `n` neu, `d` löschen, `t` Typ. Zum reinen Auflisten ist `lsblk` übersichtlicher.
+
+---
+
 ### free
 >**Funktion:** Belegung des Arbeitsspeichers anzeigen<br />
 >**Syntax:** `free [optionen]`<br />
@@ -256,6 +297,342 @@ journalctl -k                                          # Kernelmeldungen
 </details>
 
 >**Hinweis:** Braucht oft `sudo`, um alle Logs zu sehen. `journalctl --disk-usage` zeigt den Platzbedarf, `sudo journalctl --vacuum-time=2weeks` räumt alte Logs auf. Logs eines einzelnen Dienstes: `journalctl -u <dienst>`.
+
+---
+
+### lsblk
+>**Funktion:** Blockgeräte (Datenträger) auflisten<br />
+>**Syntax:** `lsblk [optionen] [<gerät>...]`<br />
+>**Erklärung:** Zeigt die vorhandenen Blockgeräte – Festplatten, SSDs, USB-Sticks und ihre Partitionen – in einer Baumstruktur mit Größe, Typ und Einhängepunkt.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-f` zeigt Dateisystem-Informationen<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-p` zeigt vollständige Gerätepfade<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-o <liste>` wählt die anzuzeigenden Spalten<br />
+>**Beispiel:** `lsblk -f`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-f`, `--fs` | zeigt Dateisystem-Informationen (Typ, Label, UUID, Belegung) |
+| `-p`, `--paths` | zeigt vollständige Gerätepfade (z. B. `/dev/sda1`) |
+| `-o <liste>`, `--output <liste>` | wählt die anzuzeigenden Spalten |
+| `-a`, `--all` | zeigt auch leere Geräte an |
+| `-d`, `--nodeps` | nur die Geräte selbst, ohne Partitionen |
+| `-l`, `--list` | Listendarstellung statt Baum |
+| `-n`, `--noheadings` | unterdrückt die Kopfzeile |
+| `-m`, `--perms` | zeigt Besitzer, Gruppe und Zugriffsrechte |
+| `-S`, `--scsi` | nur SCSI-Geräte |
+| `-J`, `--json` | Ausgabe als JSON |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+lsblk                         # Baum der Blockgeräte
+lsblk -f                      # mit Dateisystem und UUID
+lsblk -p                      # mit vollständigen Gerätepfaden
+lsblk -o NAME,SIZE,MOUNTPOINT # nur ausgewählte Spalten
+```
+
+</details>
+
+>**Hinweis:** Braucht kein `sudo`. Für einen schnellen Überblick übersichtlicher als `fdisk -l`. `-f` zeigt Dateisystem und UUID – nützlich für Einträge in `/etc/fstab`. Verwandt: `fdisk`, `blkid`, `df`.
+
+---
+
+### lscpu
+>**Funktion:** Informationen über die CPU anzeigen<br />
+>**Syntax:** `lscpu [optionen]`<br />
+>**Erklärung:** Stellt Informationen über die CPU-Architektur zusammen – z. B. Modell, Anzahl der Kerne und Threads, Taktraten, Caches und Virtualisierungsunterstützung. Die Daten stammen aus `sysfs` und `/proc/cpuinfo`.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-e` erweiterte Darstellung (je Kern eine Zeile)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-p` parsbares Format (CSV)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-J` Ausgabe als JSON<br />
+>**Beispiel:** `lscpu`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-e [<liste>]`, `--extended[=<liste>]` | erweiterte, lesbare Darstellung (je CPU eine Zeile) |
+| `-p [<liste>]`, `--parse[=<liste>]` | parsbares Format (CSV) |
+| `-a`, `--all` | zeigt online und offline geschaltete CPUs (mit `-e`/`-p`) |
+| `-b`, `--online` | nur online geschaltete CPUs |
+| `-c`, `--offline` | nur offline geschaltete CPUs |
+| `-C`, `--caches` | Informationen zu den CPU-Caches |
+| `-x`, `--hex` | gibt Masken als Hex-Werte statt als Listen aus |
+| `-y`, `--physical` | zeigt physische statt logischer IDs |
+| `-J`, `--json` | Ausgabe als JSON |
+| `-s <verz>`, `--sysroot=<verz>` | liest aus einem alternativen System-Wurzelverzeichnis |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+lscpu        # Übersicht zur CPU
+lscpu -e     # je Kern eine Zeile (erweitert)
+lscpu -p     # parsbares CSV-Format
+lscpu -J     # Ausgabe als JSON
+lscpu -C     # Informationen zu den Caches
+```
+
+</details>
+
+>**Hinweis:** Liest die Daten aus dem Kernel (`sysfs`, `/proc/cpuinfo`) und braucht kein `sudo`. Für maschinenlesbare Ausgabe `-p` oder `-J` verwenden. Verwandt mit `lshw -class processor`, aber deutlich kompakter.
+
+---
+
+### lshw
+>**Funktion:** Detaillierte Hardware-Informationen anzeigen<br />
+>**Syntax:** `lshw [optionen]`<br />
+>**Erklärung:** Listet ausführliche Informationen über die Hardware des Rechners auf – Mainboard, CPU, Arbeitsspeicher, Datenträger, Netzwerk usw. Für vollständige Angaben sollte der Befehl mit `sudo` ausgeführt werden.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-short` kompakte Übersicht als Gerätebaum<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-class <klasse>` nur eine Geräteklasse (z. B. `disk`)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-json` Ausgabe als JSON<br />
+>**Beispiel:** `sudo lshw -short`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-short` | kompakte Übersicht als Gerätebaum (Hardware-Pfade) |
+| `-C <klasse>`, `-class <klasse>` | nur Geräte einer Klasse (z. B. `disk`, `network`, `memory`, `processor`) |
+| `-businfo` | listet Geräte mit Bus-Informationen (PCI, USB, …) |
+| `-html` | Ausgabe als HTML |
+| `-xml` | Ausgabe als XML |
+| `-json` | Ausgabe als JSON |
+| `-numeric` | zeigt zusätzlich numerische IDs (z. B. PCI-Hersteller/-Gerät) |
+| `-sanitize` | entfernt sensible Daten (Seriennummern, IP-Adressen) |
+| `-quiet` | unterdrückt Fortschrittsmeldungen |
+| `-X` | startet die grafische Oberfläche (sofern installiert) |
+| `-version` | zeigt die Version an |
+| `-help` | zeigt die Hilfe an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo lshw                        # vollständige Hardware-Übersicht
+sudo lshw -short                 # kompakter Gerätebaum
+sudo lshw -class disk            # nur Datenträger
+sudo lshw -class network         # nur Netzwerk-Hardware
+sudo lshw -json > hardware.json  # Ausgabe als JSON speichern
+```
+
+</details>
+
+>**Hinweis:** Ohne `sudo` sind viele Angaben unvollständig oder fehlen. Nicht überall vorinstalliert – ggf. mit `sudo apt install lshw` nachinstallieren. Anders als bei den meisten Befehlen haben die langen Optionen nur **einen** Bindestrich (`-class`, `-short`). Für reine CPU-Details ist `lscpu` kompakter.
+
+---
+
+### lsmod
+>**Funktion:** Geladene Kernel-Module anzeigen<br />
+>**Syntax:** `lsmod`<br />
+>**Erklärung:** Zeigt die aktuell in den Kernel geladenen Module in einer Tabelle an – mit Name, Größe und der Anzahl bzw. Liste der Module, die das jeweilige Modul verwenden. Die Daten stammen aus `/proc/modules`.<br />
+>**Verwendung:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;ohne Argumente: listet alle geladenen Module<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;die Ausgabe wird oft mit `grep` gefiltert<br />
+>**Beispiel:** `lsmod`
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+lsmod              # alle geladenen Module
+lsmod | grep usb   # nur Module mit "usb" im Namen
+lsmod | sort       # alphabetisch sortiert
+lsmod | wc -l      # Anzahl geladener Module
+```
+
+</details>
+
+>**Hinweis:** Braucht kein `sudo`. `lsmod` selbst kennt keine Optionen – es zeigt nur eine formatierte Sicht auf `/proc/modules`. Für Details zu einem einzelnen Modul `modinfo <modul>` verwenden, zum Laden/Entladen `modprobe`.
+
+---
+
+### lspci
+>**Funktion:** PCI-Geräte auflisten<br />
+>**Syntax:** `lspci [optionen]`<br />
+>**Erklärung:** Listet alle am PCI-Bus angeschlossenen Geräte auf – Grafikkarte, Netzwerk- und Speichercontroller usw.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-v` ausführliche Ausgabe<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-k` zeigt die genutzten Kernel-Treiber<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-nn` zeigt IDs zusätzlich als Nummer<br />
+>**Beispiel:** `lspci`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-v` / `-vv` / `-vvv` | zunehmend ausführliche Ausgabe |
+| `-k` | zeigt die genutzten Kernel-Treiber und -Module |
+| `-nn` | zeigt Geräte- und Hersteller-IDs als Name **und** Nummer |
+| `-n` | zeigt die IDs nur als Nummern |
+| `-t` | Baumdarstellung der PCI-Bus-Struktur |
+| `-s <gerät>` | nur ein bestimmtes Gerät (`[[domäne:]bus:]slot.funktion`) |
+| `-d <[hersteller]:[gerät]>` | nur Geräte mit dieser Hersteller-/Geräte-ID |
+| `-mm` | maschinenlesbares Format |
+| `-x` | Hex-Dump des Konfigurationsbereichs |
+| `-D` | zeigt zusätzlich die PCI-Domäne an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+lspci                 # alle PCI-Geräte
+lspci -nnk            # mit IDs und genutzten Kernel-Treibern
+lspci -v              # ausführliche Details
+lspci | grep -i vga   # nur die Grafikkarte
+```
+
+</details>
+
+>**Hinweis:** Für die Übersicht braucht es kein `sudo`; einzelne Details (z. B. `-vvv`) zeigt es nur als root vollständig. `-nnk` ist praktisch, um zu sehen, welcher Treiber ein Gerät steuert. Gehört zum Paket `pciutils`.
+
+---
+
+### lsusb
+>**Funktion:** USB-Geräte auflisten<br />
+>**Syntax:** `lsusb [optionen]`<br />
+>**Erklärung:** Listet die an den USB-Bussen angeschlossenen Geräte auf – mit Hersteller- und Geräte-ID.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-v` ausführliche Details<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-t` Baumdarstellung der USB-Topologie<br />
+>**Beispiel:** `lsusb`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-v`, `--verbose` | ausführliche Details zu jedem Gerät |
+| `-t`, `--tree` | Baumdarstellung der USB-Bus-Topologie |
+| `-s <[bus]:[gerät]>` | nur ein bestimmtes Gerät (Bus-/Gerätenummer) |
+| `-d <[hersteller]:[gerät]>` | nur Geräte mit dieser Hersteller-/Geräte-ID |
+| `-D <gerät>`, `--device <gerät>` | Informationen zu einer USB-Gerätedatei (z. B. `/dev/bus/usb/002/003`) |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+lsusb            # alle USB-Geräte
+lsusb -t         # Baum der USB-Topologie
+lsusb -v         # ausführliche Details (oft mit sudo vollständig)
+lsusb -d 1d6b:   # nur Geräte eines Herstellers
+```
+
+</details>
+
+>**Hinweis:** Für die ausführliche Ausgabe (`-v`) braucht es oft `sudo`. Gehört wie `lspci` zum Paket `usbutils`. Die Geräte-IDs (`hersteller:gerät`) helfen beim Suchen passender Treiber.
+
+---
+
+### modinfo
+>**Funktion:** Informationen über ein Kernel-Modul anzeigen<br />
+>**Syntax:** `modinfo [optionen] <modul>`<br />
+>**Erklärung:** Zeigt Informationen über ein Kernel-Modul – Dateipfad, Lizenz, Beschreibung, Autor, Abhängigkeiten und mögliche Parameter. Das Modul muss dafür nicht geladen sein.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-p` zeigt nur die möglichen Parameter<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-F <feld>` gibt nur ein bestimmtes Feld aus<br />
+>**Beispiel:** `modinfo fuse`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-F <feld>`, `--field <feld>` | gibt nur ein bestimmtes Feld aus (z. B. `version`, `depends`) |
+| `-p`, `--parameters` | zeigt nur die möglichen Modul-Parameter |
+| `-d`, `--description` | zeigt nur die Beschreibung |
+| `-a`, `--author` | zeigt nur den Autor |
+| `-l`, `--license` | zeigt nur die Lizenz |
+| `-n`, `--filename` | zeigt nur den Pfad der Moduldatei |
+| `-k <version>` | nutzt die Module einer anderen Kernel-Version |
+| `-b <verz>`, `--basedir <verz>` | sucht die Module in einem anderen Basisverzeichnis |
+| `-0`, `--null` | trennt die Ausgabefelder mit NUL statt Zeilenumbruch |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+modinfo fuse              # alle Infos zum Modul fuse
+modinfo -F version fuse   # nur die Version
+modinfo -p e1000          # mögliche Parameter eines Moduls
+modinfo -n fuse           # Pfad der Moduldatei
+```
+
+</details>
+
+>**Hinweis:** Braucht kein `sudo`. Das Modul muss nicht geladen sein – `modinfo` liest direkt die Moduldatei. Geladene Module zeigt `lsmod`, zum Laden/Entladen dient `modprobe`.
+
+---
+
+### modprobe
+>**Funktion:** Kernel-Module laden und entladen<br />
+>**Syntax:** `modprobe [optionen] <modul> [parameter...]`<br />
+>**Erklärung:** Lädt ein Kernel-Modul samt seiner Abhängigkeiten in den Kernel oder entfernt es wieder. Anders als `insmod`/`rmmod` löst es Abhängigkeiten automatisch auf.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-r` entlädt das Modul<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-v` zeigt ausführlich, was passiert<br />
+>**Beispiel:** `sudo modprobe vboxdrv`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-r`, `--remove` | entlädt das Modul (und ungenutzte Abhängigkeiten) |
+| `-a`, `--all` | lädt oder entlädt mehrere angegebene Module |
+| `-v`, `--verbose` | zeigt ausführlich, was geladen/entladen wird |
+| `-n`, `--dry-run` | zeigt nur, was getan würde, ohne es auszuführen |
+| `-D`, `--show-depends` | listet die Abhängigkeiten auf, ohne zu laden |
+| `-c`, `--showconfig` | zeigt die aktuelle modprobe-Konfiguration |
+| `-f`, `--force` | erzwingt das Laden (überspringt Versionsprüfungen) |
+| `-q`, `--quiet` | unterdrückt Fehlermeldungen, wenn ein Modul fehlt |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo modprobe vboxdrv      # Modul laden
+sudo modprobe -r vboxdrv   # Modul entladen
+modprobe -D vboxdrv        # Abhängigkeiten anzeigen (ohne zu laden)
+sudo modprobe -v fuse      # ausführlich laden
+```
+
+</details>
+
+>**Hinweis:** Braucht `sudo`/root. Dauerhaft beim Booten laden: Eintrag unter `/etc/modules-load.d/` (bzw. `/etc/modules`); ein Modul sperren („blacklisten") über `/etc/modprobe.d/`. Geladene Module anzeigen mit `lsmod`, Details zu einem Modul mit `modinfo`.
 
 ---
 
