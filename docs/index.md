@@ -9,8 +9,12 @@
 
 ---
 
+Online Version: [https://st-impuls.github.io/Linux-Glossar/](https://st-impuls.github.io/Linux-Glossar/)
+
+---
+
 ![Periodic Table of Linux Distros](images/periodic-table-of-distro.webp)
-[Bildquelle: https://distrowatch.com/dwres.php?resource=family-tree](https://distrowatch.com/dwres.php?resource=family-tree)
+Bildquelle: [https://distrowatch.com/dwres.php?resource=family-tree](https://distrowatch.com/dwres.php?resource=family-tree)
 
 ## Notizen
 

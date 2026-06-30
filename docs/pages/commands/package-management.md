@@ -18,7 +18,7 @@
 
 # Paketverwaltung
 
-### apt
+### apt - Advanced Package Tool
 >**Funktion:** Pakete installieren, aktualisieren und entfernen (Debian/Ubuntu)<br />
 >**Syntax:** `apt [optionen] <unterbefehl> [<paket>...]`<br />
 >**Erklärung:** Moderne, einheitliche Oberfläche zur Paketverwaltung auf Debian/Ubuntu. Die Aktionen laufen über Unterbefehle wie `install` oder `update`; schreibende Aktionen brauchen `sudo`.<br />
