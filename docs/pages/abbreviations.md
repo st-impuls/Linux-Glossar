@@ -1,6 +1,7 @@
 [← Home](../index.md)
 - [Tastenkürzel](shortcuts.md)
 - [Befehle](commands/index.md)
+- [Wichtige Verzeichnisse](directories.md)
 
 ## Begriffe
 

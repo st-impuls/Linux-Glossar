@@ -5,6 +5,7 @@
 - [Abkürzungen / Begriffe](pages/abbreviations.md)
 - [Tastenkürzel](pages/shortcuts.md)
 - [Befehle](pages/commands/index.md)
+- [Wichtige Verzeichnisse](pages/directories.md)
 - [Notizen](#notizen)
 
 ---

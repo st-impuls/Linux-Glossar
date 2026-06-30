@@ -1,6 +1,7 @@
 [← Home](../../index.md)
 - [Abkürzungen / Begriffe](../abbreviations.md)
 - [Tastenkürzel](../shortcuts.md)
+- [Wichtige Verzeichnisse](../directories.md)
 
 ## Kategorien
 - [Benutzer & Rechte](users-permissions.md)
