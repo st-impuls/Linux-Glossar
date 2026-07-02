@@ -53,6 +53,7 @@ nav:
       - Paketverwaltung: pages/commands/package-management.md
       - Shell & Skripte: pages/commands/shell-scripting.md
       - System & Dienste: pages/commands/system-services.md
+  - Wichtige Verzeichnisse: pages/directories.md
 
 plugins:
   - search:
