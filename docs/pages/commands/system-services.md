@@ -66,6 +66,54 @@ df -h /home    # Dateisystem, auf dem /home liegt
 
 ---
 
+### dmesg
+>**Funktion:** Kernel-Meldungen (Ring-Puffer) anzeigen<br />
+>**Syntax:** `dmesg [optionen]`<br />
+>**Erklärung:** Zeigt die Meldungen des Kernels aus dem Ring-Puffer – etwa zu erkannter Hardware, Treibern, Datenträgern und Fehlern, besonders rund um den Systemstart.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-H` lesbare Ausgabe mit Zeitstempeln<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-w` folgt neuen Meldungen live<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-l <liste>` filtert nach Dringlichkeitsstufe<br />
+>**Beispiel:** `dmesg -H`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-H`, `--human` | lesbare Ausgabe mit Pager und relativen Zeitstempeln |
+| `-T`, `--ctime` | zeigt menschenlesbare Zeitstempel (lokale Zeit) |
+| `-w`, `--follow` | folgt neuen Meldungen live (wie `tail -f`) |
+| `-x`, `--decode` | zeigt Subsystem (facility) und Dringlichkeit (level) als Text |
+| `-l <liste>`, `--level=<liste>` | filtert nach Dringlichkeitsstufen (z. B. `err,warn`) |
+| `-f <liste>`, `--facility=<liste>` | filtert nach Subsystem (z. B. `kern`, `daemon`) |
+| `-k`, `--kernel` | zeigt nur Kernel-Meldungen |
+| `-u`, `--userspace` | zeigt nur Userspace-Meldungen |
+| `-c`, `--read-clear` | zeigt den Puffer und leert ihn danach |
+| `-C`, `--clear` | leert den Ring-Puffer |
+| `--color[=<wann>]` | farbige Ausgabe |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+dmesg -H            # lesbar, mit Pager und Zeitstempeln
+dmesg -w            # neue Meldungen live verfolgen
+dmesg -l err,warn   # nur Fehler und Warnungen
+dmesg | grep -i usb # Meldungen rund um USB
+sudo dmesg -C       # Ring-Puffer leeren
+```
+
+</details>
+
+>**Hinweis:** Das Lesen ist auf vielen Systemen ohne `sudo` eingeschränkt (`kernel.dmesg_restrict`). Eng verwandt mit `journalctl -k`, das dieselben Kernelmeldungen aus dem Journal zeigt – dort auch über frühere Bootvorgänge hinweg. Der Ring-Puffer ist begrenzt; ältere Meldungen werden überschrieben.
+
+---
+
 ### du
 >**Funktion:** Speicherverbrauch von Dateien und Verzeichnissen anzeigen<br />
 >**Syntax:** `du [optionen] [<pfad>...]`<br />
@@ -298,6 +346,49 @@ journalctl -k                                          # Kernelmeldungen
 </details>
 
 >**Hinweis:** Braucht oft `sudo`, um alle Logs zu sehen. `journalctl --disk-usage` zeigt den Platzbedarf, `sudo journalctl --vacuum-time=2weeks` räumt alte Logs auf. Logs eines einzelnen Dienstes: `journalctl -u <dienst>`.
+
+---
+
+### ldconfig
+>**Funktion:** Cache des dynamischen Linkers aktualisieren<br />
+>**Syntax:** `ldconfig [optionen]`<br />
+>**Erklärung:** Durchsucht die Standard-Bibliotheksverzeichnisse und die in `/etc/ld.so.conf` (samt `/etc/ld.so.conf.d/`) genannten Pfade und baut daraus den Cache `/etc/ld.so.cache`. Darüber finden Programme beim Start schnell die benötigten geteilten Bibliotheken.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-p` zeigt die Bibliotheken im Cache<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-v` ausführliche Ausgabe<br />
+>**Beispiel:** `sudo ldconfig`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-p`, `--print-cache` | zeigt die aktuell im Cache gelisteten Bibliotheken |
+| `-v`, `--verbose` | ausführliche Ausgabe mit den durchsuchten Verzeichnissen |
+| `-n` | verarbeitet nur die auf der Kommandozeile angegebenen Verzeichnisse |
+| `-N` | baut den Cache nicht neu auf (nur Links erneuern) |
+| `-X` | erneuert die symbolischen Links nicht (nur Cache aufbauen) |
+| `-f <konf>` | nutzt eine andere Konfigurationsdatei statt `/etc/ld.so.conf` |
+| `-C <cache>` | nutzt eine andere Cache-Datei statt `/etc/ld.so.cache` |
+| `-r <verz>` | verwendet ein anderes Wurzelverzeichnis (chroot) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo ldconfig            # Cache neu aufbauen
+ldconfig -p              # Bibliotheken im Cache anzeigen
+ldconfig -p | grep ssl   # nach einer bestimmten Bibliothek suchen
+sudo ldconfig -v         # ausführlich, mit durchsuchten Verzeichnissen
+```
+
+</details>
+
+>**Hinweis:** Der Neuaufbau des Caches braucht `sudo` (schreibt nach `/etc`); `-p` funktioniert ohne. Nötig nach dem manuellen Installieren einer Bibliothek oder nach einem neuen Eintrag unter `/etc/ld.so.conf.d/`. Gehört zum dynamischen Linker `ld.so`; die Bibliotheken selbst liegen in `/lib` bzw. `/usr/lib`.
 
 ---
 
@@ -836,7 +927,25 @@ sudo shutdown -c                # geplante Abschaltung abbrechen
 | `mask <dienst>` / `unmask <dienst>` | sperrt bzw. entsperrt einen Dienst vollständig |
 | `list-unit-files` | listet alle Unit-Dateien mit ihrem Status |
 | `cat <dienst>` | zeigt die Unit-Datei eines Dienstes |
+| `isolate <target>` | wechselt in ein Ziel (Target), z. B. `multi-user.target` (Textmodus) oder `graphical.target` (GUI) |
+| `get-default` | zeigt das beim Booten verwendete Standard-Target |
+| `set-default <target>` | legt das Standard-Target für den Bootvorgang fest |
 | `reboot` / `poweroff` | startet neu / schaltet aus |
+
+</details>
+
+<details markdown>
+<summary>Wichtige Targets (Systemzustände)</summary>
+
+| Target | ~Runlevel | Bedeutung |
+|---|---|---|
+| `poweroff.target` | 0 | System ausschalten |
+| `rescue.target` | 1 | Einzelbenutzer-/Wartungsmodus (minimale Dienste) |
+| `multi-user.target` | 3 | Mehrbenutzer-Textmodus, ohne GUI |
+| `graphical.target` | 5 | Mehrbenutzer + grafische Oberfläche |
+| `reboot.target` | 6 | System neu starten |
+| `emergency.target` | – | Notfall-Shell, nur Root-Dateisystem (read-only) |
+| `default.target` | – | Verweis auf das Standard-Target (meist `graphical` oder `multi-user`) |
 
 </details>
 
