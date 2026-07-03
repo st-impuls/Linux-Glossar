@@ -214,6 +214,52 @@ sudo ip link set eth0 up              # Schnittstelle eth0 aktivieren
 
 ---
 
+### netstat
+>**Funktion:** Netzwerkverbindungen und -statistiken anzeigen<br />
+>**Syntax:** `netstat [optionen]`<br />
+>**Erklärung:** Zeigt offene Netzwerkverbindungen, lauschende Ports, die Routing-Tabelle und Schnittstellen-Statistiken. Gibt einen Überblick, welche Programme über das Netz kommunizieren.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-t` nur TCP-Verbindungen<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-l` nur lauschende Ports<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-p` zeigt das zugehörige Programm<br />
+>**Beispiel:** `netstat -tulpn`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-t`, `--tcp` | zeigt TCP-Verbindungen |
+| `-u`, `--udp` | zeigt UDP-Verbindungen |
+| `-l`, `--listening` | zeigt nur lauschende (wartende) Ports |
+| `-p`, `--programs` | zeigt PID und Namen des zugehörigen Programms (oft mit `sudo`) |
+| `-n`, `--numeric` | zeigt Adressen/Ports numerisch, ohne Namensauflösung |
+| `-a`, `--all` | zeigt lauschende **und** bestehende Verbindungen |
+| `-r`, `--route` | zeigt die Routing-Tabelle |
+| `-i`, `--interfaces` | zeigt eine Tabelle der Netzwerkschnittstellen |
+| `-s`, `--statistics` | zeigt Statistiken je Protokoll |
+| `-c`, `--continuous` | aktualisiert die Ausgabe fortlaufend |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+netstat -tulpn   # lauschende TCP/UDP-Ports mit Programm (numerisch)
+netstat -tn      # bestehende TCP-Verbindungen
+netstat -r       # Routing-Tabelle
+netstat -i       # Schnittstellen-Statistik
+```
+
+</details>
+
+>**Hinweis:** Gilt als **veraltet** und ist nicht überall vorinstalliert (Paket `net-tools`). Die moderne Alternative ist `ss` (schneller, gleiche Aufgabe); `netstat -tulpn` entspricht `ss -tulpn`.
+
+---
+
 ### nslookup
 >**Funktion:** DNS-Namen auflösen (auch interaktiv)<br />
 >**Syntax:** `nslookup [optionen] <name> [<server>]`<br />
@@ -294,6 +340,52 @@ ping -c 4 -i 0.5 8.8.8.8    # 4 Pakete im Abstand von 0,5 s
 
 ---
 
+### rsync
+>**Funktion:** Dateien effizient synchronisieren und kopieren<br />
+>**Syntax:** `rsync [optionen] <quelle> <ziel>`<br />
+>**Erklärung:** Kopiert und synchronisiert Dateien und Verzeichnisse – lokal oder über das Netzwerk (meist via SSH). Überträgt nur die **Unterschiede** zu bereits vorhandenen Dateien und ist daher deutlich schneller als ein wiederholtes `cp`/`scp`.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-a` Archivmodus (rekursiv, erhält Rechte/Zeiten)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-v` ausführliche Ausgabe<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-z` komprimiert die Übertragung<br />
+>**Beispiel:** `rsync -av quelle/ ziel/`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-a`, `--archive` | Archivmodus: rekursiv, erhält Rechte, Zeiten, Links usw. |
+| `-v`, `--verbose` | zeigt die übertragenen Dateien an |
+| `-z`, `--compress` | komprimiert die Daten während der Übertragung |
+| `-P` | zeigt den Fortschritt an und setzt abgebrochene Übertragungen fort |
+| `-r`, `--recursive` | steigt in Unterverzeichnisse ab (in `-a` enthalten) |
+| `-u`, `--update` | überspringt Dateien, die am Ziel neuer sind |
+| `-n`, `--dry-run` | zeigt nur, was passieren würde, ohne zu übertragen |
+| `--delete` | löscht am Ziel Dateien, die in der Quelle fehlen |
+| `-e <programm>`, `--rsh` | wählt das Transportprogramm (z. B. `ssh`) |
+| `--exclude=<muster>` | schließt passende Dateien von der Übertragung aus |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+rsync -av quelle/ ziel/                 # lokal synchronisieren
+rsync -avz projekt/ user@host:/backup/  # über SSH auf einen Server
+rsync -av --delete quelle/ ziel/        # Ziel exakt an Quelle angleichen
+rsync -avn quelle/ ziel/                # Probelauf (nichts wird geändert)
+```
+
+</details>
+
+>**Hinweis:** **Keine Standardsoftware** auf allen Systemen (ggf. `sudo apt install rsync`). Ein abschließender `/` an der Quelle bedeutet „den **Inhalt** des Ordners kopieren", ohne `/` wird der Ordner selbst mit angelegt. `--delete` mit Vorsicht (löscht am Ziel). Für die Netzwerkübertragung setzt es meist auf `ssh` auf.
+
+---
+
 ### scp
 >**Funktion:** Dateien sicher zwischen Rechnern kopieren<br />
 >**Syntax:** `scp [optionen] <quelle> <ziel>`<br />
@@ -336,6 +428,51 @@ scp -P 2222 datei.txt user@host:/p  # über einen anderen Port
 </details>
 
 >**Hinweis:** Adressformat ist `user@host:/pfad`. Achtung: der Port ist `-P` (groß), bei `ssh` dagegen `-p` (klein). Modernere Alternativen sind `rsync` (überträgt nur Änderungen) und `sftp`.
+
+---
+
+### ss
+>**Funktion:** Sockets und Netzwerkverbindungen anzeigen<br />
+>**Syntax:** `ss [optionen]`<br />
+>**Erklärung:** Zeigt Sockets, offene Verbindungen und lauschende Ports – der moderne, schnellere Nachfolger von `netstat`. Gehört zum Paket `iproute2`.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-t` nur TCP<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-l` nur lauschende Ports<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-p` zeigt das zugehörige Programm<br />
+>**Beispiel:** `ss -tulpn`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-t`, `--tcp` | zeigt TCP-Sockets |
+| `-u`, `--udp` | zeigt UDP-Sockets |
+| `-l`, `--listening` | zeigt nur lauschende Sockets |
+| `-p`, `--processes` | zeigt das zugehörige Programm (oft mit `sudo`) |
+| `-n`, `--numeric` | zeigt Ports numerisch, ohne Namensauflösung |
+| `-a`, `--all` | zeigt lauschende und bestehende Verbindungen |
+| `-s`, `--summary` | zeigt eine Zusammenfassung nach Socket-Typ |
+| `-4` / `-6` | beschränkt auf IPv4 bzw. IPv6 |
+| `-r`, `--resolve` | löst Adressen in Namen auf |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+ss -tulpn              # lauschende TCP/UDP-Ports mit Programm (numerisch)
+ss -tn                 # bestehende TCP-Verbindungen
+ss -s                  # Zusammenfassung
+ss -tlp 'sport = :22'  # wer lauscht auf Port 22
+```
+
+</details>
+
+>**Hinweis:** Ersetzt das ältere `netstat` und ist in der Regel vorinstalliert (Paket `iproute2`). Die gebräuchliche Kombination `ss -tulpn` zeigt schnell alle offenen Ports samt Programm; für die Prozessspalte meist `sudo` nötig.
 
 ---
 

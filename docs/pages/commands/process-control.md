@@ -20,6 +20,116 @@
 
 # Prozesse & Steuerung
 
+### at
+>**Funktion:** Einen Befehl einmalig zu einer bestimmten Zeit ausführen<br />
+>**Syntax:** `at [optionen] <zeit>`<br />
+>**Erklärung:** Plant die einmalige Ausführung von Befehlen zu einem späteren Zeitpunkt. Nach dem Aufruf werden die auszuführenden Befehle über die Standardeingabe eingegeben (Abschluss mit `Ctrl + D`). Anders als `cron` läuft der Auftrag nur ein einziges Mal.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-f <datei>` liest die Befehle aus einer Datei<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-l` listet anstehende Aufträge (wie `atq`)<br />
+>**Beispiel:** `at 22:00`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-f <datei>`, `--file` | liest die auszuführenden Befehle aus einer Datei |
+| `-l` | listet die anstehenden Aufträge auf (entspricht `atq`) |
+| `-d <id>`, `-r <id>` | löscht einen Auftrag (entspricht `atrm`) |
+| `-m` | schickt nach der Ausführung eine E-Mail, auch ohne Ausgabe |
+| `-c <id>` | zeigt den Inhalt eines Auftrags an |
+| `-v` | zeigt die geplante Ausführungszeit an |
+
+</details>
+
+<details markdown>
+<summary>Zeitangaben</summary>
+
+| Beispiel | Bedeutung |
+|---|---|
+| `at 22:00` | heute um 22 Uhr |
+| `at now + 5 minutes` | in 5 Minuten |
+| `at 8am tomorrow` | morgen früh um 8 |
+| `at 2pm + 3 days` | in 3 Tagen um 14 Uhr |
+| `at midnight` | um Mitternacht |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+echo "backup.sh" | at 22:00   # Befehl einzeilig einplanen
+at now + 1 hour < skript.sh   # Befehle aus einer Datei
+atq                           # anstehende Aufträge anzeigen
+atrm 3                        # Auftrag Nr. 3 löschen
+```
+
+</details>
+
+>**Hinweis:** Braucht den laufenden Dienst `atd` und ist nicht überall vorinstalliert (`sudo apt install at`). Für **wiederkehrende** Aufgaben ist `cron`/`crontab` gedacht. Verwandte Befehle: `atq` (Liste), `atrm` (löschen).
+
+---
+
+### crontab
+>**Funktion:** Wiederkehrende Aufgaben (Cronjobs) verwalten<br />
+>**Syntax:** `crontab [optionen]`<br />
+>**Erklärung:** Bearbeitet die persönliche Cron-Tabelle, in der wiederkehrende Aufträge stehen – der Dienst `cron` führt sie zu den angegebenen Zeiten automatisch aus. Jede Zeile beschreibt Zeitpunkt und Befehl.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-e` öffnet die Cron-Tabelle zum Bearbeiten<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-l` zeigt die aktuellen Einträge<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-r` löscht die gesamte Tabelle<br />
+>**Beispiel:** `crontab -e`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-e`, `--edit` | öffnet die eigene Cron-Tabelle im Editor |
+| `-l`, `--list` | zeigt die aktuellen Einträge an |
+| `-r`, `--remove` | löscht die gesamte Cron-Tabelle |
+| `-i` | fragt vor dem Löschen (`-r`) nach |
+| `-u <benutzer>` | bearbeitet die Tabelle eines anderen Benutzers (als root) |
+
+</details>
+
+<details markdown>
+<summary>Aufbau einer Zeile</summary>
+
+Fünf Zeitfelder, danach der Befehl:
+
+```
+* * * * * <befehl>
+| | | | |
+| | | | +-- Wochentag (0–7, 0 und 7 = Sonntag)
+| | | +---- Monat (1–12)
+| | +------ Tag des Monats (1–31)
+| +-------- Stunde (0–23)
++---------- Minute (0–59)
+```
+
+Beispiele: `0 3 * * *` = täglich um 3 Uhr · `*/15 * * * *` = alle 15 Minuten · `0 9 * * 1` = montags um 9 Uhr.
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+crontab -e                  # eigene Cronjobs bearbeiten
+crontab -l                  # eigene Cronjobs anzeigen
+sudo crontab -l -u www-data # Tabelle eines anderen Benutzers
+0 2 * * * /pfad/backup.sh    # (in der Tabelle) täglich 2 Uhr Backup
+```
+
+</details>
+
+>**Hinweis:** Betrifft die **persönliche** Tabelle des aufrufenden Benutzers. Systemweite Aufträge stehen in `/etc/crontab` und `/etc/cron.d/`. Der Name „cron" leitet sich vom griechischen *chronos* (Zeit) ab. Für einmalige Aufträge dient `at`.
+
+---
+
 ### htop
 >**Funktion:** Prozesse interaktiv anzeigen und verwalten<br />
 >**Syntax:** `htop [optionen]`<br />
@@ -256,6 +366,69 @@ while true; do date; sleep 60; done   # jede Minute die Uhrzeit ausgeben
 </details>
 
 >**Hinweis:** Einheiten wie `m`/`h` und mehrere Argumente versteht nur GNU `sleep` (Linux). Auf manchen Systemen sind ausschließlich ganze Sekunden erlaubt.
+
+---
+
+### time
+>**Funktion:** Laufzeit eines Befehls messen<br />
+>**Syntax:** `time <befehl> [argumente...]`<br />
+>**Erklärung:** Führt einen Befehl aus und meldet anschließend, wie lange er gebraucht hat – aufgeschlüsselt in reale Zeit (`real`), CPU-Zeit im Benutzermodus (`user`) und im Kernel (`sys`).<br />
+>**Verwendung:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`time <befehl>` misst die Ausführungszeit<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;externes `/usr/bin/time -v` zeigt zusätzlich den Ressourcenverbrauch<br />
+>**Beispiel:** `time sleep 2`
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+time sleep 2             # ~2 s real
+time ls -R /             # Dauer eines Befehls
+/usr/bin/time -v gzip f  # ausführlich: Speicher, CPU u. a. (externes time)
+```
+
+</details>
+
+>**Hinweis:** In Bash ist `time` ein **Schlüsselwort** (kein normaler Befehl) – deshalb kann es auch ganze Pipelines messen (`time cmd1 | cmd2`). Daneben gibt es das Programm `/usr/bin/time` (Paket `time`) mit anderer Ausgabe und der Option `-v` für Details. Kein `sudo` nötig.
+
+---
+
+### timeout
+>**Funktion:** Einen Befehl mit einem Zeitlimit ausführen<br />
+>**Syntax:** `timeout [optionen] <dauer> <befehl> [argumente...]`<br />
+>**Erklärung:** Startet einen Befehl und bricht ihn ab, falls er nicht innerhalb der angegebenen Zeit fertig wird. Praktisch, um hängende oder endlos laufende Programme automatisch zu beenden.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-s <signal>` legt das Abbruch-Signal fest<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-k <dauer>` schickt nach weiterer Zeit `KILL` hinterher<br />
+>**Beispiel:** `timeout 5 ping example.com`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-s <signal>`, `--signal=<signal>` | legt das Signal zum Abbruch fest (Standard `TERM`) |
+| `-k <dauer>`, `--kill-after=<dauer>` | schickt nach weiterer Zeit `KILL`, falls der Befehl nicht endet |
+| `--preserve-status` | gibt den Exit-Code des Befehls zurück statt `124` bei Abbruch |
+| `--foreground` | erlaubt dem Befehl den Zugriff auf das Terminal (interaktiv) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+timeout 5 ping example.com   # nach 5 s abbrechen
+timeout 10s ./skript.sh      # mit Einheit (s/m/h/d)
+timeout -s KILL 3 ./haenger  # hart mit KILL beenden
+timeout -k 5 30 ./job        # nach 30 s TERM, 5 s später KILL
+```
+
+</details>
+
+>**Hinweis:** Die Dauer akzeptiert Einheiten `s`, `m`, `h`, `d` (ohne Angabe: Sekunden). Wird der Befehl abgebrochen, liefert `timeout` den Exit-Code `124`. Teil der GNU-Coreutils. Zum wiederholten Beobachten eines Befehls siehe `watch`.
 
 ---
 

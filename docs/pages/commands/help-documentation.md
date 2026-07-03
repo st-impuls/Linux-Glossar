@@ -61,8 +61,8 @@ man -k passwd               # gleichbedeutend zu apropos
 
 ---
 
-### help | Intern (Builtins)
->**Funktion:** Hilfe zu eingebauten Shell-Befehlen anzeigen<br />
+### help
+>**Funktion:** Hilfe zu eingebauten Shell-Befehlen anzeigen | Intern (Builtins)<br />
 >**Syntax:** `help [optionen] [<muster>]`<br />
 >**Erklärung:** Zeigt die eingebaute Hilfe der Shell zu ihren Builtins (z. B. `cd`, `export`, `for`). Für diese gibt es keine eigenen Man-Seiten, weil sie Teil der Shell selbst sind. Ohne Argument listet `help` alle Builtins auf.<br />
 >**Optionen:**<br />

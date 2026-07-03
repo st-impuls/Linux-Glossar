@@ -522,6 +522,30 @@ type -p git   # /usr/bin/git
 
 ---
 
+### unalias
+>**Funktion:** Einen Alias wieder entfernen | Intern (Builtins)<br />
+>**Syntax:** `unalias [optionen] <name>...`<br />
+>**Erklärung:** Löscht einen zuvor mit `alias` angelegten Kurzbefehl. Betrifft nur die aktuelle Shell-Sitzung.<br />
+>**Verwendung:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`unalias <name>` entfernt einen Alias<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`unalias -a` entfernt alle Aliase<br />
+>**Beispiel:** `unalias ll`
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+unalias ll   # den Alias ll entfernen
+unalias -a   # alle Aliase der Sitzung entfernen
+alias        # verbleibende Aliase anzeigen
+```
+
+</details>
+
+>**Hinweis:** Wirkt nur in der laufenden Sitzung. Dauerhaft angelegte Aliase (z. B. in `~/.bashrc`) kommen bei der nächsten Sitzung zurück – dort die entsprechende `alias`-Zeile löschen. Gegenstück zu `alias`.
+
+---
+
 ### unset
 >**Funktion:** Variablen oder Funktionen entfernen | Intern (Builtins)<br />
 >**Syntax:** `unset [optionen] <name>...`<br />

@@ -14,6 +14,10 @@ Online Version: [https://st-impuls.github.io/Linux-Glossar/](https://st-impuls.g
 
 ---
 
+**Über 150 Befehle in 12 Kategorien.**
+
+---
+
 ![Periodic Table of Linux Distros](images/periodic-table-of-distro.webp)
 Bildquelle: [https://distrowatch.com/dwres.php?resource=family-tree](https://distrowatch.com/dwres.php?resource=family-tree)
 

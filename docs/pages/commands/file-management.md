@@ -76,6 +76,90 @@ cp -u *.txt /home/user/docs/    # nur neuere/fehlende Dateien aktualisieren
 
 ---
 
+### file
+>**Funktion:** Dateityp anhand des Inhalts bestimmen<br />
+>**Syntax:** `file [optionen] <datei>...`<br />
+>**Erklärung:** Untersucht den Inhalt einer Datei und meldet ihren Typ – unabhängig von der Dateiendung. Dazu prüft es charakteristische Merkmale („magic numbers") am Dateianfang.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-i` zeigt den MIME-Typ an<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-b` gibt ohne den Dateinamen aus<br />
+>**Beispiel:** `file bild.png`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-b`, `--brief` | gibt nur den Typ aus, ohne den Dateinamen |
+| `-i`, `--mime` | zeigt den MIME-Typ (z. B. `image/png`) |
+| `-z`, `--uncompress` | schaut auch in komprimierte Dateien hinein |
+| `-L`, `--dereference` | folgt symbolischen Links |
+| `-s`, `--special-files` | liest auch Geräte-/Spezialdateien |
+| `-f <datei>`, `--files-from` | liest die zu prüfenden Namen aus einer Datei |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+file bild.png      # Typ einer Datei
+file *             # alle Einträge im Ordner
+file -i dokument   # MIME-Typ anzeigen
+file -b skript.sh  # nur den Typ, ohne Namen
+```
+
+</details>
+
+>**Hinweis:** Bestimmt den Typ am **Inhalt**, nicht an der Endung – eine als `.txt` benannte PNG-Datei wird trotzdem als Bild erkannt. Besonders praktisch bei Dateien ohne Endung.
+
+---
+
+### ln
+>**Funktion:** Verknüpfungen (Links) zu Dateien anlegen<br />
+>**Syntax:** `ln [optionen] <ziel> [<name>]`<br />
+>**Erklärung:** Legt einen Verweis auf eine bestehende Datei an. Ohne Optionen entsteht ein *harter* Link (ein zweiter Name für dieselben Daten); mit `-s` ein *symbolischer* Link (ein Verweis auf den Pfad, ähnlich einer Verknüpfung).<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-s` erstellt einen symbolischen Link<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-f` überschreibt ein vorhandenes Ziel<br />
+>**Beispiel:** `ln -s /opt/app/start start`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-s`, `--symbolic` | erstellt einen symbolischen Link statt eines harten |
+| `-f`, `--force` | entfernt ein vorhandenes Ziel und legt es neu an |
+| `-i`, `--interactive` | fragt vor dem Überschreiben nach |
+| `-n`, `--no-dereference` | behandelt ein symbolisches Verzeichnis-Ziel als Datei |
+| `-r`, `--relative` | erstellt symbolische Links mit relativem Pfad |
+| `-v`, `--verbose` | zeigt die angelegten Links an |
+| `-b`, `--backup` | legt vom überschriebenen Ziel eine Sicherung an |
+| `-t <verz>`, `--target-directory` | legt die Links in diesem Verzeichnis an |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+ln -s /opt/app/start start   # symbolischer Link (Verknüpfung)
+ln datei.txt kopie.txt       # harter Link (zweiter Name)
+ln -sf /neu/ziel link        # bestehenden Link umbiegen
+ls -l                        # Links mit "->" anzeigen
+```
+
+</details>
+
+>**Hinweis:** Symbolische Links (`-s`) sind der Normalfall – sie funktionieren über Dateisystemgrenzen und für Verzeichnisse; existiert das Ziel nicht mehr, ist der Link „kaputt". Harte Links teilen sich denselben Datenblock und gehen nur innerhalb eines Dateisystems.
+
+---
+
 ### mkdir
 >**Funktion:** Neues Verzeichnis erstellen<br />
 >**Syntax:** `mkdir [optionen] <verzeichnis>...`<br />
