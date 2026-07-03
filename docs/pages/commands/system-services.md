@@ -7,6 +7,7 @@
 - [Benutzer & Rechte](users-permissions.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
+- [Hilfe & Dokumentation](help-documentation.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
 - [Paketverwaltung](package-management.md)
@@ -18,6 +19,47 @@
 [← Zurück zur Übersicht](index.md)
 
 # System & Dienste
+
+### depmod
+>**Funktion:** Abhängigkeiten der Kernel-Module berechnen<br />
+>**Syntax:** `depmod [optionen] [<version>]`<br />
+>**Erklärung:** Durchsucht die installierten Kernel-Module und erzeugt die Datei `modules.dep` (samt Map-Dateien) in `/lib/modules/<version>/`. Aus dieser Datenbank ermittelt `modprobe`, welche Module voneinander abhängen.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-a` verarbeitet alle Module (Standard)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-n` gibt das Ergebnis nur aus, ohne zu schreiben<br />
+>**Beispiel:** `sudo depmod -a`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-a`, `--all` | verarbeitet alle verfügbaren Module (Standard) |
+| `-A`, `--quick` | aktualisiert nur, wenn sich Module geändert haben |
+| `-n`, `--dry-run` | gibt das Ergebnis aus, ohne Dateien zu schreiben |
+| `-e`, `--errsyms` | zeigt Symbole an, die von keinem Modul bereitgestellt werden |
+| `-v`, `--verbose` | ausführliche Ausgabe |
+| `-b <verz>`, `--basedir <verz>` | nutzt ein anderes Basisverzeichnis für die Module |
+| `-F <datei>`, `--filesyms <datei>` | nutzt eine `System.map` zur Symbolprüfung |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo depmod -a                 # Abhängigkeiten aller Module neu berechnen
+sudo depmod 6.8.0-40-generic   # für eine bestimmte Kernel-Version
+depmod -n | less               # Ergebnis nur anzeigen, ohne zu schreiben
+```
+
+</details>
+
+>**Hinweis:** Braucht `sudo` (schreibt nach `/lib/modules/`). Läuft normalerweise automatisch beim Installieren eines Kernels oder Moduls; von Hand nötig, wenn man Module manuell hinzugefügt hat. Die erzeugte `modules.dep` nutzt `modprobe`; ein einzelnes Modul ohne Abhängigkeitsauflösung lädt `insmod`.
+
+---
 
 ### df
 >**Funktion:** Belegung der Dateisysteme anzeigen<br />
@@ -294,6 +336,30 @@ sudo hostnamectl set-hostname pc1   # Hostnamen dauerhaft ändern
 </details>
 
 >**Hinweis:** Teil von systemd. Den reinen Hostnamen zeigt auch der klassische Befehl `hostname`. Änderungen mit `set-hostname` sind dauerhaft – anders als `hostname <name>`, das nur bis zum Neustart gilt.
+
+---
+
+### insmod
+>**Funktion:** Ein einzelnes Kernel-Modul laden (ohne Abhängigkeiten)<br />
+>**Syntax:** `insmod <datei.ko> [parameter...]`<br />
+>**Erklärung:** Fügt genau die angegebene Moduldatei (`.ko`) in den Kernel ein. Löst – anders als `modprobe` – keine Abhängigkeiten auf und sucht das Modul nicht selbst: Der Pfad zur Datei muss vollständig angegeben werden.<br />
+>**Verwendung:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`<datei.ko>` lädt die angegebene Moduldatei<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;optionale `parameter=wert` werden an das Modul übergeben<br />
+>**Beispiel:** `sudo insmod ./mein_modul.ko`
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo insmod ./mein_modul.ko     # lokale Moduldatei laden
+sudo insmod fuse.ko debug=1     # mit Modul-Parameter
+sudo rmmod mein_modul           # wieder entladen (Gegenstück)
+```
+
+</details>
+
+>**Hinweis:** Braucht `sudo`/root. Low-Level-Werkzeug: schlägt fehl, wenn Abhängigkeiten fehlen, da es sie nicht auflöst. Im Alltag daher `modprobe <modul>` bevorzugen (löst Abhängigkeiten auf und findet das Modul über den Namen). Entladen mit `rmmod` bzw. `modprobe -r`.
 
 ---
 
@@ -812,6 +878,69 @@ sudo shutdown -r now  # sofortiger Neustart (Alternative)
 
 ---
 
+### rmmod
+>**Funktion:** Ein Kernel-Modul entladen<br />
+>**Syntax:** `rmmod [optionen] <modul>`<br />
+>**Erklärung:** Entfernt ein einzelnes, geladenes Modul aus dem Kernel. Gegenstück zu `insmod`; entlädt – anders als `modprobe -r` – nur das genannte Modul und nicht dessen ungenutzte Abhängigkeiten.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-f` erzwingt das Entladen (riskant)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-v` ausführliche Ausgabe<br />
+>**Beispiel:** `sudo rmmod mein_modul`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-f`, `--force` | erzwingt das Entladen (gefährlich; nur mit passender Kernel-Option verfügbar) |
+| `-v`, `--verbose` | ausführliche Ausgabe |
+| `-s`, `--syslog` | schreibt Meldungen ins Syslog statt auf die Konsole |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo rmmod mein_modul     # Modul entladen
+lsmod | grep mein_modul   # prüfen, ob noch geladen
+sudo modprobe -r fuse     # entladen samt ungenutzter Abhängigkeiten (Alternative)
+```
+
+</details>
+
+>**Hinweis:** Braucht `sudo`/root. Schlägt fehl, wenn das Modul noch benutzt wird (von Prozessen oder anderen Modulen). Im Alltag ist `modprobe -r <modul>` meist besser, da es auch abhängige, ungenutzte Module mit entlädt. Gegenstück zum Laden: `insmod` bzw. `modprobe`.
+
+---
+
+### runlevel
+>**Funktion:** Vorherigen und aktuellen Runlevel anzeigen<br />
+>**Syntax:** `runlevel`<br />
+>**Erklärung:** Zeigt den vorherigen und den aktuellen Runlevel (SysV-Init-Systemzustand). Die Ausgabe besteht aus zwei Feldern – dem vorigen und dem aktuellen Level; `N` bedeutet, dass es seit dem Start keinen Wechsel gab.<br />
+>**Verwendung:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;ohne Argumente: gibt z. B. `N 5` aus<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;braucht kein `sudo`<br />
+>**Beispiel:** `runlevel`
+
+<details markdown>
+<summary>Runlevel und ihre Bedeutung</summary>
+
+| Runlevel | systemd-Target | Bedeutung |
+|---|---|---|
+| 0 | `poweroff.target` | System ausschalten |
+| 1 | `rescue.target` | Einzelbenutzer-/Wartungsmodus |
+| 3 | `multi-user.target` | Mehrbenutzer-Textmodus |
+| 5 | `graphical.target` | grafischer Modus |
+| 6 | `reboot.target` | Neustart |
+
+</details>
+
+>**Hinweis:** Auf systemd-Systemen ein Kompatibilitäts-Wrapper; liegt oft in `/sbin` (ggf. `/sbin/runlevel` oder `sudo` nötig). Den aktuellen Level zeigt auch `who -r`; nativ fragt `systemctl get-default` das Standard-Target ab. Zum Wechseln dient `telinit` bzw. `systemctl isolate <target>`.
+
+---
+
 ### service
 >**Funktion:** Dienste starten, stoppen und steuern (klassisch)<br />
 >**Syntax:** `service <dienst> <aktion>`<br />
@@ -983,6 +1112,34 @@ sudo systemctl daemon-reload                          # nach Änderung an Unit-D
 
 ---
 
+### telinit
+>**Funktion:** Den Runlevel wechseln (SysV-Init)<br />
+>**Syntax:** `telinit [optionen] <runlevel>`<br />
+>**Erklärung:** Weist das Init-System an, in einen anderen Runlevel zu wechseln. Auf systemd-Systemen ist es ein Kompatibilitäts-Wrapper, der den Runlevel auf das passende Target abbildet (z. B. `telinit 3` ≈ `systemctl isolate multi-user.target`).<br />
+>**Argumente:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`3` wechselt in den Textmodus<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`5` wechselt in den grafischen Modus<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`6` startet neu, `0` schaltet aus<br />
+>**Beispiel:** `sudo telinit 3`
+
+<details markdown>
+<summary>Runlevel-Argumente</summary>
+
+| Argument | Wirkung (≈ systemd-Target) |
+|---|---|
+| `0` | System ausschalten (`poweroff.target`) |
+| `1` / `s` / `S` | Einzelbenutzermodus (`rescue.target`) |
+| `3` | Mehrbenutzer-Textmodus (`multi-user.target`) |
+| `5` | grafischer Modus (`graphical.target`) |
+| `6` | Neustart (`reboot.target`) |
+| `q` / `Q` | liest die Konfiguration neu ein (nur SysV/`/etc/inittab`) |
+
+</details>
+
+>**Hinweis:** Braucht `sudo`. Legacy-Befehl aus SysV-Init; auf modernen Systemen besser direkt `systemctl isolate <target>` (bzw. `reboot`/`poweroff`) verwenden. Den aktuellen Level zeigt `runlevel`.
+
+---
+
 ### timedatectl
 >**Funktion:** Datum, Uhrzeit und Zeitzone anzeigen/setzen<br />
 >**Syntax:** `timedatectl [optionen] [<unterbefehl>]`<br />
@@ -1032,6 +1189,61 @@ sudo timedatectl set-ntp true                 # Zeitsynchronisation aktivieren
 </details>
 
 >**Hinweis:** Teil von systemd. Bei aktivem NTP (`set-ntp true`) wird die Uhr automatisch synchronisiert; `set-time` ist dann gesperrt. Die reine Uhrzeit zeigt auch `date`.
+
+---
+
+### udevadm
+>**Funktion:** Die Geräteverwaltung udev abfragen und steuern<br />
+>**Syntax:** `udevadm <unterbefehl> [optionen]`<br />
+>**Erklärung:** Kommandozeilen-Werkzeug für udev: zeigt Informationen zu Geräten an, beobachtet Geräte-Ereignisse und lädt oder wendet die udev-Regeln neu an.<br />
+>**Unterbefehle:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`info <gerät>` zeigt die Eigenschaften eines Geräts<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`monitor` beobachtet Geräte-Ereignisse live<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`trigger` löst Ereignisse erneut aus<br />
+>**Beispiel:** `udevadm info /dev/sda`
+
+<details markdown>
+<summary>Alle Unterbefehle</summary>
+
+| Unterbefehl | Wirkung |
+|---|---|
+| `info <gerät>` | zeigt die Eigenschaften und Attribute eines Geräts |
+| `monitor` | beobachtet Kernel- und udev-Ereignisse in Echtzeit |
+| `trigger` | löst Geräte-Ereignisse erneut aus (wendet Regeln an) |
+| `control --reload` | lädt die udev-Regeln neu ein |
+| `settle` | wartet, bis alle udev-Ereignisse abgearbeitet sind |
+| `test <gerät>` | simuliert die Regelabarbeitung für ein Gerät (Fehlersuche) |
+
+</details>
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-a`, `--attribute-walk` | zeigt alle Attribute entlang der Gerätehierarchie (für eigene Regeln) |
+| `-q <typ>`, `--query=<typ>` | fragt gezielt ab (`property`, `name`, `path`, `all`) |
+| `-n <name>`, `--name=<name>` | wählt das Gerät über den Gerätenamen (z. B. `/dev/sda`) |
+| `-p <pfad>`, `--path=<pfad>` | wählt das Gerät über den sysfs-Pfad |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+udevadm info /dev/sda            # Eigenschaften eines Geräts
+udevadm info -a /dev/sda         # alle Attribute (für eigene Regeln)
+udevadm monitor                  # Geräte-Ereignisse live verfolgen
+sudo udevadm control --reload    # udev-Regeln neu einlesen
+sudo udevadm trigger             # Regeln erneut anwenden
+```
+
+</details>
+
+>**Hinweis:** Schreibende Aktionen (`control`, `trigger`) brauchen `sudo`. Gehört zur udev-/systemd-Geräteverwaltung; die Gerätedateien liegen in `/dev`, die Regeln in `/etc/udev/rules.d/` und `/lib/udev/rules.d/`. Nach dem Anpassen von Regeln lassen sie sich mit `udevadm test` prüfen und ohne Neustart übernehmen.
 
 ---
 

@@ -7,6 +7,7 @@
 - [Benutzer & Rechte](users-permissions.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
+- [Hilfe & Dokumentation](help-documentation.md)
 - [Navigation & Suche](navigation-search.md)
 - [Paketverwaltung](package-management.md)
 - [Prozesse & Steuerung](process-control.md)

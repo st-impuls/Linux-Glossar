@@ -42,6 +42,7 @@ nav:
   - Tastenkürzel: pages/shortcuts.md
   - Befehle:
       - Übersicht: pages/commands/index.md
+      - Hilfe & Dokumentation: pages/commands/help-documentation.md
       - Navigation & Suche: pages/commands/navigation-search.md
       - Datei- & Verzeichnisverwaltung: pages/commands/file-management.md
       - Dateiinhalt anzeigen: pages/commands/file-content.md

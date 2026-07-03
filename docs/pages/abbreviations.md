@@ -17,6 +17,9 @@
 ### systemd - „system" + Daemon-Suffix `-d`.
 >`systemd` ist ein Init-System und Dienstemanager in vielen Linux-Distributionen, der Prozesse und Systemdienste verwaltet. Der Name folgt der Unix-Konvention, Daemons mit `-d` zu benennen; die verbreitete Auflösung „System Daemon" ist inoffiziell. Geschrieben wird er stets klein.
 
+### udev - Userspace-Geräteverwaltung (von „userspace /dev").
+>`udev` ist der Geräte-Manager des Linux-Kernels: Er erstellt und entfernt die Gerätedateien in `/dev` dynamisch beim An- und Abstecken von Hardware und vergibt stabile Namen (z. B. unter `/dev/disk/by-uuid/`). Er läuft als Dienst `systemd-udevd`; die Regeln liegen in `/etc/udev/rules.d/`. Gesteuert wird er mit dem Befehl `udevadm`.
+
 ### cron - von griechisch „chronos" (Zeit).
 >`cron` ist ein Dienst in Linux, mit dem Befehle oder Skripte zu festgelegten Zeiten automatisch ausgeführt werden. Der Name ist keine Abkürzung, sondern leitet sich vom griechischen Wort *chronos* (Zeit) ab.
 

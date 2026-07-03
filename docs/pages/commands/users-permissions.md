@@ -6,6 +6,7 @@
 ## Kategorien
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
+- [Hilfe & Dokumentation](help-documentation.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
 - [Paketverwaltung](package-management.md)

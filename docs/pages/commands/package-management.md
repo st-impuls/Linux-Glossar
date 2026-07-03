@@ -7,6 +7,7 @@
 - [Benutzer & Rechte](users-permissions.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
+- [Hilfe & Dokumentation](help-documentation.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
 - [Prozesse & Steuerung](process-control.md)
@@ -337,6 +338,61 @@ flatpak uninstall org.gimp.GIMP         # Anwendung entfernen
 </details>
 
 >**Hinweis:** Flatpak ist nicht überall vorinstalliert (`sudo apt install flatpak`) und benötigt meist die Flathub-Quelle: `flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`. Anwendungen laufen isoliert (Sandbox) und sind distributionsunabhängig.
+
+---
+
+### pacman
+>**Funktion:** Pakete verwalten (Arch Linux)<br />
+>**Syntax:** `pacman <operation> [optionen] [<paket>...]`<br />
+>**Erklärung:** Paketverwaltung von Arch Linux und Abkömmlingen (Manjaro, EndeavourOS). Vereint hohe und niedrige Ebene in einem Werkzeug: installiert aus Repositories samt Abhängigkeiten, kann aber auch einzelne lokale Paketdateien einspielen. Gesteuert wird es über große Operations-Buchstaben (`-S`, `-R`, `-Q`, `-U`), die sich mit weiteren Buchstaben kombinieren lassen.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-S <paket>` installiert ein Paket aus den Repositories<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-Syu` aktualisiert das gesamte System<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-R <paket>` entfernt ein Paket<br />
+>**Beispiel:** `sudo pacman -Syu`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-S <paket>` | installiert ein Paket aus den Repositories (mit Abhängigkeiten) |
+| `-Sy` | aktualisiert die Paketdatenbanken |
+| `-Syu` | aktualisiert Datenbanken **und** das gesamte System (Standard-Update) |
+| `-Ss <begriff>` | durchsucht die Repositories nach einem Begriff |
+| `-Si <paket>` | zeigt Informationen zu einem Paket aus den Repositories |
+| `-Sc` | leert den Paket-Cache (`-Scc` entfernt alles) |
+| `-U <datei>` | installiert eine lokale Paketdatei (`.pkg.tar.zst`) |
+| `-R <paket>` | entfernt ein Paket |
+| `-Rs <paket>` | entfernt ein Paket samt nicht mehr benötigter Abhängigkeiten |
+| `-Rns <paket>` | entfernt Paket, Abhängigkeiten und Konfigurationsdateien |
+| `-Q` | listet installierte Pakete auf |
+| `-Qs <begriff>` | durchsucht die installierten Pakete |
+| `-Qi <paket>` | zeigt Informationen zu einem installierten Paket |
+| `-Ql <paket>` | listet die Dateien eines Pakets auf |
+| `-Qo <datei>` | findet heraus, zu welchem Paket eine Datei gehört |
+| `--noconfirm` | beantwortet Rückfragen automatisch (wie `-y` bei `apt`) |
+| `-h`, `--help` | zeigt die Hilfe an |
+| `-V`, `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo pacman -Syu                    # gesamtes System aktualisieren (Standard)
+sudo pacman -S git                  # Paket installieren
+pacman -Ss editor                   # Repositories durchsuchen
+pacman -Qi git                      # Details zu installiertem Paket
+pacman -Qo /usr/bin/git             # Paket zu einer Datei finden
+sudo pacman -Rs firefox             # Paket samt Abhängigkeiten entfernen
+sudo pacman -U ./paket.pkg.tar.zst  # lokale Paketdatei installieren
+```
+
+</details>
+
+>**Hinweis:** Arch ist eine Rolling-Release-Distribution; aktualisiert wird immer mit `sudo pacman -Syu` (Teil-Updates wie `-Sy paket` gelten als unsicher). Vereint – anders als bei Debian/Fedora – hohe und niedrige Ebene in einem Befehl; ein separates Low-Level-Werkzeug wie `dpkg`/`rpm` gibt es nicht. Pakete aus dem AUR verwalten Helfer wie `yay`.
 
 ---
 
