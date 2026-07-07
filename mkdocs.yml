@@ -45,6 +45,7 @@ nav:
       - Hilfe & Dokumentation: pages/commands/help-documentation.md
       - Navigation & Suche: pages/commands/navigation-search.md
       - Datei- & Verzeichnisverwaltung: pages/commands/file-management.md
+      - Archivierung & Kompression: pages/commands/archiving-compression.md
       - Dateiinhalt anzeigen: pages/commands/file-content.md
       - Textbearbeitung & Filter: pages/commands/text-processing.md
       - Benutzer & Rechte: pages/commands/users-permissions.md

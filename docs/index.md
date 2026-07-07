@@ -14,7 +14,7 @@ Online Version: [https://st-impuls.github.io/Linux-Glossar/](https://st-impuls.g
 
 ---
 
-**Über 150 Befehle in 12 Kategorien.**
+**Über 160 Befehle in 13 Kategorien.**
 
 ---
 

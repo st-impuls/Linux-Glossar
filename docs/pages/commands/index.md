@@ -6,6 +6,7 @@
 # Befehle
 
 ## Kategorien
+- [Archivierung & Kompression](archiving-compression.md)
 - [Benutzer & Rechte](users-permissions.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)

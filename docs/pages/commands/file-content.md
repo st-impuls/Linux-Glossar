@@ -4,6 +4,7 @@
 - [Wichtige Verzeichnisse](../directories.md)
 
 ## Kategorien
+- [Archivierung & Kompression](archiving-compression.md)
 - [Benutzer & Rechte](users-permissions.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Hilfe & Dokumentation](help-documentation.md)
