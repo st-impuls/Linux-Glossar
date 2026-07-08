@@ -8,6 +8,7 @@
 - [Benutzer & Rechte](users-permissions.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
+- [Datenträger & Dateisysteme](disk-filesystems.md)
 - [Hilfe & Dokumentation](help-documentation.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
@@ -62,53 +63,6 @@ depmod -n | less               # Ergebnis nur anzeigen, ohne zu schreiben
 
 ---
 
-### df
->**Funktion:** Belegung der Dateisysteme anzeigen<br />
->**Syntax:** `df [optionen] [<datei|mountpoint>...]`<br />
->**Erklärung:** Zeigt den belegten und freien Speicherplatz der eingehängten Dateisysteme (disk free).<br />
->**Optionen:**<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-h` lesbare Größen (KB/MB/GB)<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-T` zeigt den Dateisystemtyp an<br />
->**Beispiel:** `df -h`
-
-<details markdown>
-<summary>Mehr Optionen</summary>
-
-| Option | Wirkung |
-|---|---|
-| `-h`, `--human-readable` | lesbare Größen (z. B. `1G`, `512M`) |
-| `-H`, `--si` | wie `-h`, aber Basis 1000 statt 1024 |
-| `-T`, `--print-type` | zeigt den Dateisystemtyp an |
-| `-i`, `--inodes` | zeigt die Inode-Belegung statt der Bytes |
-| `-a`, `--all` | zeigt auch Pseudo-Dateisysteme an |
-| `-t <typ>`, `--type=<typ>` | nur Dateisysteme dieses Typs |
-| `-x <typ>`, `--exclude-type=<typ>` | schließt einen Typ aus |
-| `-B <größe>`, `--block-size=<größe>` | nutzt eine feste Blockgröße (z. B. `-BM`) |
-| `-l`, `--local` | beschränkt auf lokale Dateisysteme |
-| `-P`, `--portability` | POSIX-kompatibles Ausgabeformat |
-| `--total` | fügt eine Zeile mit der Gesamtsumme hinzu |
-| `--help` | zeigt die Hilfe an |
-| `--version` | zeigt die Version an |
-
-</details>
-
-<details markdown>
-<summary>Weitere Beispiele</summary>
-
-```bash
-df -h          # Belegung aller Dateisysteme, lesbar
-df -h /        # nur das Wurzel-Dateisystem
-df -hT         # mit Dateisystemtyp
-df -i          # Inode-Belegung
-df -h /home    # Dateisystem, auf dem /home liegt
-```
-
-</details>
-
->**Hinweis:** `df` zeigt den Platz pro Dateisystem; für den Verbrauch einzelner Verzeichnisse `du` verwenden.
-
----
-
 ### dmesg
 >**Funktion:** Kernel-Meldungen (Ring-Puffer) anzeigen<br />
 >**Syntax:** `dmesg [optionen]`<br />
@@ -154,96 +108,6 @@ sudo dmesg -C       # Ring-Puffer leeren
 </details>
 
 >**Hinweis:** Das Lesen ist auf vielen Systemen ohne `sudo` eingeschränkt (`kernel.dmesg_restrict`). Eng verwandt mit `journalctl -k`, das dieselben Kernelmeldungen aus dem Journal zeigt – dort auch über frühere Bootvorgänge hinweg. Der Ring-Puffer ist begrenzt; ältere Meldungen werden überschrieben.
-
----
-
-### du
->**Funktion:** Speicherverbrauch von Dateien und Verzeichnissen anzeigen<br />
->**Syntax:** `du [optionen] [<pfad>...]`<br />
->**Erklärung:** Berechnet, wie viel Speicherplatz Dateien und Verzeichnisse belegen (disk usage).<br />
->**Optionen:**<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-h` lesbare Größen<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-s` nur die Gesamtsumme je Argument<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-d <n>` begrenzt die Tiefe der Auflistung<br />
->**Beispiel:** `du -sh /var/log`
-
-<details markdown>
-<summary>Mehr Optionen</summary>
-
-| Option | Wirkung |
-|---|---|
-| `-h`, `--human-readable` | lesbare Größen |
-| `-s`, `--summarize` | nur die Gesamtsumme je Argument |
-| `-d <n>`, `--max-depth=<n>` | listet nur n Verzeichnisebenen tief auf |
-| `-a`, `--all` | zählt auch einzelne Dateien, nicht nur Verzeichnisse |
-| `-c`, `--total` | gibt am Ende eine Gesamtsumme aus |
-| `-x`, `--one-file-system` | bleibt auf einem Dateisystem |
-| `--exclude=<muster>` | schließt passende Einträge aus |
-| `-B <größe>`, `--block-size=<größe>` | nutzt eine feste Blockgröße |
-| `--apparent-size` | zählt die tatsächliche Dateigröße statt belegter Blöcke |
-| `-L`, `--dereference` | folgt symbolischen Links |
-| `-S`, `--separate-dirs` | rechnet Unterverzeichnisse nicht zum übergeordneten dazu |
-| `--time` | zeigt zusätzlich den Zeitstempel der letzten Änderung |
-| `--help` | zeigt die Hilfe an |
-| `--version` | zeigt die Version an |
-
-</details>
-
-<details markdown>
-<summary>Weitere Beispiele</summary>
-
-```bash
-du -sh /var/log            # Gesamtgröße eines Verzeichnisses
-du -h --max-depth=1 /var   # Größe je Unterverzeichnis von /var
-du -sh *                   # Größe jedes Eintrags im aktuellen Ordner
-du -sh * | sort -h         # nach Größe sortiert
-du -ah . | sort -h | tail  # die größten Dateien/Ordner zuletzt
-```
-
-</details>
-
->**Hinweis:** `du -sh *` zeigt schnell die größten Verzeichnisse. Mit `| sort -h` lässt sich die Ausgabe nach lesbaren Größen sortieren. Für freien Platz pro Dateisystem `df` verwenden.
-
----
-
-### fdisk
->**Funktion:** Partitionstabellen anzeigen und bearbeiten<br />
->**Syntax:** `fdisk [optionen] [<gerät>]`<br />
->**Erklärung:** Zeigt und bearbeitet die Partitionstabellen von Datenträgern (MBR/DOS und GPT). Mit einem Gerät als Argument startet ein interaktiver Modus; mit `-l` werden vorhandene Partitionen nur aufgelistet.<br />
->**Optionen:**<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-l` listet die Partitionstabellen auf<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-x` listet mit zusätzlichen Details auf<br />
->**Beispiel:** `sudo fdisk -l`
-
-<details markdown>
-<summary>Mehr Optionen</summary>
-
-| Option | Wirkung |
-|---|---|
-| `-l`, `--list` | listet die Partitionstabellen (aller oder eines Geräts) auf |
-| `-x`, `--list-details` | listet mit zusätzlichen Details auf |
-| `-b <größe>`, `--sector-size <größe>` | legt die Sektorgröße fest (512, 1024, 2048, 4096) |
-| `-t <typ>`, `--type <typ>` | bearbeitet nur Partitionstabellen dieses Typs (z. B. `gpt`, `dos`) |
-| `-u[<einheit>]`, `--units[=<einheit>]` | Einheit für die Anzeige (`cylinders` oder `sectors`) |
-| `-w <wann>`, `--wipe <wann>` | löscht Signaturen: `auto`, `always` oder `never` |
-| `-s <partition>`, `--getsz` | gibt die Größe einer Partition in Sektoren aus (veraltet) |
-| `-h`, `--help` | zeigt die Hilfe an |
-| `-V`, `--version` | zeigt die Version an |
-
-</details>
-
-<details markdown>
-<summary>Weitere Beispiele</summary>
-
-```bash
-sudo fdisk -l            # alle Partitionstabellen auflisten
-sudo fdisk -l /dev/sda   # nur die eines Geräts
-sudo fdisk /dev/sdb      # Partitionen interaktiv bearbeiten
-```
-
-</details>
-
->**Hinweis:** Braucht `sudo`. Der interaktive Modus ändert die Partitionstabelle erst beim Speichern mit `w`; mit `q` wird ohne Änderungen beendet. Wichtige Tasten dort: `m` Hilfe, `p` anzeigen, `n` neu, `d` löschen, `t` Typ. Zum reinen Auflisten ist `lsblk` übersichtlicher.
 
 ---
 
@@ -795,52 +659,6 @@ sudo modprobe -v fuse      # ausführlich laden
 
 ---
 
-### mount
->**Funktion:** Dateisysteme einhängen<br />
->**Syntax:** `mount [optionen] <gerät> <mountpoint>`<br />
->**Erklärung:** Bindet ein Dateisystem (z. B. Festplatte oder USB-Stick) an ein Verzeichnis ein. Ohne Argumente zeigt es die aktuell eingehängten Dateisysteme.<br />
->**Optionen:**<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-t <typ>` Dateisystemtyp (z. B. `ext4`, `vfat`)<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-o <optionen>` Einhänge-Optionen (z. B. `ro`, `rw`)<br />
->**Beispiel:** `sudo mount /dev/sdb1 /mnt`
-
-<details markdown>
-<summary>Mehr Optionen</summary>
-
-| Option | Wirkung |
-|---|---|
-| `-t <typ>`, `--types` | Dateisystemtyp (z. B. `ext4`, `vfat`, `ntfs`) |
-| `-o <optionen>` | Einhänge-Optionen, kommagetrennt (`ro`, `rw`, `noexec`, `loop`) |
-| `-a`, `--all` | hängt alle Einträge aus `/etc/fstab` ein |
-| `-r`, `--read-only` | hängt nur lesend ein |
-| `-l` | listet eingehängte Dateisysteme mit Labels |
-| `-w`, `--rw` | hängt schreibend ein (Standard) |
-| `-B`, `--bind` | hängt ein Verzeichnis an einer zweiten Stelle ein |
-| `-L <label>` | hängt das Dateisystem mit diesem Label ein |
-| `-U <uuid>` | hängt das Dateisystem mit dieser UUID ein |
-| `-v`, `--verbose` | ausführliche Ausgabe |
-| `-h`, `--help` | zeigt die Hilfe an |
-| `-V`, `--version` | zeigt die Version an |
-
-</details>
-
-<details markdown>
-<summary>Weitere Beispiele</summary>
-
-```bash
-mount                              # eingehängte Dateisysteme anzeigen
-sudo mount /dev/sdb1 /mnt          # Partition einhängen
-sudo mount -t vfat /dev/sdb1 /mnt  # mit Dateisystemtyp
-sudo mount -o ro /dev/sdb1 /mnt    # nur lesend einhängen
-sudo mount -o loop image.iso /mnt  # ISO-Abbild einhängen
-```
-
-</details>
-
->**Hinweis:** Braucht in der Regel `sudo`. Der Mountpoint (Zielverzeichnis) muss existieren. Dauerhafte Einhängungen werden in `/etc/fstab` eingetragen. Zum Aushängen `umount` verwenden.
-
----
-
 ### reboot
 >**Funktion:** System neu starten<br />
 >**Syntax:** `reboot [optionen]`<br />
@@ -1245,47 +1063,6 @@ sudo udevadm trigger             # Regeln erneut anwenden
 </details>
 
 >**Hinweis:** Schreibende Aktionen (`control`, `trigger`) brauchen `sudo`. Gehört zur udev-/systemd-Geräteverwaltung; die Gerätedateien liegen in `/dev`, die Regeln in `/etc/udev/rules.d/` und `/lib/udev/rules.d/`. Nach dem Anpassen von Regeln lassen sie sich mit `udevadm test` prüfen und ohne Neustart übernehmen.
-
----
-
-### umount
->**Funktion:** Dateisysteme aushängen<br />
->**Syntax:** `umount [optionen] <gerät|mountpoint>`<br />
->**Erklärung:** Hängt ein zuvor eingehängtes Dateisystem wieder aus. Erst danach lässt sich z. B. ein USB-Stick sicher entfernen.<br />
->**Optionen:**<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-l` verzögertes Aushängen (lazy)<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-f` erzwingt das Aushängen<br />
->**Beispiel:** `sudo umount /mnt`
-
-<details markdown>
-<summary>Mehr Optionen</summary>
-
-| Option | Wirkung |
-|---|---|
-| `-l`, `--lazy` | hängt aus, sobald das Dateisystem nicht mehr benutzt wird |
-| `-f`, `--force` | erzwingt das Aushängen (z. B. bei nicht erreichbarem Netzlaufwerk) |
-| `-a`, `--all` | hängt alle Dateisysteme aus `/etc/fstab` aus |
-| `-R`, `--recursive` | hängt verschachtelte Mountpoints aus |
-| `-r`, `--read-only` | hängt bei Fehler stattdessen nur lesend wieder ein |
-| `-v`, `--verbose` | ausführliche Ausgabe |
-| `-t <typ>`, `--types <typ>` | beschränkt auf bestimmte Dateisystemtypen |
-| `-h`, `--help` | zeigt die Hilfe an |
-| `-V`, `--version` | zeigt die Version an |
-
-</details>
-
-<details markdown>
-<summary>Weitere Beispiele</summary>
-
-```bash
-sudo umount /mnt        # über den Mountpoint aushängen
-sudo umount /dev/sdb1   # über das Gerät aushängen
-sudo umount -l /mnt     # verzögert aushängen (wenn noch in Benutzung)
-```
-
-</details>
-
->**Hinweis:** Der Befehl heißt `umount` (ohne „n"!). „target is busy" bedeutet, dass noch ein Prozess das Dateisystem nutzt – mit `lsof +D /mnt` oder `fuser -m /mnt` lässt sich der Verursacher finden.
 
 ---
 

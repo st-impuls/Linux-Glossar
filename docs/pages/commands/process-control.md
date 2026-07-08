@@ -8,6 +8,7 @@
 - [Benutzer & Rechte](users-permissions.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
+- [Datenträger & Dateisysteme](disk-filesystems.md)
 - [Hilfe & Dokumentation](help-documentation.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
@@ -131,6 +132,43 @@ sudo crontab -l -u www-data # Tabelle eines anderen Benutzers
 
 ---
 
+### disown
+>**Funktion:** Hintergrundjobs von der aktuellen Shell abkoppeln | Intern (Builtins)<br />
+>**Syntax:** `disown [optionen] [<job>...]`<br />
+>**Erklärung:** Entfernt einen laufenden Hintergrundjob aus der Job-Liste der Shell, sodass er beim Schließen der Shell kein `HUP`-Signal erhält und weiterläuft. Anders als `nohup` wird `disown` auf einen **bereits gestarteten** Job angewendet.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-h` schützt den Job vor `HUP`, belässt ihn aber in der Liste<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-a` betrifft alle Jobs<br />
+>**Beispiel:** `disown -h %1`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-h` | schützt den Job vor `HUP`, belässt ihn aber in der Job-Liste |
+| `-a` | wendet die Aktion auf alle Jobs an |
+| `-r` | betrifft nur laufende (running) Jobs |
+| `%<n>` | entfernt den angegebenen Job aus der Liste (ohne Option) |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+./langlaeufer.sh &   # Job im Hintergrund starten
+disown -h %1         # Job 1 vor HUP schützen (bleibt gelistet)
+disown %1            # Job 1 ganz aus der Liste nehmen
+disown -a            # alle Jobs abkoppeln
+```
+
+</details>
+
+>**Hinweis:** Wirkt auf **schon laufende** Jobs; um ein Programm von vornherein abgekoppelt zu starten, dient `nohup`. Nach `disown` erscheint der Prozess nicht mehr in `jobs`, läuft aber weiter (per `ps`/`pgrep` auffindbar). Ist ein Bash-Builtin.
+
+---
+
 ### htop
 >**Funktion:** Prozesse interaktiv anzeigen und verwalten<br />
 >**Syntax:** `htop [optionen]`<br />
@@ -212,10 +250,12 @@ sudo crontab -l -u www-data # Tabelle eines anderen Benutzers
 | `bg %<n>` | setzt Job n im Hintergrund fort |
 | `fg %<n>` | holt Job n in den Vordergrund |
 | `kill %<n>` | beendet Job n |
+| `disown %<n>` | koppelt Job n von der Shell ab (kein `HUP` beim Beenden) |
+| `nohup befehl &` | startet abgekoppelt, überlebt das Schließen des Terminals |
 
 </details>
 
->**Hinweis:** Jobs gehören zur jeweiligen Shell-Sitzung. Ein Job wird über `%<n>` angesprochen (z. B. `fg %1`). Mit `&` startet man Befehle gleich im Hintergrund, mit `Ctrl + Z` hält man den Vordergrundprozess an.
+>**Hinweis:** Jobs gehören zur jeweiligen Shell-Sitzung. Ein Job wird über `%<n>` angesprochen (z. B. `fg %1`). Mit `&` startet man Befehle gleich im Hintergrund, mit `Ctrl + Z` hält man den Vordergrundprozess an. Soll ein Job das Schließen des Terminals überstehen, dienen `nohup` (beim Start) und `disown` (nachträglich).
 
 ---
 
@@ -345,6 +385,40 @@ nice -n 15 tar -czf sich.tar.gz /daten  # Backup schonend nebenher
 </details>
 
 >**Hinweis:** Nur **root** darf negative Werte (höhere Priorität) vergeben; normale Nutzer können die Priorität lediglich senken. Ohne `-n` gilt der Standardwert 10. Die aktuelle Niceness zeigt die Spalte `NI` in `top`/`htop` oder `ps -l`. Um die Priorität eines **bereits laufenden** Prozesses zu ändern, dient `renice`.
+
+---
+
+### nohup
+>**Funktion:** Ein Programm starten, das das Schließen des Terminals überlebt<br />
+>**Syntax:** `nohup <befehl> [argumente...] [&]`<br />
+>**Erklärung:** Startet einen Befehl so, dass er das Signal `HUP` („hang up", beim Schließen des Terminals oder Abmelden) ignoriert und weiterläuft. Die Ausgabe wird, sofern nicht umgeleitet, in die Datei `nohup.out` geschrieben. Meist zusammen mit `&`, um zugleich in den Hintergrund zu gehen.<br />
+>**Verwendung:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`nohup <befehl> &` startet abgekoppelt und im Hintergrund<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`> datei 2>&1` leitet die Ausgabe gezielt in eine Datei<br />
+>**Beispiel:** `nohup ./langlaeufer.sh &`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+nohup ./backup.sh &               # im Hintergrund, überlebt den Logout
+nohup ./job.sh > job.log 2>&1 &   # Ausgabe gezielt in eine Datei
+nohup python server.py &          # Server weiterlaufen lassen
+```
+
+</details>
+
+>**Hinweis:** Ohne Umleitung landet die Ausgabe in `nohup.out` (im aktuellen Verzeichnis oder `$HOME`). `nohup` koppelt nur vom `HUP`-Signal ab, bringt aber selbst **nicht** in den Hintergrund – dafür zusätzlich `&`. Um einen **bereits laufenden** Job abzukoppeln, dient `disown`. Für dauerhafte Dienste eignen sich eher `systemd` oder `tmux`/`screen`.
 
 ---
 

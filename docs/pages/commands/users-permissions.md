@@ -7,6 +7,7 @@
 - [Archivierung & Kompression](archiving-compression.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
+- [Datenträger & Dateisysteme](disk-filesystems.md)
 - [Hilfe & Dokumentation](help-documentation.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
@@ -590,6 +591,55 @@ sudo -l                     # eigene erlaubte Befehle anzeigen
 </details>
 
 >**Hinweis:** Es wird das eigene Passwort abgefragt; der Benutzer muss über sudoers berechtigt sein, oft über die Gruppe `sudo` oder `wheel`.
+
+---
+
+### umask
+>**Funktion:** Standard-Rechtemaske für neue Dateien und Verzeichnisse festlegen | Intern (Builtins)<br />
+>**Syntax:** `umask [optionen] [<maske>]`<br />
+>**Erklärung:** Legt fest, welche Rechte neu erstellten Dateien und Verzeichnissen **entzogen** werden. Die Maske wird von den Grundrechten abgezogen (Dateien starten bei `666`, Verzeichnisse bei `777`). So erklärt sich, warum eine neue Datei üblicherweise `644` und ein Verzeichnis `755` erhält. Ohne Argument wird die aktuelle Maske angezeigt.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-S` zeigt bzw. setzt die Maske in symbolischer Form<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-p` gibt sie in einer wieder einlesbaren Form aus<br />
+>**Beispiel:** `umask 022`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| (ohne) | zeigt die aktuelle Maske als Oktalzahl an |
+| `<maske>` | setzt die Maske (oktal, z. B. `022`, oder symbolisch `u=rwx,g=rx,o=`) |
+| `-S` | zeigt/setzt die Maske symbolisch (`u=rwx,g=rx,o=rx`) |
+| `-p` | Ausgabe in einer Form, die sich als Befehl wieder einlesen lässt |
+
+</details>
+
+<details markdown>
+<summary>Wirkung gängiger Masken</summary>
+
+| Maske | Neue Datei | Neues Verzeichnis | Bedeutung |
+|---|---|---|---|
+| `022` | `644` | `755` | Standard; andere dürfen lesen |
+| `027` | `640` | `750` | Gruppe liest, andere nichts |
+| `077` | `600` | `700` | nur der Eigentümer |
+| `002` | `664` | `775` | Gruppe darf schreiben (Team-Ordner) |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+umask                 # aktuelle Maske anzeigen (z. B. 0022)
+umask -S              # symbolisch anzeigen (u=rwx,g=rx,o=rx)
+umask 077             # neue Dateien nur für den Eigentümer
+umask u=rwx,g=rx,o=   # dasselbe symbolisch gesetzt
+```
+
+</details>
+
+>**Hinweis:** `umask` **entzieht** Rechte, während `chmod` sie an bestehenden Objekten setzt. Dateien bekommen nie das Ausführungsrecht per Maske – es wird nur von den Grundrechten `666` abgezogen. Die Maske gilt nur für die aktuelle Shell und ihre Kindprozesse; dauerhaft trägt man sie in `~/.bashrc` oder `/etc/profile` ein. Als Shell-Builtin ohne eigene Man-Seite – Hilfe über `help umask`.
 
 ---
 

@@ -7,6 +7,7 @@
 - [Archivierung & Kompression](archiving-compression.md)
 - [Benutzer & Rechte](users-permissions.md)
 - [Dateiinhalt anzeigen](file-content.md)
+- [Datenträger & Dateisysteme](disk-filesystems.md)
 - [Hilfe & Dokumentation](help-documentation.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)

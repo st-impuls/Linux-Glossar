@@ -8,6 +8,7 @@
 - [Benutzer & Rechte](users-permissions.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
+- [Datenträger & Dateisysteme](disk-filesystems.md)
 - [Hilfe & Dokumentation](help-documentation.md)
 - [Netzwerk & Download](network-download.md)
 - [Paketverwaltung](package-management.md)

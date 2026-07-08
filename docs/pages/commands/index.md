@@ -10,6 +10,7 @@
 - [Benutzer & Rechte](users-permissions.md)
 - [Datei- & Verzeichnisverwaltung](file-management.md)
 - [Dateiinhalt anzeigen](file-content.md)
+- [Datenträger & Dateisysteme](disk-filesystems.md)
 - [Hilfe & Dokumentation](help-documentation.md)
 - [Navigation & Suche](navigation-search.md)
 - [Netzwerk & Download](network-download.md)
@@ -58,6 +59,19 @@ Standardmäßig liest ein Befehl von der Tastatur (Eingabe) und schreibt sein Er
 - `befehl 2> datei` – leitet nur die Fehlerausgabe (stderr) um.
 
 Beispiele: `echo "Hallo" > notiz.txt`, `ls -l >> liste.txt`, `cat datei.txt | grep "fehler"`
+
+## Befehle verketten und im Hintergrund starten
+
+Mehrere Befehle lassen sich in einer Zeile verbinden oder in den Hintergrund schicken. Ausschlaggebend ist dabei oft der **Exit-Code** des vorigen Befehls (`0` = Erfolg):
+
+- `befehl1 ; befehl2` – führt beide **nacheinander** aus, unabhängig vom Ergebnis.
+- `befehl1 && befehl2` – führt `befehl2` nur aus, wenn `befehl1` **erfolgreich** war (Exit-Code `0`).
+- `befehl1 || befehl2` – führt `befehl2` nur aus, wenn `befehl1` **fehlgeschlagen** ist (Exit-Code ≠ `0`).
+- `befehl &` – startet den Befehl im **Hintergrund**; die Shell blockiert nicht, sondern ist sofort wieder benutzbar.
+
+Beispiele: `sudo apt update && sudo apt upgrade` · `mkdir bilder || echo "schon vorhanden"` · `./langlaeufer.sh &`
+
+Ein mit `&` gestarteter Befehl wird zu einem **Job** der Shell. Solche Hintergrundjobs steuert man mit `jobs` (auflisten), `fg` (in den Vordergrund holen), `bg` (angehalten im Hintergrund fortsetzen) und `Ctrl + Z` (Vordergrundprozess anhalten). Damit ein Hintergrundprozess auch das **Schließen des Terminals** übersteht, dienen `nohup` und `disown` (siehe Kategorie „Prozesse & Steuerung").
 
 ## Here-Document (`<<`)
 

@@ -10,11 +10,7 @@
 
 ---
 
-Online Version: [https://st-impuls.github.io/Linux-Glossar/](https://st-impuls.github.io/Linux-Glossar/)
-
----
-
-**Über 170 Befehle in 13 Kategorien.**
+**Über 180 Befehle in 14 Kategorien.**
 
 ---
 
