@@ -158,6 +158,10 @@ info coreutils 'ls invocation'  # direkt zum Abschnitt über ls
 | `-w`, `--where` | zeigt den Pfad der Handbuchdatei, statt sie zu öffnen |
 | `-K <text>`, `--global-apropos` | durchsucht den **gesamten** Text aller Seiten |
 | `<abschnitt>` | wählt einen bestimmten Abschnitt (z. B. `man 5 passwd`) |
+| `-s <liste>`, `--sections=<liste>` | Abschnitt(e) als Option statt positional; die Liste legt die Suchreihenfolge fest (z. B. `-s 2,3`) |
+| `-l`, `--local-file` | zeigt eine lokale Handbuchdatei direkt an (z. B. `man -l ./meins.1`) |
+| `-P <pager>`, `--pager=<pager>` | legt den Pager fest (Standard meist `less`) |
+| `-L <locale>`, `--locale=<locale>` | zeigt die Seite in einer bestimmten Sprache/Region an |
 | `-h`, `--help` | zeigt die Hilfe an |
 | `-V`, `--version` | zeigt die Version an |
 

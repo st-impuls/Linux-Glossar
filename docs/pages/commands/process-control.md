@@ -270,6 +270,209 @@ kill -l              # alle Signale auflisten
 
 ---
 
+### killall
+>**Funktion:** Prozesse anhand ihres Namens beenden<br />
+>**Syntax:** `killall [optionen] [-<signal>] <name>...`<br />
+>**Erklärung:** Sendet ein Signal (standardmäßig `TERM`) an **alle** Prozesse mit dem angegebenen Namen – anders als `kill`, das eine PID erwartet. Praktisch, um mehrere gleichnamige Prozesse auf einmal zu beenden.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-i` fragt vor jedem Beenden nach<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-9` erzwingt sofortiges Beenden (`KILL`)<br />
+>**Beispiel:** `killall firefox`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-<signal>`, `-s <signal>`, `--signal <signal>` | sendet das angegebene Signal (z. B. `-9`) |
+| `-i`, `--interactive` | fragt vor jedem Beenden nach |
+| `-I`, `--ignore-case` | ignoriert Groß-/Kleinschreibung im Namen |
+| `-r`, `--regexp` | interpretiert den Namen als regulären Ausdruck |
+| `-u <benutzer>`, `--user <benutzer>` | nur Prozesse dieses Benutzers |
+| `-w`, `--wait` | wartet, bis die Prozesse wirklich beendet sind |
+| `-v`, `--verbose` | meldet, ob das Signal erfolgreich gesendet wurde |
+| `-e`, `--exact` | verlangt exakte Übereinstimmung bei langen Namen |
+| `-g`, `--process-group` | beendet die ganze Prozessgruppe |
+| `-l`, `--list` | listet alle bekannten Signalnamen auf |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+killall firefox            # alle firefox-Prozesse (TERM)
+killall -9 firefox         # hart beenden (KILL)
+killall -i nginx           # vor jedem Beenden nachfragen
+killall -u nomas chrome    # chrome-Prozesse des Benutzers nomas
+```
+
+</details>
+
+>**Hinweis:** Beendet **alle** passenden Prozesse – den Namen also genau prüfen. Gehört zum Paket `psmisc`. Achtung: Auf manchen Unix-Systemen (z. B. Solaris) beendet `killall` sämtliche Prozesse des Systems – unter Linux nur die namentlich genannten. Verwandt: `pkill` (mehr Auswahlkriterien), `kill` (per PID).
+
+---
+
+### nice
+>**Funktion:** Ein Programm mit veränderter Scheduling-Priorität (Niceness) starten<br />
+>**Syntax:** `nice [-n <wert>] <befehl> [argumente...]`<br />
+>**Erklärung:** Startet einen Befehl mit angepasster „Niceness" – einer geänderten Priorität für den CPU-Scheduler. Der Wert reicht von −20 (höchste Priorität) bis 19 (niedrigste); je „netter" (höher) der Wert, desto mehr Rechenzeit überlässt der Prozess anderen. Ohne Angabe gilt 10.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-n <wert>` setzt die Niceness (−20 … 19)<br />
+>**Beispiel:** `nice -n 10 ./rechenjob.sh`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-n <wert>`, `--adjustment=<wert>` | startet mit dieser Niceness (−20 … 19; Standard 10) |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+nice ./job.sh                           # startet mit Niceness 10 (Standard)
+nice -n 19 ./backup.sh                  # sehr niedrige Priorität, stört kaum
+sudo nice -n -5 ./wichtig.sh            # höhere Priorität (nur als root)
+nice -n 15 tar -czf sich.tar.gz /daten  # Backup schonend nebenher
+```
+
+</details>
+
+>**Hinweis:** Nur **root** darf negative Werte (höhere Priorität) vergeben; normale Nutzer können die Priorität lediglich senken. Ohne `-n` gilt der Standardwert 10. Die aktuelle Niceness zeigt die Spalte `NI` in `top`/`htop` oder `ps -l`. Um die Priorität eines **bereits laufenden** Prozesses zu ändern, dient `renice`.
+
+---
+
+### pgrep
+>**Funktion:** Prozess-IDs anhand von Namen oder Merkmalen finden<br />
+>**Syntax:** `pgrep [optionen] <muster>`<br />
+>**Erklärung:** Durchsucht die laufenden Prozesse und gibt die PIDs aus, die zum Muster passen – im Grunde `ps` und `grep` in einem Befehl. Das Ergebnis lässt sich direkt an `kill`/`renice` weiterreichen.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-l` zeigt zusätzlich den Prozessnamen<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-f` sucht in der vollständigen Befehlszeile<br />
+>**Beispiel:** `pgrep -l ssh`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-l`, `--list-name` | gibt neben der PID auch den Prozessnamen aus |
+| `-a`, `--list-full` | gibt PID samt vollständiger Befehlszeile aus |
+| `-f`, `--full` | vergleicht das Muster mit der ganzen Befehlszeile |
+| `-x`, `--exact` | nur exakt passende Namen (keine Teiltreffer) |
+| `-u <benutzer>`, `--euid <benutzer>` | nur Prozesse dieses (effektiven) Benutzers |
+| `-n`, `--newest` | nur der neueste passende Prozess |
+| `-o`, `--oldest` | nur der älteste passende Prozess |
+| `-c`, `--count` | gibt nur die Anzahl der Treffer aus |
+| `-i`, `--ignore-case` | ignoriert Groß-/Kleinschreibung |
+| `-d <trenner>`, `--delimiter <trenner>` | Trennzeichen zwischen den PIDs (Standard: Zeilenumbruch) |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+pgrep sshd                   # PIDs aller sshd-Prozesse
+pgrep -l ssh                 # PIDs mit Namen
+pgrep -af nginx              # PIDs mit voller Befehlszeile
+pgrep -u nomas firefox       # firefox-Prozesse von nomas
+kill $(pgrep -f meinskript)  # gefundene Prozesse beenden
+```
+
+</details>
+
+>**Hinweis:** Ohne Treffer ist der Exit-Code ungleich 0 – praktisch in Skripten zur Prüfung, ob ein Dienst läuft. Standardmäßig zählt nur der **Prozessname** (bis 15 Zeichen); die ganze Befehlszeile durchsucht `-f`. Zum direkten Beenden statt Auflisten: `pkill`. Eine einzelne PID liefert auch `pidof`.
+
+---
+
+### pidof
+>**Funktion:** Die Prozess-IDs eines laufenden Programms ermitteln<br />
+>**Syntax:** `pidof [optionen] <programm>...`<br />
+>**Erklärung:** Gibt die PIDs aller Instanzen eines Programms aus, das über seinen genauen Namen angegeben wird. Ähnlich wie `pgrep`, aber auf den Programmnamen ausgerichtet und häufig in Init-Skripten verwendet.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-s` gibt nur eine einzige PID zurück<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-x` berücksichtigt auch Skripte<br />
+>**Beispiel:** `pidof sshd`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-s`, `--single-shot` | gibt nur eine einzige PID zurück |
+| `-x` | findet auch Shell-/Skript-Prozesse mit diesem Namen |
+| `-o <pid>`, `--omit-pid <pid>` | schließt bestimmte PIDs aus (mehrfach möglich) |
+| `-c` | nur Prozesse mit demselben Root-Verzeichnis (root nötig) |
+| `-q` | keine Ausgabe, nur Exit-Code (quiet) |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+pidof sshd                 # alle PIDs von sshd
+pidof -s nginx             # nur eine PID
+pidof -x backup.sh         # PID eines laufenden Skripts
+kill $(pidof firefox)      # alle firefox-Instanzen beenden
+```
+
+</details>
+
+>**Hinweis:** Erwartet den **genauen** Programmnamen (keine Teilmuster wie bei `pgrep`; entspricht in etwa `pgrep -x`). Gehört zum Paket `procps`. Wird oft in System-/Init-Skripten genutzt, um zu prüfen, ob ein Dienst läuft.
+
+---
+
+### pkill
+>**Funktion:** Prozesse anhand von Namen oder Merkmalen beenden<br />
+>**Syntax:** `pkill [optionen] [-<signal>] <muster>`<br />
+>**Erklärung:** Sendet ein Signal (standardmäßig `TERM`) an alle Prozesse, die zum Muster passen – dieselbe Auswahllogik wie `pgrep`, nur wird nicht aufgelistet, sondern signalisiert. Bequemer als `kill` mit vorher ermittelter PID.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-9` erzwingt sofortiges Beenden (`KILL`)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-f` vergleicht das Muster mit der ganzen Befehlszeile<br />
+>**Beispiel:** `pkill firefox`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-<signal>`, `--signal <signal>` | sendet das angegebene Signal (z. B. `-9`) |
+| `-f`, `--full` | vergleicht das Muster mit der ganzen Befehlszeile |
+| `-x`, `--exact` | nur exakt passende Namen |
+| `-u <benutzer>`, `--euid <benutzer>` | nur Prozesse dieses Benutzers |
+| `-n`, `--newest` | nur den neuesten passenden Prozess |
+| `-o`, `--oldest` | nur den ältesten passenden Prozess |
+| `-i`, `--ignore-case` | ignoriert Groß-/Kleinschreibung |
+| `-c`, `--count` | gibt die Anzahl der signalisierten Prozesse aus |
+| `-e`, `--echo` | zeigt an, welche Prozesse beendet wurden |
+| `-g <pgrp>`, `--pgroup <pgrp>` | wählt Prozesse nach Prozessgruppe |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+pkill firefox                    # alle firefox-Prozesse (TERM)
+pkill -9 firefox                 # hart beenden (KILL)
+pkill -f "python meinskript.py"  # nach voller Befehlszeile
+pkill -u nomas                   # alle Prozesse des Benutzers nomas
+```
+
+</details>
+
+>**Hinweis:** Teilt sich die Auswahloptionen mit `pgrep` – erst mit `pgrep` prüfen, welche Prozesse betroffen sind, dann `pkill`. Standardmäßig zählt nur der Prozessname; die ganze Befehlszeile durchsucht `-f`. Verwandt: `killall` (per Name), `kill` (per PID).
+
+---
+
 ### ps
 >**Funktion:** Laufende Prozesse anzeigen (Momentaufnahme)<br />
 >**Syntax:** `ps [optionen]`<br />
@@ -318,6 +521,46 @@ ps aux | grep firefox        # nach einem Prozessnamen suchen
 </details>
 
 >**Hinweis:** `ps aux` (BSD-Stil) und `ps -ef` (UNIX-Stil) sind die beiden gängigen Aufrufe. Anders als `top`/`htop` liefert `ps` eine einmalige Momentaufnahme – ideal in Pipes, z. B. `ps aux | grep nginx`.
+
+---
+
+### renice
+>**Funktion:** Die Scheduling-Priorität (Niceness) laufender Prozesse ändern<br />
+>**Syntax:** `renice [-n] <wert> {-p <pid> | -u <benutzer> | -g <gruppe>}...`<br />
+>**Erklärung:** Ändert die „Niceness" eines oder mehrerer **bereits laufender** Prozesse – anders als `nice`, das sie beim Start festlegt. Der Wert reicht wieder von −20 (höchste Priorität) bis 19 (niedrigste). Prozesse lassen sich per PID, Benutzer oder Gruppe auswählen.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-p <pid>` wählt Prozesse anhand ihrer PID (Standard)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-u <benutzer>` wählt alle Prozesse eines Benutzers<br />
+>**Beispiel:** `renice -n 5 -p 1234`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-n <wert>`, `--priority <wert>` | setzt die absolute Niceness (−20 … 19) |
+| `--relative <wert>` | ändert die Niceness relativ zum aktuellen Wert |
+| `-p <pid>`, `--pid <pid>` | wählt Prozesse nach PID (Standardmodus) |
+| `-u <name>`, `--user <name>` | wählt alle Prozesse eines Benutzers |
+| `-g <name>`, `--pgrp <name>` | wählt alle Prozesse einer Prozessgruppe |
+| `--help` | zeigt die Hilfe an |
+| `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+renice -n 5 -p 1234                     # PID 1234 auf Niceness 5 setzen
+renice -n 10 -u nomas                   # alle Prozesse des Benutzers nomas
+sudo renice -n -5 -p 1234               # höhere Priorität (nur als root)
+renice -n 19 -p $(pgrep -d' ' ffmpeg)   # alle ffmpeg-Prozesse drosseln
+```
+
+</details>
+
+>**Hinweis:** Negative Werte (höhere Priorität) und das Ändern **fremder** Prozesse setzen root-Rechte voraus; die eigene Priorität kann man nur senken. Die aktuelle Niceness steht in der Spalte `NI` von `top`/`htop`/`ps -l`; in `top`/`htop` lässt sie sich mit der Taste `r` interaktiv ändern. Beim Programmstart legt `nice` die Priorität fest.
 
 ---
 
