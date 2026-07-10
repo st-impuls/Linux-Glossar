@@ -1,4 +1,5 @@
 [← Home](../../index.md)
+- [Grundlagen](../basics/index.md)
 - [Abkürzungen / Begriffe](../abbreviations.md)
 - [Tastenkürzel](../shortcuts.md)
 - [Wichtige Verzeichnisse](../directories.md)
@@ -21,6 +22,8 @@
 [← Zurück zur Übersicht](index.md)
 
 # Datenträger & Dateisysteme
+
+**Dateisystem-Familien:** Viele Werkzeuge hier sind auf eine Dateisystem-Familie zugeschnitten. **ext2/3/4** ist auf Debian/Ubuntu üblich (`e2fsck`, `tune2fs`, `dumpe2fs`, `e2label`, `resize2fs`). **XFS** ist die Standard-Dateisystem auf **RHEL, CentOS, Fedora** und deren Ablegern (`xfs_repair`, `xfs_info`, `xfs_growfs`, `xfs_admin`). Allgemeine Befehle wie `mount`/`umount`, `df`, `blkid`, `fdisk`/`parted` und `mkfs` gelten für alle Typen.
 
 ### blkid
 >**Funktion:** Blockgeräte samt UUID, Typ und Label der Dateisysteme anzeigen<br />
@@ -711,6 +714,143 @@ sudo umount -l /mnt     # verzögert aushängen (wenn noch in Benutzung)
 </details>
 
 >**Hinweis:** Der Befehl heißt `umount` (ohne „n"!). „target is busy" bedeutet, dass noch ein Prozess das Dateisystem nutzt – mit `lsof +D /mnt` oder `fuser -m /mnt` lässt sich der Verursacher finden.
+
+---
+
+### xfs_admin
+>**Funktion:** Parameter eines XFS-Dateisystems anzeigen und ändern (Label, UUID)<br />
+>**Syntax:** `xfs_admin [optionen] <gerät>`<br />
+>**Erklärung:** Ändert einstellbare Parameter eines bestehenden XFS-Dateisystems – vor allem Label und UUID. Das XFS-Gegenstück zu `tune2fs` bei ext. Für Änderungen muss das Dateisystem ausgehängt sein.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-l` zeigt das aktuelle Label<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-L <label>` setzt das Label<br />
+>**Beispiel:** `sudo xfs_admin -L DATEN /dev/sdb1`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-l` | zeigt das aktuelle Label |
+| `-L <label>` | setzt das Label (max. 12 Zeichen; `--` entfernt es) |
+| `-u` | zeigt die UUID an |
+| `-U <uuid>` | setzt eine neue UUID (`generate` erzeugt eine zufällige) |
+| `-c 1` | schaltet lazy-counters ein (`-c 0` = aus) |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo xfs_admin -l /dev/sdb1           # Label anzeigen
+sudo xfs_admin -L DATEN /dev/sdb1     # Label setzen
+sudo xfs_admin -u /dev/sdb1           # UUID anzeigen
+sudo xfs_admin -U generate /dev/sdb1  # neue zufällige UUID
+```
+
+</details>
+
+>**Hinweis:** XFS-Gegenstück zu `tune2fs`. Das Label ist bei XFS auf 12 Zeichen begrenzt. Änderungen nur auf **ausgehängten** Dateisystemen; reines Anzeigen (`-l`/`-u`) geht auch eingehängt. Gehört zum Paket `xfsprogs`.
+
+---
+
+### xfs_growfs
+>**Funktion:** Ein XFS-Dateisystem vergrößern<br />
+>**Syntax:** `xfs_growfs [optionen] <mountpoint>`<br />
+>**Erklärung:** Vergrößert ein XFS-Dateisystem auf die verfügbare Größe der Partition bzw. des Volumes. Anders als bei ext (`resize2fs`) arbeitet `xfs_growfs` mit dem **Mountpoint** und nur im **eingehängten** Zustand – und XFS lässt sich ausschließlich **vergrößern**, nie verkleinern.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-d` vergrößert den Datenbereich auf das Maximum<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-n` zeigt nur die Geometrie, ohne zu ändern<br />
+>**Beispiel:** `sudo xfs_growfs /daten`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-d`, `--data` | dehnt den Datenbereich auf die maximale Größe aus (Standard) |
+| `-D <größe>` | setzt eine bestimmte Zielgröße (in Blöcken) |
+| `-n` | zeigt nur die aktuelle Geometrie an, ohne zu ändern |
+| `-m <wert>` | ändert den maximalen Inode-Prozentsatz |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo xfs_growfs /daten     # auf die volle Größe ausdehnen
+sudo xfs_growfs -n /daten  # nur die Geometrie anzeigen
+sudo xfs_growfs /          # Wurzel-Dateisystem vergrößern
+```
+
+</details>
+
+>**Hinweis:** Zuerst die zugrunde liegende Partition bzw. das LVM-Volume vergrößern (`parted`, `lvextend`), dann `xfs_growfs`. Nimmt den **Mountpoint** (nicht das Gerät) und läuft im eingehängten Zustand. **Verkleinern ist bei XFS nicht möglich** – dafür neu anlegen und zurückkopieren. ext-Gegenstück: `resize2fs`.
+
+---
+
+### xfs_info
+>**Funktion:** Geometrie und Parameter eines XFS-Dateisystems anzeigen<br />
+>**Syntax:** `xfs_info <mountpoint|gerät>`<br />
+>**Erklärung:** Zeigt den Aufbau eines XFS-Dateisystems – Blockgröße, Anzahl der Allocation Groups, Journal-Größe usw. Das XFS-Gegenstück zu `dumpe2fs -h` bei ext. Praktisch, um vor einem `xfs_growfs` die aktuelle Geometrie zu sehen.<br />
+>**Verwendung:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`xfs_info <mountpoint>` zeigt die Struktur des eingehängten FS<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;(entspricht `xfs_growfs -n`)<br />
+>**Beispiel:** `xfs_info /daten`
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+xfs_info /daten          # Geometrie des eingehängten FS
+xfs_info /               # Wurzel-Dateisystem
+sudo xfs_info /dev/sdb1  # per Gerät (ausgehängt)
+```
+
+</details>
+
+>**Hinweis:** Nur-lesend – ändert nichts. Bevorzugt den **Mountpoint** (bei eingehängtem FS); intern entspricht es `xfs_growfs -n`. XFS-Gegenstück zu `dumpe2fs -h`. Gehört zum Paket `xfsprogs`.
+
+---
+
+### xfs_repair
+>**Funktion:** Ein XFS-Dateisystem prüfen und reparieren<br />
+>**Syntax:** `xfs_repair [optionen] <gerät>`<br />
+>**Erklärung:** Prüft ein XFS-Dateisystem auf Fehler und repariert sie. Bei XFS gibt es **kein** funktionsfähiges `fsck.xfs` – die Konsistenzprüfung und Reparatur läuft ausschließlich über `xfs_repair`. Das Dateisystem muss dazu **ausgehängt** sein.<br />
+>**Optionen:**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-n` prüft nur (no modify), ohne zu reparieren<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-L` verwirft das Journal (letztes Mittel, Datenverlust möglich)<br />
+>**Beispiel:** `sudo xfs_repair /dev/sdb1`
+
+<details markdown>
+<summary>Mehr Optionen</summary>
+
+| Option | Wirkung |
+|---|---|
+| `-n` | nur prüfen, nichts ändern (dry run) |
+| `-L` | setzt das Log/Journal zurück (nur als **letztes Mittel**, riskant) |
+| `-d` | erlaubt die Reparatur einer read-only eingehängten Root (gefährlich) |
+| `-v` | ausführliche Ausgabe |
+| `-m <MB>` | begrenzt den Speicherverbrauch |
+| `-l <gerät>` | gibt ein externes Log-Gerät an |
+
+</details>
+
+<details markdown>
+<summary>Weitere Beispiele</summary>
+
+```bash
+sudo xfs_repair /dev/sdb1                         # prüfen und reparieren
+sudo xfs_repair -n /dev/sdb1                      # nur prüfen, nichts ändern
+sudo umount /daten && sudo xfs_repair /dev/sdb1   # vorher aushängen
+sudo xfs_repair -L /dev/sdb1                      # Journal verwerfen (Notfall!)
+```
+
+</details>
+
+>**Hinweis:** Nur auf **ausgehängten** XFS-Dateisystemen. Lässt sich das FS wegen eines beschädigten Journals nicht reparieren, hilft oft, es einmal ein- und wieder auszuhängen (Journal-Replay). `-L` verwirft das Journal und **kann Daten kosten** – wirklich nur im Notfall. XFS-Gegenstück zu `e2fsck`; ein `fsck /dev/sdX` bewirkt bei XFS nichts. Paket `xfsprogs`.
 
 ---
 

@@ -2,6 +2,7 @@
 
 ## Inhalt
 
+- [Grundlagen](pages/basics/index.md)
 - [Abkürzungen / Begriffe](pages/abbreviations.md)
 - [Tastenkürzel](pages/shortcuts.md)
 - [Befehle](pages/commands/index.md)
@@ -10,7 +11,7 @@
 
 ---
 
-**Über 180 Befehle in 14 Kategorien.**
+**Über 190 Befehle in 14 Kategorien.**
 
 ---
 

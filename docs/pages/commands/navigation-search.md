@@ -1,4 +1,5 @@
 [← Home](../../index.md)
+- [Grundlagen](../basics/index.md)
 - [Abkürzungen / Begriffe](../abbreviations.md)
 - [Tastenkürzel](../shortcuts.md)
 - [Wichtige Verzeichnisse](../directories.md)
@@ -319,7 +320,7 @@ tree -h /var/log            # mit lesbaren Dateigrößen
 | `-e <pfade>`, `--prunepaths <pfade>` | schließt bestimmte Pfade von der Indexierung aus |
 | `-f <fs>`, `--add-prunefs <fs>` | schließt zusätzliche Dateisystemtypen von der Indexierung aus |
 | `-n <namen>`, `--add-prunenames <namen>` | schließt zusätzliche Verzeichnisnamen aus |
-| `-l <0\|1>`, `--require-visibility` | berücksichtigt bei der Ausgabe die Dateirechte |
+| `-l <0 oder 1>`, `--require-visibility` | berücksichtigt bei der Ausgabe die Dateirechte |
 | `-h`, `--help` | zeigt die Hilfe an |
 | `-V`, `--version` | zeigt die Version an |
 

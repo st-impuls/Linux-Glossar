@@ -1,4 +1,5 @@
 [← Home](../../index.md)
+- [Grundlagen](../basics/index.md)
 - [Abkürzungen / Begriffe](../abbreviations.md)
 - [Tastenkürzel](../shortcuts.md)
 - [Wichtige Verzeichnisse](../directories.md)
@@ -977,7 +978,7 @@ sudo systemctl daemon-reload                          # nach Änderung an Unit-D
 | `set-time "<JJJJ-MM-TT hh:mm:ss>"` | setzt Datum und Uhrzeit manuell |
 | `set-timezone <zone>` | setzt die Zeitzone (z. B. `Europe/Berlin`) |
 | `list-timezones` | listet alle Zeitzonen auf |
-| `set-ntp true\|false` | (de)aktiviert die automatische Zeitsynchronisation |
+| `set-ntp <true oder false>` | (de)aktiviert die automatische Zeitsynchronisation |
 | `timesync-status` | zeigt den Status der Zeitsynchronisation |
 | `show` | zeigt die Eigenschaften maschinenlesbar an |
 

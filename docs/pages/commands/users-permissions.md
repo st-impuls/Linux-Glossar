@@ -1,4 +1,5 @@
 [← Home](../../index.md)
+- [Grundlagen](../basics/index.md)
 - [Abkürzungen / Begriffe](../abbreviations.md)
 - [Tastenkürzel](../shortcuts.md)
 - [Wichtige Verzeichnisse](../directories.md)

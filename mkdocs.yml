@@ -38,6 +38,11 @@ theme:
 # Navigation / Menü
 nav:
   - Übersicht: index.md
+  - Grundlagen:
+      - Übersicht: pages/basics/index.md
+      - Globbing & Platzhalter: pages/basics/globbing.md
+      - Streams & Umleitungen: pages/basics/streams-redirects.md
+      - Verkettung & Hintergrund: pages/basics/command-chaining.md
   - Abkürzungen / Begriffe: pages/abbreviations.md
   - Tastenkürzel: pages/shortcuts.md
   - Befehle:
