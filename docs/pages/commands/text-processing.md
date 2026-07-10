@@ -460,23 +460,47 @@ paste - - < datei.txt        # je zwei Zeilen nebeneinander legen
 >**Beispiel:** `sed 's/alt/neu/g' datei.txt`
 
 <details markdown>
-<summary>Befehle & Optionen</summary>
+<summary>Optionen</summary>
 
-| Ausdruck | Wirkung |
+Optionen steuern `sed` als Programm. Sie stehen **vor** dem Befehlsausdruck.
+
+| Option | Wirkung |
 |---|---|
-| `s/alt/neu/` | ersetzt das erste Vorkommen pro Zeile |
-| `s/alt/neu/g` | ersetzt alle Vorkommen pro Zeile (global) |
-| `s/alt/neu/gi` | zusätzlich ohne Beachtung der Groß-/Kleinschreibung |
-| `<n>d` / `/muster/d` | löscht Zeile n bzw. passende Zeilen |
-| `-n '<n>p'` | gibt nur Zeile n aus (mit `-n` = keine automatische Ausgabe) |
+| `-n`, `--quiet`, `--silent` | unterdrückt die automatische Ausgabe jeder Zeile |
 | `-i`, `--in-place` | bearbeitet die Datei direkt (mit `-i.bak` = Sicherung) |
-| `-E`, `-r` | erweiterte reguläre Ausdrücke |
-| `-e <befehl>` | mehrere Befehle hintereinander angeben |
+| `-E`, `-r`, `--regexp-extended` | erweiterte reguläre Ausdrücke (ERE) |
+| `-e <befehl>`, `--expression=<befehl>` | mehrere Befehle hintereinander angeben |
 | `-f <datei>`, `--file=<datei>` | liest die Befehle aus einer Datei |
 | `-s`, `--separate` | behandelt mehrere Dateien getrennt statt als einen Strom |
 | `-z`, `--null-data` | trennt Zeilen mit dem Nullbyte |
 | `--help` | zeigt die Hilfe an |
 | `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Befehle & Flags</summary>
+
+Der **Befehl** steht im Ausdruck und sagt, *was* geschehen soll:
+
+| Befehl | Wirkung |
+|---|---|
+| `s/alt/neu/` | ersetzt das erste Vorkommen pro Zeile |
+| `<n>d`, `/muster/d` | löscht Zeile n bzw. passende Zeilen |
+| `<n>p`, `/muster/p` | gibt Zeile n bzw. passende Zeilen aus (sinnvoll mit `-n`) |
+
+**Flags** hängen hinter dem letzten Trennzeichen des `s`-Befehls und gelten nur für diese eine Ersetzung. Sie sind keine Optionen von `sed`. Mehrere Flags lassen sich kombinieren (`s/alt/neu/gi`).
+
+| Flag | Wirkung |
+|---|---|
+| `g` | ersetzt alle Vorkommen pro Zeile (global) statt nur das erste |
+| `<n>` | ersetzt nur das n-te Vorkommen (`s/a/X/3`) |
+| `<n>g` | ersetzt ab dem n-ten Vorkommen alle weiteren (`s/a/X/2g`) |
+| `i`, `I` | ohne Beachtung der Groß-/Kleinschreibung |
+| `p` | gibt die geänderte Zeile aus (mit `-n` erscheinen nur die Treffer) |
+| `w <datei>` | schreibt die geänderten Zeilen zusätzlich in eine Datei |
+| `e` | führt das Ergebnis der Ersetzung als Shell-Befehl aus |
+| `m`, `M` | mehrzeilig: `^` und `$` gelten je Zeile innerhalb des Musterpuffers |
 
 </details>
 

@@ -6,6 +6,7 @@
 
 ## Grundlagen
 - [Globbing & Platzhalter](globbing.md)
+- [Reguläre Ausdrücke](regular-expressions.md)
 - [Verkettung & Hintergrund](command-chaining.md)
 
 [← Zurück zur Übersicht](index.md)

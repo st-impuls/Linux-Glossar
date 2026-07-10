@@ -5,6 +5,7 @@
 - [Wichtige Verzeichnisse](../directories.md)
 
 ## Grundlagen
+- [Reguläre Ausdrücke](regular-expressions.md)
 - [Streams & Umleitungen](streams-redirects.md)
 - [Verkettung & Hintergrund](command-chaining.md)
 
