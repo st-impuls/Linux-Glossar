@@ -90,6 +90,48 @@ Quantoren geben an, wie oft das **vorige** Element wiederholt wird:
 
 **Hinweis:** Unverändert funktioniert überall nur `*`. In `grep` und `sed` (Grundform, BRE) brauchen `+`, `?` und `{…}` einen Backslash – `\+`, `\?`, `\{2,4\}` –, sonst gelten sie als gewöhnliche Zeichen. Warum das so ist, erklärt der nächste Abschnitt.
 
+## Gruppierung, Alternative und Rückwärtsverweise
+
+Runde Klammern `(…)` fassen mehrere Zeichen zu **einem Block** zusammen. Damit lassen sich Quantoren und die Alternative auf eine ganze Zeichenfolge anwenden – und der Block merkt sich, was er getroffen hat.
+
+### Ein Quantor für die ganze Gruppe
+
+Ohne Klammern bezieht sich ein Quantor nur auf das **unmittelbar vorangehende** Zeichen. Klammern erweitern seine Reichweite auf alles, was in ihnen steht:
+
+```
+ab+     → ein a, dann ein oder mehr b     : ab, abb, abbb
+(ab)+   → ein oder mehr Mal die Folge ab  : ab, abab, ababab
+```
+
+### Alternative `|` – „entweder … oder"
+
+Der senkrechte Strich trennt Alternativen. Klammern grenzen ein, **wie weit** die Alternative reicht:
+
+```
+gr(a|e)y   → "gray" oder "grey"
+gra|ey     → "gra" ODER "ey"   – ohne Klammern gilt der Strich für den GESAMTEN Ausdruck
+```
+
+### Rückwärtsverweise: `\1`, `\2` …
+
+Was eine Gruppe trifft, wird gespeichert und ist über ihre Nummer abrufbar: die erste Klammer als `\1`, die zweite als `\2` und so fort. Steht ein solcher Verweis **im selben Muster**, sucht er eine Wiederholung des zuvor Getroffenen:
+
+```bash
+grep -E '(.)\1'    datei    # zwei gleiche Zeichen nebeneinander: "ll", "ee", "oo"
+grep -E '(\w+) \1' datei    # ein doppeltes Wort: "the the"
+```
+
+### Gruppen in Ersetzungen (`sed`)
+
+Beim Suchen-und-Ersetzen ist das Gedächtnis der Klammern besonders nützlich: Im Ersetzungstext fügt `\1`, `\2` … das jeweils Getroffene wieder ein. So lassen sich Teile umstellen:
+
+```bash
+echo 'Mustermann, Max' | sed -E 's/(.+), (.+)/\2 \1/'
+# Max Mustermann        \1 = "Mustermann", \2 = "Max", vertauscht
+```
+
+**Hinweis:** In ERE (`grep -E`, `sed -E`) sind `(`, `)` und `|` sofort Metazeichen. In BRE (einfaches `grep`, `sed`) muss man sie einschalten: `\(`, `\)`, `\|`. Der Rückwärtsverweis `\1` schreibt sich dagegen in **beiden** Dialekten mit Backslash. Näheres im Abschnitt *BRE, ERE, PCRE*.
+
 ## BRE, ERE, PCRE – welche Variante wann
 
 Reguläre Ausdrücke gibt es in mehreren Dialekten. Sie unterscheiden sich vor allem darin, **welche Zeichen als Metazeichen gelten**.
@@ -241,8 +283,6 @@ Statt „beliebige Zeichen" sagt man „beliebige Zeichen **außer** dem Begrenz
 
 ```bash
 echo 'user="root" shell="/bin/bash" ok' | grep -o '"[^"]*"'
-# "root"
-# "/bin/bash"
 ```
 
 `"[^"]*"` heißt: Anführungszeichen, dann beliebig viele Zeichen **die keine Anführungszeichen sind**, dann wieder ein Anführungszeichen. Dieser Weg funktioniert in **jedem** Dialekt – auch im einfachen BRE – und kommt ohne Backtracking aus. Dasselbe Vorgehen bei HTML-Auszeichnungen:

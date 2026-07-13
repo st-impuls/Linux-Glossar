@@ -70,7 +70,7 @@ cd projekt/quellcode    # relativer Pfad
 >**Optionen:**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-name <muster>` sucht nach dem Dateinamen (z. B. `-name "*.txt"`)<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;`-type f` sucht nur Dateien, `-type d` nur Verzeichnisse<br />
->&nbsp;&nbsp;&nbsp;&nbsp;`-size <n>` sucht nach der Größe (z. B. `+10M` = größer als 10 MB)<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;`-size <n><einheit>` sucht nach der Größe (z. B. `+10M` = größer als 10 MiB)<br />
 >**Beispiel:** `find /home -name "*.txt"`
 
 <details markdown>
@@ -81,10 +81,15 @@ cd projekt/quellcode    # relativer Pfad
 | `-name <muster>` | sucht nach dem Dateinamen (z. B. `"*.txt"`) |
 | `-iname <muster>` | wie `-name`, ignoriert Groß-/Kleinschreibung |
 | `-type f` / `-type d` | sucht nur Dateien (`f`) bzw. nur Verzeichnisse (`d`) |
-| `-size <n>` | sucht nach Größe (`+10M` größer, `-1k` kleiner) |
+| `-size <n><einheit>` | sucht nach Größe (`+10M` größer, `-1k` kleiner; Einheiten siehe unten) |
 | `-mtime <n>` | nach Änderungsdatum in Tagen (`-7` = letzte 7 Tage) |
 | `-mmin <n>` | nach Änderungsdatum in Minuten |
 | `-user <name>` | Dateien eines bestimmten Besitzers |
+| `-group <name>` | Dateien einer bestimmten Gruppe |
+| `-uid <n>` | wie `-user`, aber nach der numerischen Benutzer-ID |
+| `-gid <n>` | wie `-group`, aber nach der numerischen Gruppen-ID |
+| `-nouser` | Dateien, deren UID zu keinem Benutzer gehört (verwaiste Dateien) |
+| `-nogroup` | Dateien, deren GID zu keiner Gruppe gehört |
 | `-perm <modus>` | Dateien mit bestimmten Rechten |
 | `-maxdepth <n>` | begrenzt die Suchtiefe auf n Ebenen |
 | `-mindepth <n>` | beginnt erst ab Tiefe n zu durchsuchen |
@@ -101,6 +106,50 @@ cd projekt/quellcode    # relativer Pfad
 | `<test1> -o <test2>` | ODER-Verknüpfung (`-a` = UND, ist Standard) |
 | `--help` | zeigt die Hilfe an |
 | `--version` | zeigt die Version an |
+
+</details>
+
+<details markdown>
+<summary>Größenangaben bei `-size`</summary>
+
+| Einheit | Bedeutung |
+|---|---|
+| `c` | Bytes |
+| `k` | Kibibyte (1024 Bytes) |
+| `M` | Mebibyte (1024 KiB) |
+| `G` | Gibibyte (1024 MiB) |
+| `b` | Blöcke zu 512 Bytes – **Vorgabe, wenn keine Einheit angegeben ist** |
+| `w` | Wörter zu 2 Bytes |
+
+Das Vorzeichen legt die Richtung fest: `+10M` = größer als 10 MiB, `-10M` = kleiner, `10M` = genau 10 MiB.
+
+**Achtung – `find` rundet auf:** Die Dateigröße wird durch die Einheit geteilt und das Ergebnis **auf eine ganze Zahl aufgerundet**. Verglichen wird erst diese Zahl, nicht die Bytezahl. Bei großen Einheiten führt das zu überraschenden Treffern:
+
+| Datei | Bytes | in GiB | aufgerundet |
+|---|---|---|---|
+| leere Datei | 0 | 0 | **0** |
+| winzig.bin | 100 | 0,00000009 | **1** |
+| genau1G.bin | 1073741824 | 1,0 | **1** |
+| eins_mehr.bin | 1073741825 | 1,0000000009 | **2** |
+
+```
+find . -size 1G     findet genau1G.bin UND winzig.bin (100 Bytes!)
+find . -size -1G    findet nur die leere Datei
+find . -size 2G     findet eins_mehr.bin (1 GiB plus ein einziges Byte)
+find . -size +1G    findet eins_mehr.bin – wie erwartet
+```
+
+`-size 1G` bedeutet also nicht „ein Gigabyte groß", sondern „aufgerundet eine Einheit" – das trifft alles von 1 Byte bis 1 GiB. Und `-size -1G` wirkt wie `-empty`, denn „weniger als eine aufgerundete Einheit" ist nur die Null.
+
+**Faustregel:** Bei `M` und `G` ist allein die Form mit `+` verlässlich. Genaue Grenzen und „kleiner als" rechnet man in Bytes:
+
+```bash
+find . -size +1G              # gut: wirklich größer als 1 GiB
+find . -size -1073741824c     # gut: wirklich kleiner als 1 GiB
+find . -size -1G              # Falle: findet nur leere Dateien
+```
+
+Der Grund ist historisch: Ursprünglich zählte `-size` nur in Blöcken zu 512 Bytes, wo das Aufrunden sinnvoll ist – eine Datei belegt ohnehin ganze Blöcke. Die Suffixe `k`, `M` und `G` kamen später dazu, das Aufrunden blieb.
 
 </details>
 
