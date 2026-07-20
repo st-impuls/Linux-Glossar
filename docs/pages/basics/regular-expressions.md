@@ -130,6 +130,25 @@ echo 'Mustermann, Max' | sed -E 's/(.+), (.+)/\2 \1/'
 # Max Mustermann        \1 = "Mustermann", \2 = "Max", vertauscht
 ```
 
+Neben den nummerierten Gruppen gibt es eine Abkürzung für den **gesamten Treffer**: das Zeichen `&`. Es steht für alles, was das Muster insgesamt getroffen hat – praktisch, wenn man den Fund nicht ersetzen, sondern nur **umgeben** will:
+
+```bash
+echo 'Fehler 404' | sed -E 's/[0-9]+/[&]/'
+# Fehler [404]        die Zahl musste nicht noch einmal geschrieben werden
+
+echo 'warnung: platte voll' | sed 's/.*/>>> & <<</'
+# >>> warnung: platte voll <<<
+```
+
+`&` lässt sich beliebig oft einsetzen (`s/b/&&&/` verdreifacht das `b`) und mit Gruppen kombinieren. Wer ein **wörtliches** `&` einfügen will, schreibt `\&` – andernfalls setzt `sed` dort stillschweigend den Treffer ein:
+
+```bash
+echo 'Tom' | sed 's/Tom/Tom & Jerry/'     # Tom Tom Jerry   – Falle
+echo 'Tom' | sed 's/Tom/Tom \& Jerry/'    # Tom & Jerry     – richtig
+```
+
+**Beachten:** Diese Sonderrolle hat `&` nur im **Ersetzungstext**. Im Suchmuster ist es ein gewöhnliches Zeichen: `sed 's/&/und/'` macht aus `AT&T` ein `ATundT`.
+
 **Hinweis:** In ERE (`grep -E`, `sed -E`) sind `(`, `)` und `|` sofort Metazeichen. In BRE (einfaches `grep`, `sed`) muss man sie einschalten: `\(`, `\)`, `\|`. Der Rückwärtsverweis `\1` schreibt sich dagegen in **beiden** Dialekten mit Backslash. Näheres im Abschnitt *BRE, ERE, PCRE*.
 
 ## BRE, ERE, PCRE – welche Variante wann

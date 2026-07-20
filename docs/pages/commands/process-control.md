@@ -441,7 +441,8 @@ nohup python server.py &          # Server weiterlaufen lassen
 | `-a`, `--list-full` | gibt PID samt vollständiger Befehlszeile aus |
 | `-f`, `--full` | vergleicht das Muster mit der ganzen Befehlszeile |
 | `-x`, `--exact` | nur exakt passende Namen (keine Teiltreffer) |
-| `-u <benutzer>`, `--euid <benutzer>` | nur Prozesse dieses (effektiven) Benutzers |
+| `-u <benutzer>`, `--euid <benutzer>` | nur Prozesse mit dieser effektiven Benutzer-ID |
+| `-U <benutzer>`, `--uid <benutzer>` | nur Prozesse mit dieser realen Benutzer-ID |
 | `-n`, `--newest` | nur der neueste passende Prozess |
 | `-o`, `--oldest` | nur der älteste passende Prozess |
 | `-c`, `--count` | gibt nur die Anzahl der Treffer aus |
@@ -463,7 +464,7 @@ kill $(pgrep -f meinskript)  # gefundene Prozesse beenden
 
 </details>
 
->**Hinweis:** Ohne Treffer ist der Exit-Code ungleich 0 – praktisch in Skripten zur Prüfung, ob ein Dienst läuft. Standardmäßig zählt nur der **Prozessname** (bis 15 Zeichen); die ganze Befehlszeile durchsucht `-f`. Zum direkten Beenden statt Auflisten: `pkill`. Eine einzelne PID liefert auch `pidof`.
+>**Hinweis:** Ohne Treffer ist der Exit-Code ungleich 0 – praktisch in Skripten zur Prüfung, ob ein Dienst läuft. Standardmäßig zählt nur der **Prozessname** (bis 15 Zeichen); die ganze Befehlszeile durchsucht `-f`. `-U` und `-u` nehmen sowohl den **Benutzernamen** als auch die **numerische UID** entgegen (`-U max` oder `-U 1000`), mehrere durch Komma getrennt (`-U max,www-data`). Der Unterschied: `-U` prüft die reale, `-u` die effektive Benutzer-ID – sie fallen nur bei setuid-Programmen auseinander. Zum direkten Beenden statt Auflisten: `pkill`. Eine einzelne PID liefert auch `pidof`.
 
 ---
 

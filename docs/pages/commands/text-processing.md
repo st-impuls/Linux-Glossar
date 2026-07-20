@@ -502,6 +502,23 @@ Der **Befehl** steht im Ausdruck und sagt, *was* geschehen soll:
 | `e` | führt das Ergebnis der Ersetzung als Shell-Befehl aus |
 | `m`, `M` | mehrzeilig: `^` und `$` gelten je Zeile innerhalb des Musterpuffers |
 
+Im **Ersetzungstext** haben einige Zeichen ebenfalls eine Sonderbedeutung:
+
+| Zeichen | Wirkung |
+|---|---|
+| `&` | fügt den **gesamten Treffer** wieder ein |
+| `\1` … `\9` | fügt den Inhalt der 1. bis 9. Gruppe `(…)` ein |
+| `\&` | ein wörtliches `&` |
+| `\n`, `\t` | Zeilenumbruch, Tabulator |
+| `\U`, `\L` | GNU: alles Folgende groß- bzw. kleinschreiben |
+| `\u`, `\l` | GNU: nur das nächste Zeichen groß- bzw. kleinschreiben |
+| `\E` | GNU: beendet die Wirkung von `\U` oder `\L` |
+
+```bash
+echo 'Fehler 404'  | sed -E 's/[0-9]+/[&]/'    # Fehler [404]   – Treffer eingerahmt
+echo 'hallo welt'  | sed -E 's/\w+/\u&/g'      # Hallo Welt     – Anfangsbuchstaben groß
+```
+
 </details>
 
 <details markdown>
@@ -519,7 +536,7 @@ echo "Hallo Welt" | sed 's/Welt/Linux/'  # in einer Pipe
 
 </details>
 
->**Hinweis:** Als Trennzeichen muss nicht `/` dienen: Das Zeichen direkt nach dem `s` legt das Trennzeichen für diesen Befehl fest – steht dort z. B. ein `#`, gilt `#` als Trenner (`s#alt#neu#`). Bei Pfaden ist das oft lesbarer, z. B. `s#/alt/pfad#/neu/pfad#`. Kommt das Trennzeichen im Such- oder Ersetzungstext selbst vor, muss es mit `\` maskiert werden (z. B. `s/a\/b/c/`) – ein anderes Trennzeichen erspart das oft. `-i` ändert die Datei unwiderruflich; vorher ohne `-i` testen oder mit `-i.bak` eine Sicherung anlegen.
+>**Hinweis:** Als Trennzeichen muss nicht `/` dienen: Das Zeichen direkt nach dem `s` legt das Trennzeichen für diesen Befehl fest – steht dort z. B. ein `#`, gilt `#` als Trenner (`s#alt#neu#`). Bei Pfaden ist das oft lesbarer, z. B. `s#/alt/pfad#/neu/pfad#`. Kommt das Trennzeichen im Such- oder Ersetzungstext selbst vor, muss es mit `\` maskiert werden (z. B. `s/a\/b/c/`) – ein anderes Trennzeichen erspart das oft. Im Ersetzungstext steht `&` für den **gesamten Treffer**; ein wörtliches Kaufmanns-Und muss deshalb als `\&` geschrieben werden – sonst wird es stillschweigend durch den Treffer ersetzt (`s/Tom/Tom & Jerry/` ergibt `Tom Tom Jerry`). `-i` ändert die Datei unwiderruflich; vorher ohne `-i` testen oder mit `-i.bak` eine Sicherung anlegen.
 
 ---
 

@@ -419,12 +419,13 @@ sudo pacman -U ./paket.pkg.tar.zst  # lokale Paketdatei installieren
 | `-F <datei>`, `--freshen` | aktualisiert nur, wenn das Paket bereits installiert ist |
 | `-e <paket>`, `--erase` | entfernt ein installiertes Paket |
 | `-q <paket>`, `--query` | fragt ab, ob/welche Version installiert ist |
-| `-qa` | listet alle installierten Pakete auf |
+| `-qa`, `--query --all` | listet alle installierten Pakete auf |
 | `-qi <paket>` | zeigt Informationen zu einem installierten Paket |
 | `-ql <paket>` | listet die Dateien eines Pakets auf |
 | `-qf <datei>` | findet heraus, zu welchem Paket eine Datei gehört |
 | `-qp <datei.rpm>` | fragt eine `.rpm`-Datei ab (statt eines installierten Pakets) |
 | `-V <paket>`, `--verify` | prüft ein Paket auf nachträgliche Veränderungen |
+| `-Va`, `--verify --all` | prüft alle installierten Pakete gegen die RPM-Datenbank |
 | `-v` | ausführliche Ausgabe |
 | `-h`, `--hash` | zeigt bei der Installation einen Fortschrittsbalken (`#`) |
 | `--nodeps` | ignoriert Abhängigkeiten (mit Vorsicht) |
