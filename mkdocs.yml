@@ -42,6 +42,7 @@ nav:
       - Übersicht: pages/basics/index.md
       - Globbing & Platzhalter: pages/basics/globbing.md
       - Reguläre Ausdrücke: pages/basics/regular-expressions.md
+      - Signale: pages/basics/signals.md
       - Streams & Umleitungen: pages/basics/streams-redirects.md
       - Verkettung & Hintergrund: pages/basics/command-chaining.md
   - Abkürzungen / Begriffe: pages/abbreviations.md

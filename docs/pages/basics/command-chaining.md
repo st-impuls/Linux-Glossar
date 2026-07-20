@@ -7,6 +7,7 @@
 ## Grundlagen
 - [Globbing & Platzhalter](globbing.md)
 - [Reguläre Ausdrücke](regular-expressions.md)
+- [Signale](signals.md)
 - [Streams & Umleitungen](streams-redirects.md)
 
 [← Zurück zur Übersicht](index.md)

@@ -6,6 +6,7 @@
 
 ## Grundlagen
 - [Globbing & Platzhalter](globbing.md)
+- [Signale](signals.md)
 - [Streams & Umleitungen](streams-redirects.md)
 - [Verkettung & Hintergrund](command-chaining.md)
 

@@ -285,12 +285,14 @@ disown -a            # alle Jobs abkoppeln
 
 | Signal | Nr. | Wirkung |
 |---|---|---|
-| `TERM` | 15 | normales, geordnetes Beenden (Standard); kann vom Programm abgefangen werden |
-| `KILL` | 9 | sofortiges Beenden, nicht abfangbar (letztes Mittel) |
-| `HUP` | 1 | Terminal getrennt; viele Dienste laden damit ihre Konfiguration neu |
-| `INT` | 2 | Unterbrechung wie `Ctrl + C` |
-| `STOP` | 19 | hält den Prozess an (nicht abfangbar) |
-| `CONT` | 18 | setzt einen angehaltenen Prozess fort |
+| `SIGTERM` (`TERM`) | 15 | normales, geordnetes Beenden (Standard); kann vom Programm abgefangen werden |
+| `SIGKILL` (`KILL`) | 9 | sofortiges Beenden, nicht abfangbar (letztes Mittel) |
+| `SIGHUP` (`HUP`) | 1 | Terminal getrennt; viele Dienste laden damit ihre Konfiguration neu |
+| `SIGINT` (`INT`) | 2 | Unterbrechung wie `Ctrl + C` |
+| `SIGSTOP` (`STOP`) | 19 | hält den Prozess an (nicht abfangbar) |
+| `SIGCONT` (`CONT`) | 18 | setzt einen angehaltenen Prozess fort |
+
+Beide Schreibweisen sind gleichwertig: `kill -TERM` und `kill -SIGTERM` bewirken dasselbe. Vollständige Übersicht aller Signale: [Signale](../basics/signals.md).
 
 </details>
 
